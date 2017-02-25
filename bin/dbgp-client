@@ -16,20 +16,21 @@ function print_file_with_lines($message) {
     preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
 
     if(count($fileno) > 1 && count($filename) > 1) {
-        echo 'OPEN FILE ', $filename[1];
-        echo 'ON LINE ', $fileno[1];
+        echo "\nfile://{$filename[1]}:{$fileno[1]}\n";
 
         $content = file($filename[1]);
         $lines = count($content) -1;
 
-        $firstLine = max($fileno[1]-4, 0);
-        $lastLine = min($fileno[1]+4, $lines);
-        echo PHP_EOL, str_repeat('*', 30);
+        $offset = 6;
+
+        $firstLine = max($fileno[1]-$offset, 0);
+        $lastLine = min($fileno[1]+$offset, $lines);
+        echo PHP_EOL, str_repeat('*', 30), PHP_EOL;
         foreach(range($firstLine, $lastLine) as $i) {
             $isThisLineString = ($i+1 == $fileno[1]) ? '=> ' : '   ';
-            echo $isThisLineString, $i+1, '. ', $content[$i];
+            echo $isThisLineString, $i+1, ': ', $content[$i];
         }
-        echo PHP_EOL, str_repeat('*', 30);
+        echo PHP_EOL, str_repeat('*', 30), PHP_EOL, PHP_EOL;
         return;
     }
 }
@@ -196,8 +197,6 @@ function main() {
             $responses .= $response;
 
             if($counter > 100) {
-                // REALLY REALLY REALLY GAMBIT!
-                main();
                 return;
             }
             $counter++;
@@ -226,7 +225,7 @@ function main() {
         }
 
         // Get a command from the user and send it.
-        $line = trim(readline("(dbgp) $ "));
+        $line = trim(readline("(command) $ "));
 
         if ($line === "") {
             continue;
@@ -241,5 +240,6 @@ function main() {
     socket_close($fd);
     $conn->fd = null;
 }
-
-main();
+while(true) {
+    main();
+}
