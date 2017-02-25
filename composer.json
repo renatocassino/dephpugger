@@ -1,0 +1,21 @@
+{
+  "name": "tacnoman/phpdbg",
+  "description": "Debug for php in terminal.",
+  "require": {
+    "monolog/monolog": "1.22",
+    "cboden/ratchet": "0.3.6"
+  },
+  "autoload": {
+    "psr-0" : {
+      "TacBug\\": "src"
+    }
+  },
+  "bin": ["bin/debugger", "bin/dbgp-client", "bin/phpserver"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tacnoman",
+      "email": "renatocassino@gmail.com"
+    }
+  ]
+}

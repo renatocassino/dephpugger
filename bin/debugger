@@ -1,0 +1,6 @@
+#!/usr/local/bin/php
+<?php
+
+echo 'Access in localhost:8888';
+
+shell_exec('/usr/bin/php -S localhost:8888 -t /var/www/newproject -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9005 -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0');

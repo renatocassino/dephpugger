@@ -1,0 +1,5 @@
+/vendor/
+.idea
+bin_old
+socket-proxy
+log.log
