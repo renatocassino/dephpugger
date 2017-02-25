@@ -1,6 +1,15 @@
 #!/usr/local/bin/php
 <?php
 
-echo 'Access in localhost:8888';
+$projectPath = getcwd();
+$phpPath = dirname(php_ini_loaded_file());
+$phpPath = 'php';
+$defaultPort = 8888;
+$defaultHost = 'localhost';
 
-shell_exec('/usr/bin/php -S localhost:8888 -t /var/www/newproject -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9005 -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0');
+$command = "{$phpPath} -S {$defaultHost}:{$defaultPort} -t {$projectPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9005 -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0";
+
+echo "Running command: {$command}\n\n";
+echo "Access in {$defaultHost}:{$defaultPort}" . PHP_EOL;
+
+shell_exec($command);

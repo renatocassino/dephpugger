@@ -30,7 +30,12 @@ function print_file_with_lines($message) {
             echo $isThisLineString, $i+1, '. ', $content[$i];
         }
         echo PHP_EOL, str_repeat('*', 30);
+        return
     }
+}
+
+function run_alias($command) {
+    // Must implement yet
 }
 
 declare(ticks=1);
