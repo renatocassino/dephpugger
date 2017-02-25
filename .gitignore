@@ -3,3 +3,4 @@
 bin_old
 socket-proxy
 log.log
+tests/_output/*

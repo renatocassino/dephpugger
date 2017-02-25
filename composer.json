@@ -3,7 +3,8 @@
   "description": "Debug for php in terminal.",
   "require": {
     "monolog/monolog": "1.22",
-    "cboden/ratchet": "0.3.6"
+    "cboden/ratchet": "0.3.6",
+    "codeception/codeception": "^2.2"
   },
   "autoload": {
     "psr-0" : {

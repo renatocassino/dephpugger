@@ -15,9 +15,8 @@ function print_file_with_lines($message) {
     preg_match('/lineno="(\d+)"/', $message, $fileno);
     preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
 
+    // Getting  lines
     if(count($fileno) > 1 && count($filename) > 1) {
-        echo "\nfile://{$filename[1]}:{$fileno[1]}\n";
-
         $content = file($filename[1]);
         $lines = count($content) -1;
 
@@ -25,6 +24,8 @@ function print_file_with_lines($message) {
 
         $firstLine = max($fileno[1]-$offset, 0);
         $lastLine = min($fileno[1]+$offset, $lines);
+
+        echo "\n[{$firstLine}:{$lastLine}] in file://{$filename[1]}:{$fileno[1]}\n";
         echo PHP_EOL, str_repeat('*', 30), PHP_EOL;
         foreach(range($firstLine, $lastLine) as $i) {
             $isThisLineString = ($i+1 == $fileno[1]) ? '=> ' : '   ';
@@ -32,6 +33,15 @@ function print_file_with_lines($message) {
         }
         echo PHP_EOL, str_repeat('*', 30), PHP_EOL, PHP_EOL;
         return;
+    }
+
+    // Getting value
+    preg_match('/command="property_get"/', $message, $property_get);
+    if(count($property_get) > 0) {
+        preg_match('/property name=\"\$(\w+)\"/', $message, $variable);
+        preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
+
+        echo "=> \${$variable[1]} == {$value[1]}\n\n";
     }
 }
 
