@@ -7,9 +7,13 @@ require 'vendor/autoload.php';
 foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $f) require_once $f;
 
 use Dephpug\CommandAdapter;
+use Dephpug\FilePrinter;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 
 $log = new Logger('name');
 $log->pushHandler(new StreamHandler('./log.log', Logger::WARNING));
@@ -21,21 +25,12 @@ function print_file_with_lines($message) {
 
     // Getting  lines
     if(count($fileno) > 1 && count($filename) > 1) {
-        $content = file($filename[1]);
-        $lines = count($content) -1;
+        $filePrinter = new FilePrinter();
+        $filePrinter->setFilename($filename[1]);
 
-        $offset = 6;
-
-        $firstLine = max($fileno[1]-$offset, 0);
-        $lastLine = min($fileno[1]+$offset, $lines);
-
-        echo "\n[{$firstLine}:{$lastLine}] in file://{$filename[1]}:{$fileno[1]}\n";
-        echo PHP_EOL, str_repeat('*', 30), PHP_EOL;
-        foreach(range($firstLine, $lastLine) as $i) {
-            $isThisLineString = ($i+1 == $fileno[1]) ? '=> ' : '   ';
-            echo $isThisLineString, $i+1, ': ', $content[$i];
-        }
-        echo PHP_EOL, str_repeat('*', 30), PHP_EOL, PHP_EOL;
+        $output = new ConsoleOutput();
+        $output->setFormatter(new OutputFormatter(true));
+        $output->writeln($filePrinter->showFile($fileno[1]));
         return;
     }
 

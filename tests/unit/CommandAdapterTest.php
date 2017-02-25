@@ -30,6 +30,12 @@ class CommandAdapterTest extends \Codeception\Test\Unit
         $this->assertTrue($command == [true, 'step_into -i 1']);
     }
 
+    public function testContinueRunCommand()
+    {
+        $command = CommandAdapter::convertCommand('c', 1);
+        $this->assertTrue($command == [true, 'run -i 1']);
+    }
+
     public function testInvalidCommand()
     {
         $command = CommandAdapter::convertCommand('blabla', 1);
