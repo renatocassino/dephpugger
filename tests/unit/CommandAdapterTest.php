@@ -1,5 +1,6 @@
 <?php
 
+use Dephpug\CommandAdapter;
 
 class CommandAdapterTest extends \Codeception\Test\Unit
 {
@@ -17,8 +18,21 @@ class CommandAdapterTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testMe()
+    public function testNextCommand()
     {
+        $command = CommandAdapter::convertCommand('n', 1);
+        $this->assertTrue($command == [true, 'step_over -i 1']);
+    }
 
+    public function testStepIntoCommand()
+    {
+        $command = CommandAdapter::convertCommand('s', 1);
+        $this->assertTrue($command == [true, 'step_into -i 1']);
+    }
+
+    public function testInvalidCommand()
+    {
+        $command = CommandAdapter::convertCommand('blabla', 1);
+        $this->assertTrue($command == [false, 'blabla']);
     }
 }

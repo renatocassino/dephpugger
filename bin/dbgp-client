@@ -4,6 +4,10 @@
 /* Needed for pcntl_signal(). */
 require 'vendor/autoload.php';
 
+foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $f) require_once $f;
+
+use Dephpug\CommandAdapter;
+
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -140,6 +144,12 @@ function read_response($socket) {
 function send_command($fd, $cmd) {
     global $log;
     $log->warning('send_command');
+
+    list($valid, $command) = CommandAdapter::convertCommand($cmd, 1);
+    if($valid) {
+        $cmd = $command;
+    }
+
     $result = @socket_write($fd, "$cmd\0");
     if ($result === false) {
         $error = format_socket_error($fd, "Client socket error");
