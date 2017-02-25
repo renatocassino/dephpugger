@@ -1,10 +1,11 @@
 {
-  "name": "tacnoman/phpdbg",
+  "name": "tacnoman/dephpug",
   "description": "Debug for php in terminal.",
   "require": {
     "monolog/monolog": "1.22",
     "cboden/ratchet": "0.3.6",
-    "codeception/codeception": "^2.2"
+    "codeception/codeception": "^2.2",
+    "symfony/console": "^3.2"
   },
   "autoload": {
     "psr-0" : {
