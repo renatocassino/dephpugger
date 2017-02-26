@@ -1,5 +1,5 @@
 {
-  "name": "tacnoman/dephpug",
+  "name": "tacnoman/dephpuger",
   "description": "Debug for php in terminal.",
   "require": {
     "monolog/monolog": "1.22",
