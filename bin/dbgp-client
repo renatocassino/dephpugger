@@ -35,7 +35,11 @@ function print_file_with_lines($message) {
         preg_match('/property name=\"\$(\w+)\"/', $message, $variable);
         preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
 
-        echo "=> \${$variable[1]} == {$value[1]}\n\n";
+        $content = (preg_match('/encoding="base64"/', $message))
+                 ? base64_decode($value[1])
+                 : $value[1];
+
+        echo " => {$content}\n\n";
     }
 }
 
