@@ -74,4 +74,4 @@ Send me an email or open an issue:
 
 Renato Cassino - Tacnoman - \<renatocassino@gmail.com\>
 
-[See our changelog](/CHANGELOG)
+[See our changelog](https://tacnoman.github.io/dephpugger/CHANGELOG)
