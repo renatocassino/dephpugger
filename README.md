@@ -58,6 +58,25 @@ When you stop in a breakpoint you can make theese commands:
 | dbgp(\<command\>) | To run a command in dbgp                                             |
 | quit              | Exist the debugger                                                   |
 
+# DEVELOPING YET!
+
+[Documentation in github pages](https://tacnoman.github.io/phpdbg)
+
+# Run tests
+
+### Dependencies:
+- [Documentation in github pages](https://github.com/Codeception/Codeception)
+
+### Run:
+
+```sh
+$ codecept run unit
+```
+
+# Bugs?
+Send me an email or open an issue:
+
+Renato Cassino - Tacnoman - \<renatocassino@gmail.com\>
 
 # PHP DEBUG
 
@@ -85,25 +104,3 @@ Open helper and select PhpStorm in IDE key.
 
 In Terminal you can run:
 /usr/bin/php -S localhost:8888 -t /var/www/phpdebug -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9000 -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0
-
-
-# IDE COMMANDS
-
-```sh
-$ property_get -i <transaction_id> -n nameOfVarWithouDollar
-```
-
-# DEVELOPING YET!
-
-[Documentation in github pages](https://tacnoman.github.io/phpdbg)
-
-# Run tests
-
-### Dependencies:
-- [Documentation in github pages](https://github.com/Codeception/Codeception)
-
-### Run:
-
-```sh
-$ codecept run unit
-```
