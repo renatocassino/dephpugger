@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Set a current version in a separated file
 - Create changelog
 - Tests for commands and FilePrinter
+- FilePrinter coloring code with reserved words
 - FilePrinter class to print a file in terminal
 - Command conversor to IDE commands
 - Possibility to run IDE commands to DBGp

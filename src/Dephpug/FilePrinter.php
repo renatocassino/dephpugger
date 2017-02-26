@@ -70,7 +70,7 @@ class FilePrinter
     }
 
     public function colorCode($content) {
-        $reservedWords = ["__halt_compiler","array","die","echo","empty","eval","exit","include","include_once","isset","list","print","require","require_once","return","unset", 'function', 'for', 'if'];
+        $reservedWords = ["__halt_compiler","array","die","echo","empty","eval","exit","include","include_once","isset","list","print","require","require_once","return","unset", 'function', 'for', 'if', 'else', 'do', 'while'];
         foreach($reservedWords as $word) {
             $content = str_replace($word, "<fg=blue>{$word}</>", $content);
         }
