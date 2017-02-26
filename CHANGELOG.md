@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [TODO]
 ### Add
 - Format for response XML DBGp
-
+- Options in root project (.dephpugger.ini) or (.dephpugger.yml)
 
 ## [Unreleased]
+### 
+
+## [0.0.1]
 ### Added
 - TravisCI integration
 - Codeclimate integration
@@ -32,6 +35,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added to packagist
 - Composer component to install
 - Client to DBGp protocol
-
-## [0.0.0] - 2017-02-26
-### Added
