@@ -21,13 +21,18 @@ class CommandAdapter {
             return [true, "property_set -i {$transactionId} -n {$variableName} -- {$value}"];
         }
 
+        if(preg_match('/^dbgp\((.*)\);?/', $command, $result)) {
+            $command = $result[1];
+            return [false, $command];
+        }
+
         $valid = true;
         // Simple commands
         switch($command) {
-        case 'n': $newCommand = "step_over -i {$transactionId}"; break;
-        case 's': $newCommand = "step_into -i {$transactionId}"; break;
-        case 'c': $newCommand = "run -i {$transactionId}"; break;
-        default: $newCommand = $command; $valid = false;
+            case 'n': $newCommand = "step_over -i {$transactionId}"; break;
+            case 's': $newCommand = "step_into -i {$transactionId}"; break;
+            case 'c': $newCommand = "run -i {$transactionId}"; break;
+            default: $newCommand = "eval -i {$transactionId} -- " . base64_encode($command);
         }
         return [$valid, $newCommand];
     }

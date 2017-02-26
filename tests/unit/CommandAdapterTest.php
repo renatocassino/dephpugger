@@ -39,13 +39,31 @@ class CommandAdapterTest extends \Codeception\Test\Unit
     public function testInvalidCommand()
     {
         $command = CommandAdapter::convertCommand('blabla', 1);
-        $this->assertEquals($command, [false, 'blabla']);
+        $this->assertEquals([true, 'eval -i 1 -- YmxhYmxh'], $command);
+    }
+
+    public function testEvalCommand()
+    {
+        $command = CommandAdapter::convertCommand('dbgp(property_get -i 1 -n variable);', 1);
+        $this->assertEquals([false, 'property_get -i 1 -n variable'], $command);
     }
 
     public function testVariableGet()
     {
         $command = CommandAdapter::convertCommand('$variable', 1);
         $this->assertEquals([true, 'property_get -i 1 -n variable'], $command);
+    }
+
+    public function testCallingAFunction()
+    {
+        $command = CommandAdapter::convertCommand('my_function()', 1);
+        $this->assertEquals([true, 'eval -i 1 -- bXlfZnVuY3Rpb24oKQ=='], $command);
+    }
+
+    public function testCallingAFunctionWithSemicolon()
+    {
+        $command = CommandAdapter::convertCommand('my_function();', 1);
+        $this->assertEquals([true, 'eval -i 1 -- bXlfZnVuY3Rpb24oKTs='], $command);
     }
 
     public function testVariableGetWithSemicolon()
