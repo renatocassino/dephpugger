@@ -8,6 +8,7 @@ foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $f) require_once $f;
 
 use Dephpug\CommandAdapter;
 use Dephpug\FilePrinter;
+use Dephpug\Config;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -65,13 +66,16 @@ function run_alias($command) {
 }
 
 declare(ticks=1);
+
 class Connection {
     public $fd = null;
     public $send_break = false;
     public $expect_responses = 1;
     public $port = 9005;
 }
+$config = Config::getInstance();
 $conn = new Connection();
+$conn->port = $config->debugger['port'];
 
 function starts_with($big, $small) {
     $slen = strlen($small);
@@ -98,10 +102,11 @@ function format_socket_error($fd, $prefix) {
 /* Starts a client.  Returns the socket and port used. */
 function start_client($port) {
     global $log;
+    $config = Config::getInstance();
     $log->warning('start_client');
     $socket = socket_create(AF_INET, SOCK_STREAM, 0);
     @socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
-    @socket_bind($socket, 'localhost', $port);
+    @socket_bind($socket, $config->debugger['host'], $port);
     $result = socket_listen($socket);
     assert($result);
     return array($socket, $port);

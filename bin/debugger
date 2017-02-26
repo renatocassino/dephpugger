@@ -1,15 +1,25 @@
 #!/usr/local/bin/php
 <?php
 
-$projectPath = getcwd();
-$phpPath = dirname(php_ini_loaded_file());
-$phpPath = 'php';
-$defaultPort = 8888;
-$defaultHost = 'localhost';
+/* Needed for pcntl_signal(). */
+require 'vendor/autoload.php';
 
-$command = "{$phpPath} -S {$defaultHost}:{$defaultPort} -t {$projectPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9005 -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0";
+foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $f) require_once $f;
+
+use Dephpug\Config;
+
+$config = Config::getInstance();
+
+$projectPath = getcwd();
+$phpPath = $config->server['phpPath'];
+$defaultPort = $config->server['port'];
+$defaultHost = $config->server['host'];
+$debuggerPort = $config->debugger['port'];
+
+$command = "{$phpPath} -S {$defaultHost}:{$defaultPort} -t {$projectPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port={$debuggerPort} -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0";
 
 $version = 'v' . file_get_contents(__DIR__ . '/../version');
+
 echo <<<EOL
   _____             _                                       
  |  __ \           | |                                      
