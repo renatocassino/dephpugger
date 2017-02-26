@@ -64,6 +64,7 @@ class FilePrinterTest extends \Codeception\Test\Unit
         $this->assertEquals($fileTest, $file);
     }
 
+    // Color codes
     public function testColorCodeVariables()
     {
         $content = '; $variable = 33';
