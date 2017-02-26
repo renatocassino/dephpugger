@@ -47,16 +47,16 @@ When you request this page your terminal will start in breakpoint (like a image 
 
 When you stop in a breakpoint you can make theese commands:
 
-| Command         | Explanation                                                          |
-|-----------------|----------------------------------------------------------------------|
-| n               | To run a step over in code                                           |
-| s               | To run a step into in code                                           |
-| c               | To continue script until found another breakpoint or finish the code |
-| $variable       | Get a value from a variable                                          |
-| $variable = 33  | Set a variable                                                       |
-| my_function()   | Call a function                                                      |
-| dbgp(<command>) | To run a command in dbgp                                             |
-| quit            | Exist the debugger                                                   |
+| Command           | Explanation                                                          |
+|-------------------|----------------------------------------------------------------------|
+| n                 | To run a step over in code                                           |
+| s                 | To run a step into in code                                           |
+| c                 | To continue script until found another breakpoint or finish the code |
+| $variable         | Get a value from a variable                                          |
+| $variable = 33    | Set a variable                                                       |
+| my_function()     | Call a function                                                      |
+| dbgp(\<command\>) | To run a command in dbgp                                             |
+| quit              | Exist the debugger                                                   |
 
 
 # PHP DEBUG
