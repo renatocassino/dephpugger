@@ -1,0 +1,42 @@
+#!/usr/bin/env php
+<?php
+
+$autoload = __DIR__ . '/../vendor/autoload.php';
+if(!file_exists($autoload)) {
+    echo 'You must run `composer install` first.';
+    return;
+}
+
+require $autoload;
+foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $file) {
+    require $file;
+}
+
+use Symfony\Component\Console\Application;
+use Dephpug\Config;
+use Dephpug\Dephpugger;
+
+$application = new Application();
+
+function splashScreen($word='Server') {
+    $version = Dephpugger::$VERSION;
+    echo <<<EOL
+  _____             _                                       
+ |  __ \           | |                                      
+ | |  | | ___ _ __ | |__  _ __  _   _  __ _  __ _  ___ _ __ 
+ | |  | |/ _ \ '_ \| '_ \| '_ \| | | |/ _` |/ _` |/ _ \ '__|
+ | |__| |  __/ |_) | | | | |_) | |_| | (_| | (_| |  __/ |   
+ |_____/ \___| .__/|_| |_| .__/ \__,_|\__, |\__, |\___|_|   
+             | |         | |           __/ | __/ |          
+             |_|         |_|          |___/ |___/           
+
+                                   $word - Version: $version
+
+
+EOL;
+}
+
+foreach(glob(__DIR__.'/../console/*.php') as $file) {
+require $file;
+}
+$application->run();

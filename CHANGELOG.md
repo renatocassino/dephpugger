@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
 ### Add
+- In config, add option to get a random port
+- Use symfony console
 - Add command to check requirements
 - Refactor client DBGp protocol
 
