@@ -17,7 +17,7 @@ class Config
         'debugger' => [
             'port' => 9005,
             'host' => 'localhost',
-            'forceBreakFirstLine': true
+            'forceBreakFirstLine' => true
         ]
     ];
 
