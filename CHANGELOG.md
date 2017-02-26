@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [TODO]
 ### Add
 - Format for response XML DBGp
-- TravisCI integration
+
 
 ## [Unreleased]
 ### Added
+- TravisCI integration
 - Codeclimate integration
 - Returning formated values instead of XML DBGp format
 - Color code with symfony/console
