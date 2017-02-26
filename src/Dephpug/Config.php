@@ -18,6 +18,9 @@ class Config
             'port' => 9005,
             'host' => 'localhost',
             'forceBreakFirstLine' => true
+        ],
+        'options' => [
+            'verboseMode' => false
         ]
     ];
 

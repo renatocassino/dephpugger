@@ -42,7 +42,6 @@ function print_file_with_lines($message) {
     if(count($fileno) > 1 && count($filename) > 1) {
         $filePrinter = new FilePrinter();
         $filePrinter->setFilename($filename[1]);
-
         $filePrinter->showFile($fileno[1]);
         return;
     }
@@ -59,10 +58,6 @@ function print_file_with_lines($message) {
         preg_match('/type=\"([\w_-]+)\"/', $message, $type);
         echo " => ({$type[1]}) {$content}\n\n";
     }
-}
-
-function run_alias($command) {
-    // Must implement yet
 }
 
 declare(ticks=1);
@@ -251,7 +246,10 @@ function main() {
 
         // Echo back the response to the user if it isn't a stream.
         if (!is_stream($responses)) {
-            echo "$responses\n";
+            $config = Config::getInstance();
+            if($config->options['verboseMode']) {
+                echo "$responses\n";
+            }
         }
 
         // Received response saying we're stopping.
