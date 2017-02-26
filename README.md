@@ -1,18 +1,18 @@
 [![Code Climate](https://codeclimate.com/github/tacnoman/dephpug/badges/gpa.svg)](https://codeclimate.com/github/tacnoman/dephpug)
 
-# What is Dephpuger?
+# What is Dephpugger?
 
-Dephpuger (read depuger) is an open source lib to make a debug in php direct in terminal, without necessary configure an IDE. The dephpuger run in Php Built in Server using another command.
+Dephpugger (read depugger) is an open source lib to make a debug in php direct in terminal, without necessary configure an IDE. The dephpugger run in Php Built in Server using another command.
 
-![dephpuger screenshot](./images/dephpuger.png)
-Image 1.0 - Screenshot for dephpuger
+![dephpugger screenshot](./images/dephpugger.png)
+Image 1.0 - Screenshot for dephpugger
 
 # Install
 
 To install you must run this code (using the composer).
 
 ```sh
-$ composer require tacnoman/dephpuger
+$ composer require tacnoman/dephpugger
 ```
 
 # Dependencies
