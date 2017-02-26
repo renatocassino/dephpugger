@@ -55,16 +55,17 @@ class FilePrinter
         $fileToShow = '';
 
         $numberLines = array_keys($fileLines);
-        $firstLines = $numberLines[0];
-        $lastLines = array_reverse($numberLines)[0];
-        $fileToShow .= "\n[{$firstLine}:{$lastLine}] in file://{$this->filename}:{$line}\n";
+        $firstLine = $numberLines[0];
+        $lastLine = array_reverse($numberLines)[0];
+
+        // Message first
+        $fileToShow .= "\n<fg=blue>[{$firstLine}:{$lastLine}] in file://{$this->filename}:{$line}</>\n";
 
         foreach($fileLines as $currentLine => $content) {
             $isThisLineString = ($currentLine == $line) ? '<fg=magenta;options=bold>=> </>' : '   ';
             $content = $this->colorCode($content);
             $fileToShow .= "{$isThisLineString}<fg=yellow>{$currentLine}:</> <fg=white>{$content}</>";
         }
-
         return $fileToShow;
     }
 
@@ -80,8 +81,8 @@ class FilePrinter
         }
 
         $content = preg_replace('/([\w_]+)\(/', '<fg=green;options=bold>$1</>(', $content);
-        $content = preg_replace('/(\".+\")/', '<fg=green>$1>', $content);
-        $content = preg_replace('/(\'.+\')/', '<fg=green>$1>', $content);
+        $content = preg_replace('/(\".+\")/', '<fg=green>$1</>', $content);
+        $content = preg_replace('/(\'.+\')/', '<fg=green>$1</>', $content);
         $content = preg_replace('/(\$[\w]+)/', '<fg=cyan>$1</>', $content);
         return $content;
     }

@@ -63,4 +63,39 @@ class FilePrinterTest extends \Codeception\Test\Unit
         $file = $this->bigFilePrinter->listLines(50);
         $this->assertEquals($fileTest, $file);
     }
+
+    public function testColorCodeVariables()
+    {
+        $content = '; $variable = 33';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('; <fg=cyan>$variable</> = 33', $colored);
+    }
+
+    public function testColorCodeFunction()
+    {
+        $content = 'xdebug_break();';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('<fg=green;options=bold>xdebug_break</>();', $colored);
+    }
+
+    public function testColorCodeReservedWords()
+    {
+        $content = 'return;';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('<fg=blue>return</>;', $colored);
+    }
+
+    public function testColorCodeConstWords()
+    {
+        $content = '__DIR__ __FILE__';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('<fg=red>__DIR__</> <fg=red>__FILE__</>', $colored);
+    }
+
+    public function testColorCodeStrings()
+    {
+        $content = '"Works"; \'works\'';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('<fg=green>"Works"</>; <fg=green>\'works\'</>', $colored);
+    }
 }

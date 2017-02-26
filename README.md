@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/tacnoman/dephpug/badges/gpa.svg)](https://codeclimate.com/github/tacnoman/dephpug)
+
 # PHP DEBUG
 
 To use Xdebug in PHPStorm, you must put this configuration:
