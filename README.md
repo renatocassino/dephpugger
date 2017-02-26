@@ -60,7 +60,7 @@ When you stop in a breakpoint you can make theese commands:
 
 # DEVELOPING YET!
 
-[Documentation in github pages](https://tacnoman.github.io/dephpuger)
+[Documentation in github pages](https://tacnoman.github.io/dephpugger)
 
 # Run tests
 
