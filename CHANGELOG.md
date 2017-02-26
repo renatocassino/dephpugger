@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [TODO]
 ### Add
 - Format for response XML DBGp
+- TravisCI integration
 
 ## [Unreleased]
 ### Added
+- Codeclimate integration
 - Returning formated values instead of XML DBGp format
 - Color code with symfony/console
 - Figlet to write Dephpugger in terminal for server and debugger
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Binary file to run client websocket to DBGp protocol
 - Binary file to run php server built in connecting websocket
 - PSR-0 implemented
+- Added to packagist
 - Composer component to install
 - Client to DBGp protocol
 
