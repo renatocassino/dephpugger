@@ -4,8 +4,8 @@
 
 Dephpugger (read depugger) is an open source lib to make a debug in php direct in terminal, without necessary configure an IDE. The dephpugger run in Php Built in Server using another command.
 
-![dephpugger screenshot](./images/dephpugger.png)
-Image 1.0 - Screenshot for dephpugger
+![dephpugger screenshot](./images/dephpugger.png)  
+`Image 1.0 - Screenshot for dephpugger`
 
 # Install
 
