@@ -3,8 +3,7 @@
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Dephpug\Config;
-use Dephpug\Dephpugger;
+use Dephpug\DbgpServer;
 
 class DebuggerCommand extends Command
 {
@@ -22,8 +21,11 @@ class DebuggerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = Config::getInstance();
-        $output->writeln('Must implement yet');
+        $output->writeln(splashScreen('Debugger'));
+
+        while(true) {
+            DbgpServer::start($output);
+        }
     }
 }
 

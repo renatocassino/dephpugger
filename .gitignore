@@ -2,5 +2,5 @@
 .idea
 bin_old
 socket-proxy
-log.log
+dephpugger.log
 tests/_output/*
