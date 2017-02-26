@@ -30,8 +30,8 @@ class ServeCommand extends Command
 
         $command = "{$phpPath} -S {$defaultHost}:{$defaultPort} -t {$projectPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port={$debuggerPort} -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0";
 
-        splashScreen();
-        $output->writeln("Running command: {$command}\n");
+        $output->write(splashScreen());
+        $output->writeln("Running command: <fg=red>{$command}</>\n");
         $output->writeln("Access in <comment>{$defaultHost}:{$defaultPort}</comment>\n");
 
         shell_exec($command);
