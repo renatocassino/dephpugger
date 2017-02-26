@@ -6,11 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
 ### Add
-- Format for response XML DBGp
 - Options in root project (.dephpugger.ini) or (.dephpugger.yml)
 
 ## [Unreleased]
-### 
+### Added
+- Add type to return format variable
 
 ## [0.0.1]
 ### Added

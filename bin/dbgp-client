@@ -47,16 +47,16 @@ function print_file_with_lines($message) {
     }
 
     // Getting value
-    preg_match('/command="property_get"/', $message, $property_get);
-    if(count($property_get) > 0) {
+    if(preg_match('/command=\"property_get\"/', $message, $property_get)) {
         preg_match('/property name=\"\$(\w+)\"/', $message, $variable);
         preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
 
         $content = (preg_match('/encoding="base64"/', $message))
                  ? base64_decode($value[1])
-                 : $value[1];
+                 : (string) $value[1];
 
-        echo " => {$content}\n\n";
+        preg_match('/type=\"([\w_-]+)\"/', $message, $type);
+        echo " => ({$type[1]}) {$content}\n\n";
     }
 }
 
