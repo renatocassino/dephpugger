@@ -6,11 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
 ### Add
+- Refactor client DBGp protocol
 - Options in root project (.dephpugger.ini) or (.dephpugger.yml)
+- Can run in verbose mode to print all xml DBGp
 
 ## [Unreleased]
 ### Added
 - Add type to return format variable
+- Add a (ridiculuous) logo to github
 
 ## [0.0.1]
 ### Added
