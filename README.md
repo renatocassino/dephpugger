@@ -28,7 +28,7 @@ $ composer require tacnoman/dephpugger
 To usage you must (after installation) run two binaries in `vendor/bin` folder.
 
 ```sh
-$ php vendor/bin/debugger # Server running in port 8888
+$ php vendor/bin/dephpugger server # Server running in port 8888
 $ php vendor/bin/dbgp-client # Debugger waiting debug
 ```
 

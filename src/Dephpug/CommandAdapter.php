@@ -29,9 +29,12 @@ class CommandAdapter {
         $valid = true;
         // Simple commands
         switch($command) {
-            case 'n': $newCommand = "step_over -i {$transactionId}"; break;
-            case 's': $newCommand = "step_into -i {$transactionId}"; break;
-            case 'c': $newCommand = "run -i {$transactionId}"; break;
+            case 'n':
+            case 'next': $newCommand = "step_over -i {$transactionId}"; break;
+            case 's':
+            case 'step': $newCommand = "step_into -i {$transactionId}"; break;
+            case 'c':
+            case 'continue': $newCommand = "run -i {$transactionId}"; break;
             default: $newCommand = "eval -i {$transactionId} -- " . base64_encode($command);
         }
         return [$valid, $newCommand];
