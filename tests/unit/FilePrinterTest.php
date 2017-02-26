@@ -57,11 +57,10 @@ class FilePrinterTest extends \Codeception\Test\Unit
     public function testListLines()
     {
         $fileTest = [];
-        foreach(range(44, 56) as $file) {
-            $lineNumber = $file + 1;
-            $fileTest[] = "Current line is {$lineNumber}.\n"; // Number of line, not index
+        foreach(range(45, 57) as $line) {
+            $fileTest[$line] = "Current line is {$line}.\n"; // Number of line, not index
         }
         $file = $this->bigFilePrinter->listLines(50);
-        $this->assertEquals($file, $fileTest);
+        $this->assertEquals($fileTest, $file);
     }
 }

@@ -45,11 +45,9 @@ class FilePrinter
     }
 
     public function showFile($line=1) {
-        //        ob_start();
-        //$output = new ConsoleOutput();
-        //$output->setFormatter(new OutputFormatter(true));
-        //$output->writeln($this->unformatedShowFile($line));
-        return $this->unformatedShowFile($line);
+        $output = new ConsoleOutput();
+        $output->setFormatter(new OutputFormatter(true));
+        $output->writeln($this->unformatedShowFile($line));
     }
 
     public function unformatedShowFile($line=1) {
@@ -62,10 +60,29 @@ class FilePrinter
         $fileToShow .= "\n[{$firstLine}:{$lastLine}] in file://{$this->filename}:{$line}\n";
 
         foreach($fileLines as $currentLine => $content) {
-            $isThisLineString = ($currentLine == $line) ? '<comment>=> </comment>' : '   ';
-            $fileToShow .= "{$isThisLineString}{$currentLine}: {$content}";
+            $isThisLineString = ($currentLine == $line) ? '<fg=magenta;options=bold>=> </>' : '   ';
+            $content = $this->colorCode($content);
+            $fileToShow .= "{$isThisLineString}<fg=yellow>{$currentLine}:</> <fg=white>{$content}</>";
         }
 
         return $fileToShow;
+    }
+
+    public function colorCode($content) {
+        $reservedWords = ["__halt_compiler","array","die","echo","empty","eval","exit","include","include_once","isset","list","print","require","require_once","return","unset"];
+        foreach($reservedWords as $word) {
+            $content = str_replace($word, "<fg=blue>{$word}</>", $content);
+        }
+
+        $consts = ['__CLASS__', '__DIR__', '__FILE__', '__FUNCTION__', '__LINE__', '__METHOD__', '__NAMESPACE__', '__TRAIT__'];
+        foreach($consts as $word) {
+            $content = str_replace($word, "<fg=red>{$word}</>", $content);
+        }
+
+        $content = preg_replace('/([\w_]+)\(/', '<fg=green;options=bold>$1</>(', $content);
+        $content = preg_replace('/(\".+\")/', '<fg=green>$1>', $content);
+        $content = preg_replace('/(\'.+\')/', '<fg=green>$1>', $content);
+        $content = preg_replace('/(\$[\w]+)/', '<fg=cyan>$1</>', $content);
+        return $content;
     }
 }

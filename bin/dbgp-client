@@ -12,9 +12,6 @@ use Dephpug\FilePrinter;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Formatter\OutputFormatter;
-
 $log = new Logger('name');
 $log->pushHandler(new StreamHandler('./log.log', Logger::WARNING));
 
@@ -28,9 +25,7 @@ function print_file_with_lines($message) {
         $filePrinter = new FilePrinter();
         $filePrinter->setFilename($filename[1]);
 
-        $output = new ConsoleOutput();
-        $output->setFormatter(new OutputFormatter(true));
-        $output->writeln($filePrinter->showFile($fileno[1]));
+        $filePrinter->showFile($fileno[1]);
         return;
     }
 
