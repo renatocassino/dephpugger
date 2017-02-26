@@ -73,3 +73,5 @@ $ codecept run unit
 Send me an email or open an issue:
 
 Renato Cassino - Tacnoman - \<renatocassino@gmail.com\>
+
+[See our changelog](/CHANGELOG)
