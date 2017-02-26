@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Add
 - In config, add option to get a random port
 - Use symfony console
-- Add command to check requirements
 - Refactor client DBGp protocol
 
 ## [Unreleased]
@@ -17,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add type to return format variable
 - Add a (ridiculuous) logo to github
 - Can run in verbose mode to print all xml DBGp
+- Add command to check requirements
 
 ## [0.0.1]
 ### Added
