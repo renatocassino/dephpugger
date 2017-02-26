@@ -60,14 +60,9 @@ When you stop in a breakpoint you can make theese commands:
 
 # DEVELOPING YET!
 
-[Documentation in github pages](https://tacnoman.github.io/phpdbg)
+[Documentation in github pages](https://tacnoman.github.io/dephpuger)
 
 # Run tests
-
-### Dependencies:
-- [Documentation in github pages](https://github.com/Codeception/Codeception)
-
-### Run:
 
 ```sh
 $ codecept run unit
