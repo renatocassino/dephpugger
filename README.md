@@ -76,17 +76,17 @@ The default config is:
 ```php
     $defaultConfig = [
         'server' => [
-            'port' => 8888,
-            'host' => 'localhost',
-            'phpPath' => 'php'
+            'port' => 8888, # Port to your php built in web server
+            'host' => 'localhost', # Host to your php build in web server
+            'phpPath' => 'php' # Path to run php
         ],
         'debugger' => [
-            'port' => 9005,
-            'host' => 'localhost',
-            'forceBreakFirstLine' => true
+            'port' => 9005, # Port to socket
+            'host' => 'localhost', # Host to socket
+            'forceBreakFirstLine' => true # Not implemented yet!
         ],
         'options' => [
-            'verboseMode' => false
+            'verboseMode' => false # If true, show all messages from DBGp (only for dephpugger developers)
         ]
     ];
 ```
