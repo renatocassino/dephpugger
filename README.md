@@ -23,13 +23,19 @@ $ composer require tacnoman/dephpugger
 - Xdebug activate
 - [This plugin for chrome](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc)
 
+You can run this commands to check your dependencies:
+
+```sh
+$ vendor/bin/dephpugger requirements
+```
+
 # Usage
 
 To usage you must (after installation) run two binaries in `vendor/bin` folder.
 
 ```sh
-$ php vendor/bin/dephpugger server # Server running in port 8888
-$ php vendor/bin/dbgp-client # Debugger waiting debug
+$ php vendor/bin/dephpugger server   # Server running in port 8888
+$ php vendor/bin/dephpugger debugger # Debugger waiting debug
 ```
 
 You must run in two different tabs (in next version you'll can run in an uniq tab).
@@ -60,6 +66,48 @@ When you stop in a breakpoint you can make theese commands:
 | my_function()     | Call a function                                                      |
 | dbgp(\<command\>) | To run a command in dbgp                                             |
 | quit              | Exist the debugger                                                   |
+
+# Configuration (is simple)
+
+The Dephpugger project has default options like a port, host, socket port, etc. You can change this values adding a file `.dephpugger.yml` in root directory project.
+
+The default config is:
+
+```php
+    $defaultConfig = [
+        'server' => [
+            'port' => 8888,
+            'host' => 'localhost',
+            'phpPath' => 'php'
+        ],
+        'debugger' => [
+            'port' => 9005,
+            'host' => 'localhost',
+            'forceBreakFirstLine' => true
+        ],
+        'options' => [
+            'verboseMode' => false
+        ]
+    ];
+```
+
+You can replace in your `.dephpugger.yml` file. Like this:
+
+```yml
+--- 
+debugger: 
+  forceBreakFirstLine: true
+  host: mysocket.dev
+  port: 9002
+options: 
+  verboseMode: false
+server: 
+  host: myproject.dev
+  phpPath: /usr/local/bin/php
+  port: 8080
+```
+
+Theese values will replace the default configuration.
 
 # DEVELOPING YET!
 

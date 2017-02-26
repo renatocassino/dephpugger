@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [TODO]
 ### Add
 - In config, add option to get a random port
-- Use symfony console
 - Refactor client DBGp protocol
 
-## [Unreleased]
+## [0.0.2]
+### Changed
+- Use symfony/console for all commands
+
 ### Added
+- Explanation how to use the .dephpugger.yml
 - File .dephpugger.yml in root path to change default configs
 - Add type to return format variable
 - Add a (ridiculuous) logo to github
