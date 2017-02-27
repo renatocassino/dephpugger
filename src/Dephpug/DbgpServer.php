@@ -22,7 +22,7 @@ class DbgpServer
     /**
      * Create standart class for connection
      */
-    public function newConnection()
+    private function newConnection()
     {
         $conn = new \stdClass;
         $conn->fd = null;
@@ -61,23 +61,6 @@ class DbgpServer
             echo "$error\n";
             exit(1);
         }
-    }
-
-    public function parseOptions()
-    {
-        $opts = getopt("p::h");
-        if (isset($opts["p"])) {
-            $this->conn->port = $opts["p"];
-        }
-        if (isset($opts["h"])) {
-            $this->printUsage();
-            exit(0);
-        }
-    }
-
-    public function printUsage() {
-        echo "Usage:\n";
-        echo "dbgp-client.php [-pPORT]\n";
     }
 
     public function eventConnectXdebugServer($socket)
@@ -179,7 +162,6 @@ class DbgpServer
 
         // Starting dbgpServer
         $dbgpServer = new static($output);
-        $dbgpServer->parseOptions();
 
         // Starting a connection class
         $conn = $dbgpServer->newConnection();
