@@ -19,7 +19,7 @@ class DebuggerCommand extends Command
             ->setHelp('This command start a websocket with your DBGp protocol to communicate with XDebug');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $_, OutputInterface $output)
     {
         $output->writeln(splashScreen('Debugger'));
 

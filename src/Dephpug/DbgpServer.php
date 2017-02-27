@@ -14,8 +14,9 @@ class DbgpServer
     public function __construct($output)
     {
         $this->output = $output;
-        $this->startLog();
-        $this->startConfig();
+        $this->config = Config::getInstance();
+        $this->log = new Logger('name');
+        $this->log->pushHandler(new StreamHandler(__DIR__ . '/../../dephpugger.log'));
     }
 
     /**
@@ -118,8 +119,8 @@ class DbgpServer
         }
 
         // Getting value
-        if(preg_match('/command=\"property_get\"/', $message, $property_get)) {
-            preg_match('/property name=\"\$(\w+)\"/', $message, $variable);
+        if(preg_match('/command=\"property_get\"/', $message)) {
+            preg_match('/property name=\"\$(\w+)\"/', $message);
             preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
 
             $content = (preg_match('/encoding="base64"/', $message))
@@ -257,21 +258,5 @@ class DbgpServer
         }
         socket_close($fd);
         $conn->fd = null;
-    }
-
-    /**
-     * Start attributtes
-     */
-    private function startLog()
-    {
-        if(null === $this->log) {
-            $this->log = new Logger('name');
-            $this->log->pushHandler(new StreamHandler(__DIR__ . '/../../dephpugger.log'));
-        }
-    }
-
-    private function startConfig()
-    {
-        $this->config = Config::getInstance();
     }
 }

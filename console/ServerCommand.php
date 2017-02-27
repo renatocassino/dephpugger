@@ -19,7 +19,8 @@ class ServeCommand extends Command
             // the "--help" option
             ->setHelp('Create a server to run in localhost.');
     }
-    protected function execute(InputInterface $input, OutputInterface $output)
+
+    protected function execute(InputInterface $_, OutputInterface $output)
     {
         $config = Config::getInstance();
         $projectPath = getcwd();

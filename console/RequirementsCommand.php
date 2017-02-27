@@ -22,7 +22,7 @@ class RequirementsCommand extends Command
             ->setHelp('Command to check if all dependencies are ok');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $_, OutputInterface $output)
     {
         $this->output = $output;
 
