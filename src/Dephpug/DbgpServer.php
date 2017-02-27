@@ -22,7 +22,7 @@ class DbgpServer
     /**
      * Create standart class for connection
      */
-    private function newConnection()
+    public function newConnection()
     {
         $conn = new \stdClass;
         $conn->fd = null;
@@ -57,7 +57,7 @@ class DbgpServer
 
         $result = @socket_write($fd, "$cmd\0");
         if ($result === false) {
-            $error = $this->formatSocketError($fd, "Client socket error");
+            $error = $this->formatSocketError($fdSocket, "Client socket error");
             echo "$error\n";
             exit(1);
         }
@@ -65,15 +65,15 @@ class DbgpServer
 
     public function eventConnectXdebugServer($socket)
     {
-        $fd = null;
+        $fdSocket = null;
         while (true) {
-            $fd = @socket_accept($socket);
-            if ($fd !== false) {
+            $fdSocket = @socket_accept($socket);
+            if ($fdSocket !== false) {
                 $this->output->writeln("Connected to an <fg=yellow;options=bold>XDebug server</>!");
                 break;
             }
         }
-        return $fd;
+        return $fdSocket;
     }
     
     /* Returns true iff the given message is a stream. */
@@ -115,26 +115,25 @@ class DbgpServer
         }
     }
 
-    
     /* Formats the given dbgp response for output. */
-    public function formatResponse($m) {
+    public function formatResponse($message) {
         // Remove # of bytes + null characters.
-        $m = str_replace("\0", "", $m);
-        $m = preg_replace("/^[0-9]+?(?=<)/", "", $m);
+        $message = str_replace("\0", "", $message);
+        $message = preg_replace("/^[0-9]+?(?=<)/", "", $message);
         // Remove strings that could change between runs.
-        $m = preg_replace('/appid="[0-9]+"/', 'appid=""', $m);
-        $m = preg_replace('/engine version=".*?"/', 'engine version=""', $m);
-        $m = preg_replace('/protocol_version=".*?"/', 'protocol_version=""', $m);
-        $m = preg_replace('/ idekey=".*?"/', '', $m);
-        $m = preg_replace('/address="[0-9]+"/', 'address=""', $m);
-        if($m !== '') {
-            $this->log->warning('Message format: ' . $m);
+        $message = preg_replace('/appid="[0-9]+"/', 'appid=""', $message);
+        $message = preg_replace('/engine version=".*?"/', 'engine version=""', $message);
+        $message = preg_replace('/protocol_version=".*?"/', 'protocol_version=""', $message);
+        $message = preg_replace('/ idekey=".*?"/', '', $message);
+        $message = preg_replace('/address="[0-9]+"/', 'address=""', $message);
+        if($message !== '') {
+            $this->log->warning('Message format: ' . $message);
         }
-        return $m;
+        return $message;
     }
 
-    public function formatSocketError($fd, $prefix) {
-        $error = socket_last_error($fd);
+    public function formatSocketError($fdSocket, $prefix) {
+        $error = socket_last_error($fdSocket);
         return $prefix . ": " . socket_strerror($error);
     }
 
@@ -171,10 +170,10 @@ class DbgpServer
         $output->writeln("<fg=blue> --- Listening on port $port ---</>\n");
 
         // Getting XDebug Connection
-        $fd = $dbgpServer->eventConnectXdebugServer($socket);
+        $fdSocket = $dbgpServer->eventConnectXdebugServer($socket);
         socket_close($socket);
 
-        $conn->fd = $fd;
+        $conn->fd = $fdSocket;
 
         while(true) {
             // Wait for the expect number of responses. Normally we expect 1
@@ -184,7 +183,7 @@ class DbgpServer
 
             while($conn->expectResponses > 0) {
                 // Infinite loop after first debug
-                $response = $dbgpServer->readResponse($fd);
+                $response = $dbgpServer->readResponse($fdSocket);
                 if ($dbgpServer->startsWith($response, "Client socket error")) {
                     break;
                 }
@@ -203,7 +202,7 @@ class DbgpServer
             $conn->expectResponses = 1;
             // Might have been sent a Ctrl-c while waiting for the response.
             if ($conn->sendBreak) {
-                $dbgpServer->sendCommand($fd, "break -i SIGINT\0");
+                $dbgpServer->sendCommand($fdSocket, "break -i SIGINT\0");
                 $conn->sendBreak = false;
                 // We're expecting a response for the break command, and the command
                 // before the break command.
@@ -236,9 +235,9 @@ class DbgpServer
                 $output->writeln("<fg=red>-- Quitting, request will continue running --</>\n");
                 break;
             }
-            $dbgpServer->sendCommand($fd, $line);
+            $dbgpServer->sendCommand($fdSocket, $line);
         }
-        socket_close($fd);
+        socket_close($fdSocket);
         $conn->fd = null;
     }
 }
