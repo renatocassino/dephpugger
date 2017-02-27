@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class Config
 {
-    private static $_instance;
+    private static $_instance = null;
     private $defaultConfig = [
         'server' => [
             'port' => 8888,
@@ -24,11 +24,16 @@ class Config
         ]
     ];
 
-    protected function __construct() {
+    private $config;
+
+    protected function __construct() {}
+
+    public static function reset() {
+        self::$_instance = null;
     }
 
     public static function getInstance() {
-        if(!isset(self::$_instance)) {
+        if(null === self::$_instance) {
             self::$_instance = new static();
             self::$_instance->configure();
         }
@@ -36,17 +41,32 @@ class Config
         return self::$_instance;
     }
 
-    private function configure() {
-        $path = getcwd() . '/.dephpugger.yml';
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    public function configure() {
+        $config = $this->getConfigFromFile();
+        $this->config = array_replace_recursive($this->defaultConfig, $config);
+    }
+
+    public function getPathFile() {
+        return getcwd() . '/.dephpugger.yml';
+    }
+
+    public function getConfigFromFile()
+    {
         $config = [];
+        $path = $this->getPathFile();
         if(file_exists($path)) {
             try {
                 $config = Yaml::parse(file_get_contents($path));
             } catch(ParseException $e) {
-                die($e->getMessage());
+                throw new ParseException('The file .dephpugger.yml is invalid');
             }
         }
-        $this->config = array_replace_recursive($this->defaultConfig, $config);
+        return $config;
     }
 
     public function __get($key) {

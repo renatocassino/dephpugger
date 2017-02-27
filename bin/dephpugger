@@ -1,14 +1,25 @@
 #!/usr/bin/env php
 <?php
 
-$autoload = getcwd() . '/vendor/autoload.php';
+$autoloads = [
+    getcwd() . '/vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php'
+];
 
-if(!file_exists($autoload)) {
-    echo 'You must run `composer install` first.';
-    return;
+$loaded = false;
+foreach($autoloads as $autoload) {
+    if(file_exists($autoload)) {
+        require $autoload;
+        $loaded = true;
+        break;
+    }
 }
 
-require $autoload;
+if(!$loaded) {
+    echo 'You must run `composer install` first.';
+    exit;
+}
+
 foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $file) {
     require $file;
 }

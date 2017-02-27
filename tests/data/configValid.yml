@@ -1,0 +1,4 @@
+--- 
+debugger:
+  host: mysocket.dev
+  port: 4005
