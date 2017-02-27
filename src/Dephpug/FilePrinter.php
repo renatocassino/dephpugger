@@ -86,4 +86,32 @@ class FilePrinter
         $content = preg_replace('/(\$[\w]+)/', '<fg=cyan>$1</>', $content);
         return $content;
     }
+
+    public function printFileByMessage($message)
+    {
+        preg_match('/lineno="(\d+)"/', $message, $fileno);
+        preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
+
+        // Getting  lines
+        if(count($fileno) > 1 && count($filename) > 1) {
+            $filePrinter = new FilePrinter();
+            $filePrinter->setFilename($filename[1]);
+            $filePrinter->showFile($fileno[1]);
+            return;
+        }
+
+        // Getting value
+        if(preg_match('/command=\"property_get\"/', $message)) {
+            preg_match('/property name=\"\$(\w+)\"/', $message);
+            preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
+
+            $content = (preg_match('/encoding="base64"/', $message))
+                     ? base64_decode($value[1])
+                     : (string) $value[1];
+
+            preg_match('/type=\"([\w_-]+)\"/', $message, $type);
+            echo " => ({$type[1]}) {$content}\n\n";
+        }
+    }
+
 }

@@ -17,6 +17,7 @@ class DbgpServer
         $this->config = Config::getInstance();
         $this->log = new Logger('name');
         $this->log->pushHandler(new StreamHandler(__DIR__ . '/../../dephpugger.log'));
+        $this->filePrinter = new FilePrinter();
     }
 
     /**
@@ -88,33 +89,6 @@ class DbgpServer
         return $slen === 0 || strncmp($big, $small, $slen) === 0;
     }
 
-    public function printFileByMessage($message)
-    {
-        preg_match('/lineno="(\d+)"/', $message, $fileno);
-        preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
-
-        // Getting  lines
-        if(count($fileno) > 1 && count($filename) > 1) {
-            $filePrinter = new FilePrinter();
-            $filePrinter->setFilename($filename[1]);
-            $filePrinter->showFile($fileno[1]);
-            return;
-        }
-
-        // Getting value
-        if(preg_match('/command=\"property_get\"/', $message)) {
-            preg_match('/property name=\"\$(\w+)\"/', $message);
-            preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
-
-            $content = (preg_match('/encoding="base64"/', $message))
-                     ? base64_decode($value[1])
-                     : (string) $value[1];
-
-            preg_match('/type=\"([\w_-]+)\"/', $message, $type);
-            echo " => ({$type[1]}) {$content}\n\n";
-        }
-    }
-
     /* Formats the given dbgp response for output. */
     public function formatResponse($message) {
         // Remove # of bytes + null characters.
@@ -132,7 +106,7 @@ class DbgpServer
         return $message;
     }
 
-    public function formatSocketError($fdSocket, $prefix) {
+    protected function formatSocketError($fdSocket, $prefix) {
         $error = socket_last_error($fdSocket);
         return $prefix . ": " . socket_strerror($error);
     }
@@ -150,7 +124,7 @@ class DbgpServer
             $message .= $buffer;
         } while ($message !== "" && $message[$bytes - 1] !== "\0");
 
-        $this->printFileByMessage($message);
+        $this->filePrinter->printFileByMessage($message);
         return $this->formatResponse($message);
     }
 
