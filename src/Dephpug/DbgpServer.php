@@ -5,6 +5,8 @@ namespace Dephpug;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
+use Exception\ExitProgram;
+
 class DbgpServer
 {
     private $log;
@@ -59,8 +61,7 @@ class DbgpServer
         $result = @socket_write($fdSocket, "$cmd\0");
         if ($result === false) {
             $error = $this->formatSocketError($fdSocket, "Client socket error");
-            echo "$error\n";
-            exit(1);
+            throw new ExitProgram($error, 1);
         }
     }
 

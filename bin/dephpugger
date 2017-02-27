@@ -23,6 +23,9 @@ if(!$loaded) {
 foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $file) {
     require $file;
 }
+foreach(glob(__DIR__ . '/../src/Dephpug/**/*.php') as $file) {
+    require $file;
+}
 
 use Symfony\Component\Console\Application;
 use Dephpug\Config;

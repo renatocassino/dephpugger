@@ -4,6 +4,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Dephpug\DbgpServer;
+use Dephpug\Exception\ExitProgram;
 
 class DebuggerCommand extends Command
 {
@@ -23,8 +24,13 @@ class DebuggerCommand extends Command
     {
         $output->writeln(splashScreen('Debugger'));
 
-        while(true) {
-            DbgpServer::start($output);
+        try {
+            while(true) {
+                DbgpServer::start($output);
+            }
+        } catch(ExitProgram $e) {
+            $output->writeln("<fg=red;options=bold>{$e}</>");
+            exit(1);
         }
     }
 }

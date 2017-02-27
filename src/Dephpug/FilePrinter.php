@@ -113,5 +113,4 @@ class FilePrinter
             echo " => ({$type[1]}) {$content}\n\n";
         }
     }
-
 }

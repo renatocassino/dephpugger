@@ -2,6 +2,9 @@
 // Here you can initialize variables that will be available to your tests
 require 'vendor/autoload.php';
 
+foreach(glob('src/Dephpug/*/*.php') as $file)
+    require $file;
+
 foreach(glob('src/Dephpug/*.php') as $file)
     require $file;
 

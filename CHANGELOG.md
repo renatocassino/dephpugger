@@ -6,8 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
 ### Add
+- Create exception to quit dephpugger
 - In config, add option to get a random port
 - Refactor client DBGp protocol
+- When show type array, show in php format, not json
+- Better use for Singleton $config
+- Run dephpugger for php scripts in cli
 
 ## [0.0.2]
 ### Changed
