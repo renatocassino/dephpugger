@@ -48,7 +48,7 @@ class DbgpServer
     }
 
     /* Sends a command to the xdebug server.  Exits process on failure. */
-    function sendCommand($fd, $cmd) {
+    function sendCommand($fdSocket, $cmd) {
         $this->log->warning('send_command');
 
         list($valid, $command) = CommandAdapter::convertCommand($cmd, 1);
@@ -56,7 +56,7 @@ class DbgpServer
             $cmd = $command;
         }
 
-        $result = @socket_write($fd, "$cmd\0");
+        $result = @socket_write($fdSocket, "$cmd\0");
         if ($result === false) {
             $error = $this->formatSocketError($fdSocket, "Client socket error");
             echo "$error\n";
