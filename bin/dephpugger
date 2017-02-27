@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$autoload = __DIR__ . '/../vendor/autoload.php';
+$autoload = getcwd() . '/vendor/autoload.php';
+
 if(!file_exists($autoload)) {
     echo 'You must run `composer install` first.';
     return;
