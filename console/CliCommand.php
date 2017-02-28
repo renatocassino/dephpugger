@@ -31,7 +31,8 @@ class CliCommand extends Command
         $debuggerPort = $config->debugger['port'];
         $phpFile = $input->getArgument('file');
 
-        $command = "{$phpPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port={$debuggerPort} -dxdebug.remote_host=127.0.0.1 {$phpFile}";
+        $configVar = 'XDEBUG_CONFIG="idekey=PHPSTORM"';
+        $command = "{$configVar} {$phpPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port={$debuggerPort} -dxdebug.remote_host=127.0.0.1 {$phpFile}";
 
         $output->writeln("Running file script: <options=bold>{$phpFile}</>");
         $output->writeln("Command: {$command}");
