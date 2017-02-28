@@ -17,6 +17,7 @@ class DbgpServer
     {
         $this->output = $output;
         $this->config = Config::getInstance();
+        $this->commandAdapter = new CommandAdapter();
         $this->log = new Logger('name');
         $this->log->pushHandler(new StreamHandler(__DIR__ . '/../../dephpugger.log'));
         $this->filePrinter = new FilePrinter();
@@ -82,12 +83,7 @@ class DbgpServer
     public function isStream($msg) {
         // This is hacky, but it works in all cases and doesn't require parsing xml.
         $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
-        return $this->startsWith($msg, $prefix);
-    }
-
-    public function startsWith($big, $small) {
-        $slen = strlen($small);
-        return $slen === 0 || strncmp($big, $small, $slen) === 0;
+        return $this->commandAdapter->startsWith($msg, $prefix);
     }
 
     /* Formats the given dbgp response for output. */
@@ -159,7 +155,7 @@ class DbgpServer
             while($conn->expectResponses > 0) {
                 // Infinite loop after first debug
                 $response = $dbgpServer->readResponse($fdSocket);
-                if ($dbgpServer->startsWith($response, "Client socket error")) {
+                if ($dbgpServer->commandAdapter->startsWith($response, "Client socket error")) {
                     break;
                 }
 
@@ -206,7 +202,7 @@ class DbgpServer
                 continue;
             }
 
-            if ($dbgpServer->startsWith("quit", $line)) {
+            if ($dbgpServer->commandAdapter->startsWith("quit", $line)) {
                 $output->writeln("<fg=red>-- Quitting, request will continue running --</>\n");
                 break;
             }

@@ -11,12 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Refactor client DBGp protocol
 - When show type array, show in php format, not xml
 - Better use for Singleton $config
-- Run dephpugger for php scripts in cli
 
 ## [Unreleased]
 ### Add
 - Class to get variable in phpinfo();
-- Create exception to quit dephpugger
+- Create exception to quit dephpugge
+- Run dephpugger for php scripts in cli
 
 ## [0.0.2]
 ### Changed

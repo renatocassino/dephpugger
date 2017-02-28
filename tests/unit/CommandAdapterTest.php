@@ -113,4 +113,28 @@ class CommandAdapterTest extends \Codeception\Test\Unit
         $command = CommandAdapter::convertCommand('$variable = 33.12;', 1);
         $this->assertEquals([true, 'property_set -i 1 -n variable -- 33.12'], $command);
     }
+
+    public function testIfStartsWithAString()
+    {
+        $command = new CommandAdapter();
+        $this->assertTrue($command->startsWith('FirstWorld in my string', 'FirstWorld'));
+    }
+
+    public function testIfStartsWithAStringWithOneChar()
+    {
+        $command = new CommandAdapter();
+        $this->assertTrue($command->startsWith('FirstWorld in my string', 'F'));
+    }
+
+    public function testIfStartsWithAStringPassingEmpty()
+    {
+        $command = new CommandAdapter();
+        $this->assertTrue($command->startsWith('FirstWorld in my string', ''));
+    }
+
+    public function testIfDoesNotStartWithAString()
+    {
+        $command = new CommandAdapter();
+        $this->assertFalse($command->startsWith('FirstWorld in my string', 'Second'));
+    }
 }
