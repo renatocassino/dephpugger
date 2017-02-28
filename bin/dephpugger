@@ -52,7 +52,13 @@ function splashScreen($word='Server') {
 EOL;
 }
 
+
 foreach(glob(__DIR__.'/../console/*.php') as $file) {
     require $file;
 }
+
+foreach(glob(__DIR__.'/../console/concerns/*.php') as $file) {
+    require $file;
+}
+
 $application->run();

@@ -25,6 +25,7 @@ class RequirementsCommand extends Command
     protected function execute(InputInterface $_, OutputInterface $output)
     {
         $this->output = $output;
+        $phpInfo = new concerns\PhpInfo();
 
         $this->output->writeln("\n<comment>Checking your dependencies</comment>\n");
 
@@ -32,7 +33,10 @@ class RequirementsCommand extends Command
         $this->writeMessage($this->xdebugInstalled(), "XDebug is installed.");
         $this->writeMessage($this->xdebugIsActive(), "XDebug is active.");
 
-        $this->output->writeln("\n");
+        $this->output->writeln("\n<options=bold> -- Infos about PHP environment -- </>\n");
+        $this->output->writeln($phpInfo->printVar('xdebug.idekey', 'XDebug idekey'));
+        $this->output->writeln($phpInfo->printVar('xdebug.cli_color', 'XDebug cli_color'));
+        $this->output->writeln($phpInfo->printVar('xdebug.default_enable', 'XDebug default_enable'));
     }
 
     private function writeMessage($success, $message) {

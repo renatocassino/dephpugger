@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
 ### Add
+- Command to get info about xdebug
 - Create exception to quit dephpugger
 - In config, add option to get a random port
 - Refactor client DBGp protocol
