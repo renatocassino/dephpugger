@@ -122,7 +122,14 @@ class DbgpServer
         } while ($message !== "" && $message[$bytes - 1] !== "\0");
 
         $this->filePrinter->printFileByMessage($message);
-        return $this->formatResponse($message);
+        $formatResponse = $this->formatResponse($message);
+
+        /*
+          if($dbgpServer->commandAdapter->startsWith($response, "Client socket error")) {
+              throw new Dephpug\Exception\SocketException();
+          }
+         */
+        return $formatResponse;
     }
 
     public static function start($output)
@@ -150,11 +157,13 @@ class DbgpServer
             // Wait for the expect number of responses. Normally we expect 1
             // response, but with the break command, we expect 2
             $responses = '';
-            $counter = 0;
 
             while($conn->expectResponses > 0) {
-                // Infinite loop after first debug
+                // Add Exception here
+                // Return xml
                 $response = $dbgpServer->readResponse($fdSocket);
+
+                // !TODO - Change this if for an exception in readResponse
                 if ($dbgpServer->commandAdapter->startsWith($response, "Client socket error")) {
                     break;
                 }
@@ -163,14 +172,10 @@ class DbgpServer
                 $conn->expectResponses -= substr_count($response, "</response>");
                 $conn->expectResponses -= substr_count($response, "</init>");
                 $responses .= $response;
-
-                if($counter > 100) {
-                    return;
-                }
-                $counter++;
             }
 
             $conn->expectResponses = 1;
+
             // Might have been sent a Ctrl-c while waiting for the response.
             if ($conn->sendBreak) {
                 $dbgpServer->sendCommand($fdSocket, "break -i SIGINT\0");
@@ -185,19 +190,18 @@ class DbgpServer
             if (!$dbgpServer->isStream($responses)) {
                 $config = Config::getInstance();
                 if($config->options['verboseMode']) {
-                    echo "$responses\n";
+                    $output->writeln("<comment>$responses\n</comment>");
                 }
             }
 
             // Received response saying we're stopping.
-            if (strpos($responses, "status=\"stopped\"") > 0) {
-                echo "-- Request ended, stopping --\n";
-                break;
+            if ($dbgpServer->commandAdapter->isStatusStop($responses)) {
+                $output->writeln("<comment>-- Request ended, restarting... --</comment>\n");
+                return;
             }
 
             // Get a command from the user and send it.
             $line = trim(readline("(dephpug) $ "));
-
             if ($line === "") {
                 continue;
             }

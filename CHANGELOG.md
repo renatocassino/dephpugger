@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Create exception to quit dephpugge
 - Run dephpugger for php scripts in cli
 
+## Changed
+- Algorithm to get data from DBGPp protocol
+
+## Fixed
+- Bug when stop a script
+
 ## [0.0.2]
 ### Changed
 - Use symfony/console for all commands
