@@ -6,16 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
 - Add option to offset lines in .dephpugger.yml
+- Refactor client DBGp protocol
 - Implement PSR-0 or PSR-4 to project
 - Command to get info about xdebug
 - In config, add option to get a random port
-- Refactor client DBGp protocol - [WIP]
 - When show type array, show in php format, not xml
 - Better use for Singleton $config
 
 ## [Unreleased]
+
+## [0.0.3] - 2017-03-01
 ### Add
 - Add circleci support
+- Refactor client DBGp protocol - [WIP]
 - Class to get variable in phpinfo();
 - Create exception to quit dephpugge
 - Run dephpugger for php scripts in cli
