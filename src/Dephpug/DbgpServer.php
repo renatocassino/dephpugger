@@ -206,10 +206,6 @@ class DbgpServer
                 continue;
             }
 
-            if ($dbgpServer->commandAdapter->startsWith("quit", $line)) {
-                $output->writeln("<fg=red>-- Quitting, request will continue running --</>\n");
-                break;
-            }
             $dbgpServer->sendCommand($fdSocket, $line);
         }
         socket_close($fdSocket);

@@ -5,10 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
+- Add option to offset lines in .dephpugger.yml
 - Implement PSR-0 or PSR-4 to project
 - Command to get info about xdebug
 - In config, add option to get a random port
-- Refactor client DBGp protocol
+- Refactor client DBGp protocol - [WIP]
 - When show type array, show in php format, not xml
 - Better use for Singleton $config
 
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Changed
 - Algorithm to get data from DBGPp protocol
+- Quit command in class CommandAdapter
 
 ## Fixed
 - Bug when stop a script

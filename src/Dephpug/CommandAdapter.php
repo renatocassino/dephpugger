@@ -2,7 +2,10 @@
 
 namespace Dephpug;
 
-class CommandAdapter {
+use \Dephpug\Exception\ExitProgram;
+
+class CommandAdapter
+{
     public static function convertCommand($command, $transactionId) {
         return self::convertCommandToDBGp($command, $transactionId);
     }
@@ -45,6 +48,8 @@ class CommandAdapter {
             case 'step': $newCommand = "step_into -i {$transactionId}"; break;
             case 'c':
             case 'continue': $newCommand = "run -i {$transactionId}"; break;
+            case 'q':
+            case 'quit': throw new ExitProgram('Quitting debugger request and restart listening.', 2);
             default: $newCommand = "eval -i {$transactionId} -- " . base64_encode($command);
         }
         return [$valid, $newCommand];
