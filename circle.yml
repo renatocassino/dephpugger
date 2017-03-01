@@ -5,4 +5,5 @@ dependencies:
   pre:
     - composer install
 test:
-  vendor/bin/codecept run unit
+  override:
+    - vendor/bin/codecept run unit
