@@ -11,6 +11,41 @@ class FilePrinter
     public $filename;
     public $offset = 6;
     public $config;
+    private $reservedWords = [
+        '__halt_compiler',
+        'array',
+        'die',
+        'echo',
+        'empty',
+        'eval',
+        'exit',
+        'include',
+        'include_once',
+        'isset',
+        'list',
+        'print',
+        'require',
+        'require_once',
+        'return',
+        'unset',
+        'function',
+        'for',
+        'if',
+        'else',
+        'do',
+        'while'
+    ];
+
+    private $consts = [
+        '__CLASS__',
+        '__DIR__',
+        '__FILE__',
+        '__FUNCTION__',
+        '__LINE__',
+        '__METHOD__',
+        '__NAMESPACE__',
+        '__TRAIT__'
+    ];
 
     public function __construct()
     {
@@ -77,13 +112,12 @@ class FilePrinter
     }
 
     public function colorCode($content) {
-        $reservedWords = ["__halt_compiler","array","die","echo","empty","eval","exit","include","include_once","isset","list","print","require","require_once","return","unset", 'function', 'for', 'if', 'else', 'do', 'while'];
-        foreach($reservedWords as $word) {
+        
+        foreach($this->reservedWords as $word) {
             $content = str_replace($word, "<fg=blue>{$word}</>", $content);
         }
 
-        $consts = ['__CLASS__', '__DIR__', '__FILE__', '__FUNCTION__', '__LINE__', '__METHOD__', '__NAMESPACE__', '__TRAIT__'];
-        foreach($consts as $word) {
+        foreach($this->consts as $word) {
             $content = str_replace($word, "<fg=red>{$word}</>", $content);
         }
 
@@ -98,16 +132,14 @@ class FilePrinter
     {
         $message = preg_replace('/^\d+/', '', $message);
         $message = str_replace("\00", '', $message);
-        $xml = @simplexml_load_string('/tmp/' . $id, 'SimpleXMLElement', \LIBXML_NOWARNING);
 
-        preg_match('/lineno="(\d+)"/', $message, $fileno);
-        preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
+        $hasFileNo = preg_match('/lineno="(\d+)"/', $message, $fileno);
+        $hasFilename = preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
 
         // Getting  lines
-        if(count($fileno) > 1 && count($filename) > 1) {
-            $filePrinter = new FilePrinter();
-            $filePrinter->setFilename($filename[1]);
-            $filePrinter->showFile($fileno[1]);
+        if($hasFileNo && $hasFilename) {
+            $this->setFilename($filename[1]);
+            $this->showFile($fileno[1]);
             return;
         }
 
@@ -117,7 +149,7 @@ class FilePrinter
             preg_match('/type=\"([\w_-]+)\"/', $message, $type);
 
             if('array' === $type[1]) {
-                $xml = simplexml_load_string($message);
+                $xml = @simplexml_load_string($message, 'SimpleXMLElement', \LIBXML_NOWARNING);
                 $data = $this->getArrayFormat($xml->property);
                 $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
             } else {

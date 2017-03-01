@@ -53,7 +53,7 @@ class FilePrinterTest extends \Codeception\Test\Unit
         $this->assertEquals([0, 2], $rangePages);
     }
 
-    //
+    // Test limit
     public function testListLines()
     {
         $fileTest = [];
@@ -62,6 +62,24 @@ class FilePrinterTest extends \Codeception\Test\Unit
         }
         $file = $this->bigFilePrinter->listLines(50);
         $this->assertEquals($fileTest, $file);
+    }
+
+    // Test print
+    public function testPrintCallingShowFile()
+    {
+        $mock = $this->getMockBuilder('\Dephpug\FilePrinter')
+              ->setMethods(['setFilename', 'showFile'])
+              ->getMock();
+
+        $mock->expects($this->exactly(1))
+            ->method('showFile')
+            ->withConsecutive(['1']);
+
+        $mock->expects($this->exactly(1))
+            ->method('setFilename')
+            ->withConsecutive(['/tmp/test']);
+
+        $mock->printFileByMessage('lineno="1" filename="file:///tmp/test"');
     }
 
     // Color codes
