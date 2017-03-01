@@ -16,8 +16,7 @@ class Config
         ],
         'debugger' => [
             'port' => 9005,
-            'host' => 'localhost',
-            'forceBreakFirstLine' => true
+            'host' => 'localhost'
         ],
         'options' => [
             'verboseMode' => false

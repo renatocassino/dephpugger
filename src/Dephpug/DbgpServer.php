@@ -192,9 +192,13 @@ class DbgpServer
             }
 
             // Get a command from the user and send it.
-            $line = trim(readline("(dephpug) $ "));
-            if ($line === "") {
-                continue;
+            if(preg_match('/\<init xmlns/', $response)) {
+                $line = 'continue';
+            } else {
+                $line = trim(readline("(dephpug) $ "));
+                if ($line === "") {
+                    continue;
+                }
             }
 
             $dbgpServer->sendCommand($fdSocket, $line);

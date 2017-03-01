@@ -85,7 +85,6 @@ The default config is:
         'debugger' => [
             'port' => 9005, # Port to socket
             'host' => 'localhost', # Host to socket
-            'forceBreakFirstLine' => true # Not implemented yet!
         ],
         'options' => [
             'verboseMode' => false # If true, show all messages from DBGp (only for dephpugger developers)
@@ -98,7 +97,6 @@ You can replace in your `.dephpugger.yml` file. Like this:
 ```yml
 --- 
 debugger: 
-  forceBreakFirstLine: true
   host: mysocket.dev
   port: 9002
 options: 

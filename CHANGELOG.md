@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Refactor client DBGp protocol - [WIP]
 - When show type array, show in php format, not xml
 - Better use for Singleton $config
-- Fix the stop when debugger start
 
 ## [Unreleased]
 ### Add
@@ -27,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Fixed
 - Bug when stop a script
+- Fix the stop when debugger start
 
 ## [0.0.2]
 ### Changed
