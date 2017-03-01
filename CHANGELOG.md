@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Refactor client DBGp protocol
 - Implement PSR-0 or PSR-4 to project
 - Command to get info about xdebug
-- In config, add option to get a random port
 - Better use for Singleton $config
 
 ## [Unreleased]

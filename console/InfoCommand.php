@@ -6,7 +6,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Dephpug\Config;
 use Dephpug\Dephpugger;
 
-class RequirementsCommand extends Command
+class InfoCommand extends Command
 {
     private $output;
 
@@ -14,12 +14,12 @@ class RequirementsCommand extends Command
     {
         $this
             // the name of the command (the part after "bin/console")
-            ->setName('requirements')
+            ->setName('info')
             // the short description shown while running "php bin/console list"
-            ->setDescription('Command to list requirements to run dephpugger')
+            ->setDescription('Get your configuration about XDebug')
             // the full command description shown when running the command with
             // the "--help" option
-            ->setHelp('Command to check if all dependencies are ok');
+            ->setHelp('Command to get all configurations about XDebug');
     }
 
     protected function execute(InputInterface $_, OutputInterface $output)
@@ -29,15 +29,16 @@ class RequirementsCommand extends Command
 
         $output->writeln("\n<comment>Checking your dependencies</comment>\n");
 
-        $output->writeln($printer->requiredMessage($phpInfo->checkPHPVersion(), "Your PHP version is 7.0 or more"));
         $output->writeln($printer->requiredMessage($phpInfo->xdebugInstalled(), "XDebug is installed."));
         $output->writeln($printer->requiredMessage($phpInfo->xdebugIsActive(), "XDebug is active."));
 
         $output->writeln("\n<options=bold> -- Infos about PHP environment -- </>\n");
-        $output->writeln($phpInfo->printVar('xdebug.idekey', 'XDebug idekey'));
-        $output->writeln($phpInfo->printVar('xdebug.cli_color', 'XDebug cli_color'));
-        $output->writeln($phpInfo->printVar('xdebug.default_enable', 'XDebug default_enable'));
+        $vars = $phpInfo->getVars("/\nxdebug\.(?<name>\w+) \=\> (?<value>.+)\n/");
+
+        foreach($vars[0] as $key => $_) {
+            $output->writeln("xdebug.{$vars['name'][$key]}: <options=bold>{$vars['name'][$key]}</>");
+        }
     }
 }
 
-$application->add(new RequirementsCommand());
+$application->add(new InfoCommand());

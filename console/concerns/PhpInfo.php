@@ -31,4 +31,29 @@ class PhpInfo
     {
         return "{$label}: <fg=red>{$this->getVar($variable)}</>";
     }
+
+    public function getVars($pattern)
+    {
+        $info = $this->getInfo();
+        if(preg_match_all($pattern, $info, $variablesInfo)) {
+            return $variablesInfo;
+        }
+        return null;
+    }
+
+    public function checkPHPVersion() {
+        return ((int)phpversion()[0] >= 7);
+    }
+
+    public function xdebugInstalled() {
+        return extension_loaded('xdebug');
+    }
+
+    public function xdebugIsActive() {
+        if($this->xdebugInstalled()) {
+            return xdebug_is_enabled();
+        }
+        return false;
+    }
+
 }

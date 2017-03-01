@@ -27,6 +27,7 @@ You can run this commands to check your dependencies:
 
 ```sh
 $ vendor/bin/dephpugger requirements
+$ vendor/bin/dephpugger info # To get all values setted in xDebug
 ```
 
 # Usage
