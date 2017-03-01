@@ -20,6 +20,7 @@ class DbgpServer
         $this->log = new Logger('name');
         $this->log->pushHandler(new StreamHandler(__DIR__ . '/../../dephpugger.log'));
         $this->filePrinter = new FilePrinter();
+        $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
     }
 
     /**
@@ -120,7 +121,12 @@ class DbgpServer
             $message .= $buffer;
         } while ($message !== "" && $message[$bytes - 1] !== "\0");
 
-        $this->filePrinter->printFileByMessage($message);
+        $responseMessage = $this->filePrinter->printFileByMessage($message);
+        if(null === $responseMessage) {
+            $responseMessage = $this->filePrinter->printValue($message);
+        }
+        $this->output->writeln($responseMessage);
+
         $formatResponse = $this->formatResponse($message);
 
         if($this->commandAdapter->startsWith($formatResponse, "Client socket error")) {

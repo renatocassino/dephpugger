@@ -47,12 +47,6 @@ class FilePrinter
         '__TRAIT__'
     ];
 
-    public function __construct()
-    {
-        $this->config = Config::getInstance();
-        $this->offset = $this->config->debugger['lineOffset'];
-    }
-
     public function setFilename($filename) {
         $this->filename = $filename;
         $this->file = file($filename);
@@ -130,18 +124,21 @@ class FilePrinter
 
     public function printFileByMessage($message)
     {
-        $message = preg_replace('/^\d+/', '', $message);
-        $message = str_replace("\00", '', $message);
-
+        $message = $this->formatMessage($message);
         $hasFileNo = preg_match('/lineno="(\d+)"/', $message, $fileno);
         $hasFilename = preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
 
         // Getting  lines
         if($hasFileNo && $hasFilename) {
             $this->setFilename($filename[1]);
-            $this->showFile($fileno[1]);
-            return;
+            return $this->unformatedShowFile($fileno[1]);
         }
+        return null;
+    }
+
+    public function printValue($message)
+    {
+        $message = $this->formatMessage($message);
 
         // Getting value
         if(preg_match('/command=\"property_get\"/', $message)) {
@@ -149,7 +146,7 @@ class FilePrinter
             preg_match('/type=\"([\w_-]+)\"/', $message, $type);
 
             if('array' === $type[1]) {
-                $xml = @simplexml_load_string($message, 'SimpleXMLElement', \LIBXML_NOWARNING);
+                $xml = simplexml_load_string($message);
                 $data = $this->getArrayFormat($xml->property);
                 $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
             } else {
@@ -164,7 +161,7 @@ class FilePrinter
                 $typeVar .= " {$nameClass[1]}";
             }
 
-            echo " => ({$typeVar}) {$content}\n\n";
+            return " => ({$typeVar}) {$content}\n\n";
         }
     }
 
@@ -186,5 +183,12 @@ class FilePrinter
             }
         }
         return $data;
+    }
+
+    private function formatMessage($message)
+    {
+        $message = preg_replace('/^\d+/', '', $message);
+        $message = str_replace("\00", '', $message);
+        return $message;
     }
 }
