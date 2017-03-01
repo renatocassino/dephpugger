@@ -106,7 +106,6 @@ class FilePrinter
 
         // Getting value
         if(preg_match('/command=\"property_get\"/', $message)) {
-            preg_match('/property name=\"\$(\w+)\"/', $message);
             preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
             preg_match('/type=\"([\w_-]+)\"/', $message, $type);
 
