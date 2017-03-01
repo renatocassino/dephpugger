@@ -12,9 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Refactor client DBGp protocol - [WIP]
 - When show type array, show in php format, not xml
 - Better use for Singleton $config
+- Fix the stop when debugger start
 
 ## [Unreleased]
 ### Add
+- Add circleci support
 - Class to get variable in phpinfo();
 - Create exception to quit dephpugge
 - Run dephpugger for php scripts in cli

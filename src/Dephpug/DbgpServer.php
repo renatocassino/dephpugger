@@ -5,8 +5,6 @@ namespace Dephpug;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-use Exception\ExitProgram;
-
 class DbgpServer
 {
     private $log;
@@ -62,7 +60,7 @@ class DbgpServer
         $result = @socket_write($fdSocket, "$cmd\0");
         if ($result === false) {
             $error = $this->formatSocketError($fdSocket, "Client socket error");
-            throw new ExitProgram($error, 1);
+            throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
     }
 
@@ -124,11 +122,9 @@ class DbgpServer
         $this->filePrinter->printFileByMessage($message);
         $formatResponse = $this->formatResponse($message);
 
-        /*
-          if($dbgpServer->commandAdapter->startsWith($response, "Client socket error")) {
-              throw new Dephpug\Exception\SocketException();
-          }
-         */
+        if($this->commandAdapter->startsWith($formatResponse, "Client socket error")) {
+            throw new \Dephpug\Exception\ExitProgram('Client socket error', 1);
+        }
         return $formatResponse;
     }
 
@@ -162,11 +158,6 @@ class DbgpServer
                 // Add Exception here
                 // Return xml
                 $response = $dbgpServer->readResponse($fdSocket);
-
-                // !TODO - Change this if for an exception in readResponse
-                if ($dbgpServer->commandAdapter->startsWith($response, "Client socket error")) {
-                    break;
-                }
 
                 // Init packet doesn't end in </response>.
                 $conn->expectResponses -= substr_count($response, "</response>");
