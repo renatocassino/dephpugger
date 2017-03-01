@@ -7,14 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [TODO]
 - Refactor client DBGp protocol
 - Implement PSR-0 or PSR-4 to project
-- Command to get info about xdebug
 - Better use for Singleton $config
 
 ## [Unreleased]
+
+## [0.1.1] - 2017-03-01
 ### Add
 - When show type array, show in php format, not xml
 - When show type object, show the name of the class
 - More tests for CommandAdapter
+- Command to get info about xdebug
 - Add option to offset lines in .dephpugger.yml
 
 ### Fixed
