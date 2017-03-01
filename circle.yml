@@ -1,0 +1,7 @@
+language: php
+php:
+  - 7.0
+script:
+  - "wget http://codeception.com/codecept.phar"
+  - php ./codecept.phar build
+  - php ./codecept.phar run unit
