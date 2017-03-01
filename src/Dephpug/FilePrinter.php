@@ -109,14 +109,14 @@ class FilePrinter
             preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
             preg_match('/type=\"([\w_-]+)\"/', $message, $type);
 
-            $content = (preg_match('/encoding="base64"/', $message))
-                     ? base64_decode($value[1])
-                     : (string) $value[1];
-
             if('array' === $type[1]) {
                 $xml = simplexml_load_string($message);
                 $data = $this->getArrayFormat($xml->property);
                 $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
+            } else {
+                $content = (preg_match('/encoding="base64"/', $message))
+                         ? base64_decode($value[1])
+                         : (string) $value[1];
             }
 
             echo " => ({$type[1]}) {$content}\n\n";
@@ -132,6 +132,7 @@ class FilePrinter
             switch($child->attributes()['type'])
             {
             case 'int':
+            case 'float':
                 $data[$key] = $child->__toString(); break;
             case 'string':
                 $data[$key] = base64_decode($child->__toString()); break;
