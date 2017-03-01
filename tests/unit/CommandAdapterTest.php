@@ -21,21 +21,33 @@ class CommandAdapterTest extends \Codeception\Test\Unit
     public function testNextCommand()
     {
         $command = CommandAdapter::convertCommand('n', 1);
-        $this->assertEquals($command, [true, 'step_over -i 1']);
+        $this->assertEquals([true, 'step_over -i 1'], $command);
     }
 
     public function testStepIntoCommand()
     {
         $command = CommandAdapter::convertCommand('s', 1);
-        $this->assertEquals($command, [true, 'step_into -i 1']);
+        $this->assertEquals([true, 'step_into -i 1'], $command);
     }
 
     public function testContinueRunCommand()
     {
         $command = CommandAdapter::convertCommand('c', 1);
-        $this->assertEquals($command, [true, 'run -i 1']);
+        $this->assertEquals([true, 'run -i 1'], $command);
     }
 
+    public function testQuitAbbrRunCommand()
+    {
+        $this->expectException(\Dephpug\Exception\ExitProgram::class);
+        $command = CommandAdapter::convertCommand('q', 1);
+    }
+
+    public function testQuitRunCommand()
+    {
+        $this->expectException(\Dephpug\Exception\ExitProgram::class);
+        $command = CommandAdapter::convertCommand('quit', 1);
+    }
+    
     public function testInvalidCommand()
     {
         $command = CommandAdapter::convertCommand('blabla', 1);
