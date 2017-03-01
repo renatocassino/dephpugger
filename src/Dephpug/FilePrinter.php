@@ -10,6 +10,13 @@ class FilePrinter
     public $file; // Array
     public $filename;
     public $offset = 6;
+    public $config;
+
+    public function __construct()
+    {
+        $this->config = Config::getInstance();
+        $this->offset = $this->config->debugger['lineOffset'];
+    }
 
     public function setFilename($filename) {
         $this->filename = $filename;

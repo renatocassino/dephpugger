@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
-- Add option to offset lines in .dephpugger.yml
 - Refactor client DBGp protocol
 - Implement PSR-0 or PSR-4 to project
 - Command to get info about xdebug
@@ -16,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Add
 - When show type array, show in php format, not xml
 - When show type object, show the name of the class
+- More tests for CommandAdapter
+- Add option to offset lines in .dephpugger.yml
 
 ### Fixed
 - Add type float to show variable in array
