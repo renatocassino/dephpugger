@@ -10,6 +10,7 @@ class DbgpServer
     private $log;
     private $config;
     private $output;
+    private $transactionId = 1;
 
     public function __construct($output)
     {
@@ -52,7 +53,7 @@ class DbgpServer
     function sendCommand($fdSocket, $cmd) {
         $this->log->warning('send_command');
 
-        list($valid, $command) = CommandAdapter::convertCommand($cmd, 1);
+        list($valid, $command) = CommandAdapter::convertCommand($cmd, $this->transactionId++);
         if($valid) {
             $cmd = $command;
         }

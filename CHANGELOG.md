@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Class to get variable in phpinfo();
 - Create exception to quit dephpugge
 - Run dephpugger for php scripts in cli
+- Counter changing the transactionId
 
 ## Changed
 - Algorithm to get data from DBGPp protocol
