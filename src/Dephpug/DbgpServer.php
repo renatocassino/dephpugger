@@ -128,6 +128,13 @@ class DbgpServer
         return $formatResponse;
     }
 
+    public function readLine($response)
+    {
+        return (!preg_match('/\<init xmlns/', $response))
+            ? trim(readline("(dephpug) $ "))
+            : 'continue';
+    }
+
     public static function start($output)
     {
         declare(ticks=1); // declare for pcntl_signal
@@ -192,15 +199,10 @@ class DbgpServer
             }
 
             // Get a command from the user and send it.
-            if(preg_match('/\<init xmlns/', $response)) {
-                $line = 'continue';
-            } else {
-                $line = trim(readline("(dephpug) $ "));
-                if ($line === "") {
-                    continue;
-                }
+            $line = $dbgpServer->readLine($response);
+            if ($line === "") {
+                continue;
             }
-
             $dbgpServer->sendCommand($fdSocket, $line);
         }
         socket_close($fdSocket);
