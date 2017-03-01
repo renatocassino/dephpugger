@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Add
 - When show type array, show in php format, not xml
+- When show type object, show the name of the class
+
+### Fixed
+- Add type float to show variable in array
 
 ## [0.0.3] - 2017-03-01
 ### Add

@@ -119,7 +119,13 @@ class FilePrinter
                          : (string) $value[1];
             }
 
-            echo " => ({$type[1]}) {$content}\n\n";
+            $typeVar = $type[1];
+            if($typeVar == 'object') {
+                preg_match('/classname="([^\"]+)"/', $message, $nameClass);
+                $typeVar .= " {$nameClass[1]}";
+            }
+
+            echo " => ({$typeVar}) {$content}\n\n";
         }
     }
 
