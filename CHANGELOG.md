@@ -10,10 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Implement PSR-0 or PSR-4 to project
 - Command to get info about xdebug
 - In config, add option to get a random port
-- When show type array, show in php format, not xml
 - Better use for Singleton $config
 
 ## [Unreleased]
+### Add
+- When show type array, show in php format, not xml
 
 ## [0.0.3] - 2017-03-01
 ### Add

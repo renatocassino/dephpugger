@@ -89,6 +89,10 @@ class FilePrinter
 
     public function printFileByMessage($message)
     {
+        $message = preg_replace('/^\d+/', '', $message);
+        $message = str_replace("\00", '', $message);
+        $xml = @simplexml_load_string('/tmp/' . $id, 'SimpleXMLElement', \LIBXML_NOWARNING);
+
         preg_match('/lineno="(\d+)"/', $message, $fileno);
         preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
 
@@ -104,13 +108,38 @@ class FilePrinter
         if(preg_match('/command=\"property_get\"/', $message)) {
             preg_match('/property name=\"\$(\w+)\"/', $message);
             preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
+            preg_match('/type=\"([\w_-]+)\"/', $message, $type);
 
             $content = (preg_match('/encoding="base64"/', $message))
                      ? base64_decode($value[1])
                      : (string) $value[1];
 
-            preg_match('/type=\"([\w_-]+)\"/', $message, $type);
+            if('array' === $type[1]) {
+                $xml = simplexml_load_string($message);
+                $data = $this->getArrayFormat($xml->property);
+                $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
+            }
+
             echo " => ({$type[1]}) {$content}\n\n";
         }
+    }
+
+    private function getArrayFormat($elements)
+    {
+        $data = [];
+        foreach($elements->children() as $child) {
+            $key = (string) $child->attributes()['name'];
+
+            switch($child->attributes()['type'])
+            {
+            case 'int':
+                $data[$key] = $child->__toString(); break;
+            case 'string':
+                $data[$key] = base64_decode($child->__toString()); break;
+            case 'array':
+                 $data[$key] = '(array) [...]';
+            }
+        }
+        return $data;
     }
 }
