@@ -34,8 +34,10 @@ $ vendor/bin/dephpugger requirements
 To usage you must (after installation) run two binaries in `vendor/bin` folder.
 
 ```sh
-$ php vendor/bin/dephpugger server   # Server running in port 8888
 $ php vendor/bin/dephpugger debugger # Debugger waiting debug
+$ php vendor/bin/dephpugger server   # Server running in port 8888
+# OR
+$ php vendor/bin/dephpugger cli myJob.php # Run php script and send to dephpgger
 ```
 
 You must run in two different tabs (in next version you'll can run in an uniq tab).
