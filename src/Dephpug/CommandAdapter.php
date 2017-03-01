@@ -21,22 +21,22 @@ class CommandAdapter
     }
 
     public static function convertCommandToDBGp($command, $transactionId) {
-        // Example format: $variable
-        if(preg_match('/^\$([\w_\[\]\"\\\'-\>\{\}]+);?$/', $command, $result)) {
-            $variableName = $result[1];
-            return [true, "property_get -i {$transactionId} -n {$variableName}"];
-        }
-
         // Example format: $variable = 33;
-        if(preg_match('/^\$([\w_\[\]\"\\\'-\>\{\}]+)(?: )*=(?: )*([\'\"\w\.]+)\;?$/', $command, $result)) {
+        if(preg_match('/^\$([\w_\[\]\"\\\'\-\>\{\}]+)(?: )*=(?: )*([\'\"\w\.]+)\;?$/', $command, $result)) {
             $variableName = $result[1];
             $value = $result[2];
             return [true, "property_set -i {$transactionId} -n {$variableName} -- {$value}"];
         }
 
-        if(preg_match('/^dbgp\((.*)\);?/', $command, $result)) {
+        if(preg_match('/^dbgp\(([^;]+)\);?/', $command, $result)) {
             $command = $result[1];
             return [false, $command];
+        }
+
+        // Example format: $variable
+        if(preg_match('/^\$([\w_\[\]\"\\\'\-\>\{\}]+);?$/', $command, $result)) {
+            $variableName = $result[1];
+            return [true, "property_get -i {$transactionId} -n {$variableName}"];
         }
 
         $valid = true;
