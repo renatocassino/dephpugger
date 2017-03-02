@@ -37,8 +37,6 @@ To usage you must (after installation) run two binaries in `vendor/bin` folder.
 ```sh
 $ php vendor/bin/dephpugger debugger # Debugger waiting debug
 $ php vendor/bin/dephpugger server   # Server running in port 8888
-# OR
-$ php vendor/bin/dephpugger cli myJob.php # Run php script and send to dephpgger
 ```
 
 You must run in two different tabs (in next version you'll can run in an uniq tab).
@@ -46,15 +44,18 @@ After run theese commands, you need to put the follow line in your code:
 
 ```php
 <?php
-
 # ...
 xdebug_break(); # This code is a breakpoint like ipdb in Python and Byebug in Ruby
 # ....
 ```
 
-After this, you can open in your browser the page (localhost:8888/[yourPage.php]).
-When you request this page your terminal will start in breakpoint (like a image 1.0).
+Now, you can open in your browser the page (localhost:8888/[yourPage.php]).
+When you request this page your terminal will start in breakpoint (like the image 1.0).
 
+To debugger a php script, you could run:
+```sh
+$ php vendor/bin/dephpugger cli myJob.php
+```
 ## Comands after run
 
 When you stop in a breakpoint you can make theese commands:
