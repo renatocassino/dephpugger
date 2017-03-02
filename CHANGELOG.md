@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Better use for Singleton $config
 
 ## [Unreleased]
+
+## [0.1.2] - 2017-03-01
 ### Add
 - Catch error if try show value of unexist var
 
