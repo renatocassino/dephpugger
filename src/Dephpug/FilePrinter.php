@@ -140,6 +140,11 @@ class FilePrinter
     {
         $message = $this->formatMessage($message);
 
+        // Getting error messages
+        if(preg_match('/<error code=\"(\d+)\".+\<\!\[CDATA\[(.+)\]\]\>/i', $message, $error)){
+            return "<fg=red;options=bold>Error code: {$error[1]} - {$error[2]}</>";
+        }
+
         // Getting value
         if(preg_match('/command=\"property_get\"/', $message)) {
             preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);

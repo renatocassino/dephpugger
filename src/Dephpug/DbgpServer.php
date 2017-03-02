@@ -125,6 +125,7 @@ class DbgpServer
         if(null === $responseMessage) {
             $responseMessage = $this->filePrinter->printValue($message);
         }
+
         $this->output->writeln($responseMessage);
 
         $formatResponse = $this->formatResponse($message);
@@ -195,7 +196,11 @@ class DbgpServer
             if (!$dbgpServer->isStream($responses)) {
                 $config = Config::getInstance();
                 if($config->options['verboseMode']) {
-                    $output->writeln("<comment>$responses\n</comment>");
+                    try {
+                        $output->writeln("<comment>{$responses}</comment>\n");
+                    } catch(\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
+                        echo "\n\n{$response}\n\n";
+                    }
                 }
             }
 
@@ -210,6 +215,7 @@ class DbgpServer
             if ($line === "") {
                 continue;
             }
+
             $dbgpServer->sendCommand($fdSocket, $line);
         }
         socket_close($fdSocket);

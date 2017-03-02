@@ -114,6 +114,14 @@ class FilePrinterTest extends \Codeception\Test\Unit
         $this->assertEquals(" => (object stdClass) 1\n\n", $response);
     }
 
+    public function testPrintValueWithAnError()
+    {
+        $message = '<error code="300" <![CDATA[can not get property]]>';
+        $filePrinter = new FilePrinter();
+        $response = $filePrinter->printValue($message);
+        $this->assertEquals("<fg=red;options=bold>Error code: 300 - can not get property</>", $response);
+    }
+
     public function testMixArray()
     {
         // Example of response
