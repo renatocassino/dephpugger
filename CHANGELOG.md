@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2017-03-06
+### Fixed
+- Bug with path and without file
+
 ## [0.2.0] - 2017-03-06
 ### Added
 - Params file and path
