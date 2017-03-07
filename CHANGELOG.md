@@ -11,12 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2017-03-06
+### Added
+- Params file and path
+
 ## [0.1.2] - 2017-03-01
-### Add
+### Added
 - Catch error if try show value of unexist var
 
 ## [0.1.1] - 2017-03-01
-### Add
+### Added
 - When show type array, show in php format, not xml
 - When show type object, show the name of the class
 - More tests for CommandAdapter
@@ -27,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add type float to show variable in array
 
 ## [0.0.3] - 2017-03-01
-### Add
+### Added
 - Add circleci support
 - Refactor client DBGp protocol - [WIP]
 - Class to get variable in phpinfo();
