@@ -28,8 +28,12 @@ class ServeCommand extends Command
         $defaultPort = $config->server['port'];
         $defaultHost = $config->server['host'];
         $debuggerPort = $config->debugger['port'];
+        $path = $config->server['path'] == null ? '' : $config->server['path'];
+        $file = $config->server['file'];
 
-        $command = "{$phpPath} -S {$defaultHost}:{$defaultPort} -t {$projectPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port={$debuggerPort} -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0";
+        $pathWithParam = $path != '' ? "-t $path" : '';
+
+        $command = "{$phpPath} -S {$defaultHost}:{$defaultPort} -t {$projectPath} -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port={$debuggerPort} -dxdebug.remote_host=127.0.0.1 -dxdebug.remote_connect_back=0 {$pathWithParam} {$path}{$file}";
 
         $output->write(splashScreen());
         $output->writeln("Running command: <fg=red>{$command}</>\n");

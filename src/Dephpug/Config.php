@@ -12,7 +12,9 @@ class Config
         'server' => [
             'port' => 8888,
             'host' => 'localhost',
-            'phpPath' => 'php'
+            'phpPath' => 'php',
+            'path' => null,
+            'file' => ''
         ],
         'debugger' => [
             'port' => 9005,

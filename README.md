@@ -82,7 +82,9 @@ The default config is:
         'server' => [
             'port' => 8888, # Port to your php built in web server
             'host' => 'localhost', # Host to your php build in web server
-            'phpPath' => 'php' # Path to run php
+            'phpPath' => 'php', # Path to run php
+            'path' => null, # Path to folder (param -t in php command)
+            'file' => ''
         ],
         'debugger' => [
             'port' => 9005, # Port to socket
@@ -103,6 +105,8 @@ debugger:
   host: mysocket.dev
   port: 9002
   lineOffset: 10
+  path: ./public/
+  file: index.php
 options: 
   verboseMode: false
 server: 
