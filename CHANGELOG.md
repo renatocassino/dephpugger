@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Better use for Singleton $config
 
 ## [Unreleased]
+
+## [0.3.1] - 2017-03-11
 ### Added
 - Sent messages in verboseMode
 
