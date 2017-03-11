@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Better use for Singleton $config
 
 ## [Unreleased]
+### Added
+- Support to show attributes in object var
+- Test for string
+
+### Changed
+- Refactor in FilePrinter to use xml instead of regex
+- Use xml in tests
+
+### Fixed
+- Bug with objects debugger. Fixed when use var $this
 
 ## [0.2.1] - 2017-03-06
 ### Fixed

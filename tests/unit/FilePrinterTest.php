@@ -92,7 +92,8 @@ class FilePrinterTest extends \Codeception\Test\Unit
 
     public function testPrintValueWithAnInteger()
     {
-        $message = 'command="property_get" type="int" <![CDATA[1]]>';
+        $message = '<?xml version="1.0" encoding="iso-8859-1"?>
+<response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="http://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="2"><property name="$i" fullname="$i" type="int"><![CDATA[1]]></property></response>';
         $filePrinter = new FilePrinter();
         $response = $filePrinter->printValue($message);
         $this->assertEquals(" => (int) 1\n\n", $response);
@@ -100,23 +101,35 @@ class FilePrinterTest extends \Codeception\Test\Unit
 
     public function testPrintValueWithAFloat()
     {
-        $message = 'command="property_get" type="float" <![CDATA[3.141]]>';
+        $message = '<?xml version="1.0" encoding="iso-8859-1"?>
+<response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="http://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="2"><property name="$f" fullname="$f" type="float"><![CDATA[3.141]]></property></response>';
         $filePrinter = new FilePrinter();
         $response = $filePrinter->printValue($message);
         $this->assertEquals(" => (float) 3.141\n\n", $response);
     }
 
-    public function testPrintValueWithAClass()
+    public function testPrintValueWithAString()
     {
-        $message = 'command="property_get" classname="stdClass" type="object" <![CDATA[1]]>';
+        $message = '<?xml version="1.0" encoding="iso-8859-1"?>
+<response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="http://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="2"><property name="$str" fullname="$str" type="string" size="9" encoding="base64"><![CDATA[TXkgU3RyaW5n]]></property></response>';
         $filePrinter = new FilePrinter();
         $response = $filePrinter->printValue($message);
-        $this->assertEquals(" => (object stdClass) 1\n\n", $response);
+        $this->assertEquals(" => (string) My String\n\n", $response);
+    }
+
+    public function testPrintValueWithAClass()
+    {
+        $message = '<?xml version="1.0" encoding="iso-8859-1"?>
+<response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="http://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="2"><property name="$klass" fullname="$klass" type="object" classname="stdClass" children="1" numchildren="1" page="0" pagesize="32"><property name="i" fullname="$klass-&gt;i" facet="public" type="int"><![CDATA[1]]></property></property></response>';
+        $filePrinter = new FilePrinter();
+        $response = $filePrinter->printValue($message);
+        $this->assertEquals(" => (object stdClass) \n{\n    \"i\": \"(int) `public` => 1\"\n}\n\n", $response);
     }
 
     public function testPrintValueWithAnError()
     {
-        $message = '<error code="300" <![CDATA[can not get property]]>';
+        $message = '<?xml version="1.0" encoding="iso-8859-1"?>
+<response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="http://xdebug.org/dbgp/xdebug" command="property_get" transaction_id="3" status="break" reason="ok"><error code="300"><message><![CDATA[can not get property]]></message></error></response>';
         $filePrinter = new FilePrinter();
         $response = $filePrinter->printValue($message);
         $this->assertEquals("<fg=red;options=bold>Error code: 300 - can not get property</>", $response);

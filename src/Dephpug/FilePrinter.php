@@ -139,35 +139,57 @@ class FilePrinter
     public function printValue($message)
     {
         $message = $this->formatMessage($message);
+        $xml = simplexml_load_string($message);
 
         // Getting error messages
-        if(preg_match('/<error code=\"(\d+)\".+\<\!\[CDATA\[(.+)\]\]\>/i', $message, $error)){
-            return "<fg=red;options=bold>Error code: {$error[1]} - {$error[2]}</>";
+        if(isset($xml->error)) {
+            $message = (string) $xml->error->message;
+            return "<fg=red;options=bold>Error code: {$xml->error['code']} - {$message}</>";
         }
 
         // Getting value
-        if(preg_match('/command=\"property_get\"/', $message)) {
-            preg_match('/\<\!\[CDATA\[(.+)\]\]\>/', $message, $value);
-            preg_match('/type=\"([\w_-]+)\"/', $message, $type);
+        if('property_get' === (string) $xml['command']) {
+            $typeVar = (string) $xml->property['type'];
 
-            if('array' === $type[1]) {
-                $xml = simplexml_load_string($message);
+            if($typeVar == 'string') {
+                $content = base64_decode((string) $xml->property);
+            } elseif('array' === $typeVar) {
                 $data = $this->getArrayFormat($xml->property);
                 $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
+            } elseif('object' === $typeVar) {
+                $typeVar .= " {$xml->property['classname']}";
+                $data = $this->getObjectFormat($xml->property);
+                $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
             } else {
-                $content = (preg_match('/encoding="base64"/', $message))
-                         ? base64_decode($value[1])
-                         : (string) $value[1];
-            }
-
-            $typeVar = $type[1];
-            if($typeVar == 'object') {
-                preg_match('/classname="([^\"]+)"/', $message, $nameClass);
-                $typeVar .= " {$nameClass[1]}";
+                // If string, float or another
+                $content = (string) $xml->property;
             }
 
             return " => ({$typeVar}) {$content}\n\n";
         }
+    }
+
+    private function getObjectFormat($elements)
+    {
+        $content = [];
+        foreach($elements->children() as $el) {
+            $type = 'null' === (string) $el['type'] ? 'method' : $el['type'];
+            $value = 'base64' === (string) $el['encoding']
+                   ? base64_decode((string) $el)
+                   : (string) $el;
+            if('' !== $value) {
+                $value = ' => ' . $value;
+            }
+
+            $currentContent = "({$type}) `{$el['facet']}`{$value}";
+
+            $key = (string) $el['name'];
+            if('method' === $type) {
+                $key .= '()';
+            }
+            $content[$key] = $currentContent;
+        }
+        return $content;
     }
 
     private function getArrayFormat($elements)
