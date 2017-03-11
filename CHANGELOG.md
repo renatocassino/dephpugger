@@ -11,8 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Sent messages in verboseMode
+
+### Fixed
+- Bug with set a variable
+
+## [0.3.0] - 2017-03-11
+### Added
 - Support to show attributes in object var
 - Test for string
+- Get response when call a method
 
 ### Changed
 - Refactor in FilePrinter to use xml instead of regex
