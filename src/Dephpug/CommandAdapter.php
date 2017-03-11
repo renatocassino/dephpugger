@@ -21,22 +21,34 @@ class CommandAdapter
     }
 
     public static function convertCommandToDBGp($command, $transactionId) {
+        $config = Config::getInstance();
         // Example format: $variable = 33;
         if(preg_match('/^\$([\w_\[\]\"\\\'\-\>\{\}]+)(?: )*=(?: )*([\'\"\w\.]+)\;?$/', $command, $result)) {
             $variableName = $result[1];
-            $value = $result[2];
-            return [true, "property_set -i {$transactionId} -n {$variableName} -- {$value}"];
+            $value = base64_encode($result[2]);
+            $command = "property_set -i {$transactionId} -n \${$variableName} -- {$value}";
+            if($config->options['verboseMode']) {
+                echo $command . PHP_EOL;
+            }
+            return [true, $command];
         }
 
         if(preg_match('/^dbgp\(([^;]+)\);?/', $command, $result)) {
             $command = $result[1];
-            return [false, $command];
+            if($config->options['verboseMode']) {
+                echo $command . PHP_EOL;
+            }
+            return [true, $command];
         }
 
         // Example format: $variable
         if(preg_match('/^\$([\w_\[\]\"\\\'\-\>\{\}]+);?$/', $command, $result)) {
             $variableName = $result[1];
-            return [true, "property_get -i {$transactionId} -n {$variableName}"];
+            $command = "property_get -i {$transactionId} -n {$variableName}";
+            if($config->options['verboseMode']) {
+                echo $command . PHP_EOL;
+            }
+            return [true, $command];
         }
 
         $valid = true;
@@ -51,6 +63,10 @@ class CommandAdapter
             case 'q':
             case 'quit': throw new ExitProgram('Quitting debugger request and restart listening.', 2);
             default: $newCommand = "eval -i {$transactionId} -- " . base64_encode($command);
+        }
+
+        if($config->options['verboseMode']) {
+            echo $newCommand . PHP_EOL;
         }
         return [$valid, $newCommand];
     }

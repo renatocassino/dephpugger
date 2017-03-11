@@ -148,7 +148,8 @@ class FilePrinter
         }
 
         // Getting value
-        if('property_get' === (string) $xml['command']) {
+        $command = (string) $xml['command'];
+        if('eval' === $command || 'property_get' === $command) {
             $typeVar = (string) $xml->property['type'];
 
             if($typeVar == 'string') {

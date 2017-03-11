@@ -57,7 +57,7 @@ class CommandAdapterTest extends \Codeception\Test\Unit
     public function testEvalCommand()
     {
         $command = CommandAdapter::convertCommand('dbgp(property_get -i 1 -n variable);', 1);
-        $this->assertEquals([false, 'property_get -i 1 -n variable'], $command);
+        $this->assertEquals([true, 'property_get -i 1 -n variable'], $command);
     }
 
     public function testVariableGet()
@@ -87,43 +87,43 @@ class CommandAdapterTest extends \Codeception\Test\Unit
     public function testVariableSetWithoutSpacesAndSemicolon()
     {
         $command = CommandAdapter::convertCommand('$variable=33', 1);
-        $this->assertEquals([true, 'property_set -i 1 -n variable -- 33'], $command);
+        $this->assertEquals([true, 'property_set -i 1 -n $variable -- MzM='], $command);
     }
 
     public function testVariableSetWithoutSpacesWithSemicolon()
     {
         $command = CommandAdapter::convertCommand('$variable=44;', 1);
-        $this->assertEquals([true, 'property_set -i 1 -n variable -- 44'], $command);
+        $this->assertEquals([true, 'property_set -i 1 -n $variable -- NDQ='], $command);
     }
 
     public function testVariableSetWithFirstSpace()
     {
         $command = CommandAdapter::convertCommand('$variable =32;', 1);
-        $this->assertEquals([true, 'property_set -i 1 -n variable -- 32'], $command);
+        $this->assertEquals([true, 'property_set -i 1 -n $variable -- MzI='], $command);
     }
 
     public function testVariableSetWithSpaces()
     {
         $command = CommandAdapter::convertCommand('$variable = 32;', 1);
-        $this->assertEquals([true, 'property_set -i 1 -n variable -- 32'], $command);
+        $this->assertEquals([true, 'property_set -i 1 -n $variable -- MzI='], $command);
     }
 
     public function testVariableSetStringWithSimpleQuotationMarks()
     {
         $command = CommandAdapter::convertCommand('$variable = \'value\';', 1);
-        $this->assertEquals([true, 'property_set -i 1 -n variable -- \'value\''], $command);
+        $this->assertEquals([true, 'property_set -i 1 -n $variable -- J3ZhbHVlJw=='], $command);
     }
 
     public function testVariableSetStringWithQuotationMarks()
     {
         $command = CommandAdapter::convertCommand('$variable = "value";', 1);
-        $this->assertEquals([true, 'property_set -i 1 -n variable -- "value"'], $command);
+        $this->assertEquals([true, 'property_set -i 1 -n $variable -- InZhbHVlIg=='], $command);
     }
 
     public function testVariableSetFloatOrDoubleValue()
     {
         $command = CommandAdapter::convertCommand('$variable = 33.12;', 1);
-        $this->assertEquals([true, 'property_set -i 1 -n variable -- 33.12'], $command);
+        $this->assertEquals([true, 'property_set -i 1 -n $variable -- MzMuMTI='], $command);
     }
 
     public function testIfStartsWithAString()

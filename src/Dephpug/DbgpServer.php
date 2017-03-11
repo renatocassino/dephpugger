@@ -55,6 +55,7 @@ class DbgpServer
         $this->log->warning('send_command');
 
         list($valid, $command) = CommandAdapter::convertCommand($cmd, $this->transactionId++);
+
         if($valid) {
             $cmd = $command;
         }
