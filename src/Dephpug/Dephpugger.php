@@ -4,5 +4,5 @@ namespace Dephpug;
 
 class Dephpugger
 {
-    public static $VERSION = '0.2.1';
+    public static $VERSION = '0.3.0';
 }
