@@ -2,10 +2,12 @@
 // Here you can initialize variables that will be available to your tests
 require 'vendor/autoload.php';
 
-foreach(glob('src/Dephpug/*/*.php') as $file)
-    require $file;
+$paths = array_merge(
+    glob('src/Dephpug/*/*.php'),
+    glob('src/Dephpug/*.php')
+);
 
-foreach(glob('src/Dephpug/*.php') as $file)
+foreach($paths as $file)
     require $file;
 
 use Symfony\Component\Console\Output\ConsoleOutput;

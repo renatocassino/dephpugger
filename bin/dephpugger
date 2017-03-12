@@ -1,9 +1,11 @@
 #!/usr/bin/env php
 <?php
 
+define('DIRNAME', dirname(__DIR__) . '/');
+
 $autoloads = [
-    getcwd() . '/vendor/autoload.php',
-    __DIR__ . '/../vendor/autoload.php'
+    getcwd() . implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']),
+    DIRNAME . implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php'])
 ];
 
 $loaded = false;
@@ -20,18 +22,36 @@ if(!$loaded) {
     exit;
 }
 
-foreach(glob(__DIR__ . '/../src/Dephpug/*.php') as $file) {
-    require $file;
+function includePaths($arrayOfPaths, &$application=null)
+{
+    $paths = [];
+    foreach($arrayOfPaths as $path) {
+        $files = glob($path);
+        $paths = array_merge($paths, $files);
+    }
+
+    foreach($paths as $path)
+    {
+        require $path;
+    }
 }
-foreach(glob(__DIR__ . '/../src/Dephpug/**/*.php') as $file) {
-    require $file;
-}
+
+includePaths([
+    DIRNAME . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '*.php']),
+    DIRNAME . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '*.php'])
+]);
+
 
 use Symfony\Component\Console\Application;
 use Dephpug\Config;
 use Dephpug\Dephpugger;
 
 $application = new Application();
+
+includePaths([
+    DIRNAME . implode(DIRECTORY_SEPARATOR, ['console', '*.php']),
+    DIRNAME . implode(DIRECTORY_SEPARATOR, ['console', 'concerns', '*.php'])
+], $application);
 
 function splashScreen($word='Server') {
     $version = 'v' . Dephpugger::$VERSION;
@@ -50,15 +70,6 @@ function splashScreen($word='Server') {
 
 
 EOL;
-}
-
-
-foreach(glob(__DIR__.'/../console/*.php') as $file) {
-    require $file;
-}
-
-foreach(glob(__DIR__.'/../console/concerns/*.php') as $file) {
-    require $file;
 }
 
 $application->run();
