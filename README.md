@@ -17,6 +17,23 @@ To install you must run this code (using the composer).
 $ composer require tacnoman/dephpugger
 ```
 
+## Install globally
+### In Linux or Mac Os X
+
+Run this command:
+
+```sh
+$ composer global require tacnoman/dephpugger
+```
+
+And add in your ~/.bash_profile.
+
+```
+export PATH=$PATH:$HOME/.composer/vendor/bin
+```
+
+Now run `source ~/.bash_profile` and you can run the commands using only `$ dephpugger`.
+
 # Dependencies
 
 - PHP 7.0 or more (not tested in older versions)
@@ -28,6 +45,11 @@ You can run this commands to check your dependencies:
 ```sh
 $ vendor/bin/dephpugger requirements
 $ vendor/bin/dephpugger info # To get all values setted in xDebug
+
+# Or in global
+
+$ dephpugger requirements
+$ dephpugger info
 ```
 
 # Usage
@@ -37,6 +59,11 @@ To usage you must (after installation) run two binaries in `vendor/bin` folder.
 ```sh
 $ php vendor/bin/dephpugger debugger # Debugger waiting debug
 $ php vendor/bin/dephpugger server   # Server running in port 8888
+
+# Or in global
+
+$ dephpugger debugger
+$ dephpugger server
 ```
 
 You must run in two different tabs (in next version you'll can run in an uniq tab).
@@ -55,6 +82,10 @@ When you request this page your terminal will start in breakpoint (like the imag
 To debugger a php script, you could run:
 ```sh
 $ php vendor/bin/dephpugger cli myJob.php
+
+# Or in global
+
+$ dephpugger cli myJob.php
 ```
 ## Comands after run
 
@@ -69,7 +100,7 @@ When you stop in a breakpoint you can make theese commands:
 | $variable = 33    | Set a variable                                                       |
 | my_function()     | Call a function                                                      |
 | dbgp(\<command\>) | To run a command in dbgp                                             |
-| quit              | Exist the debugger                                                   |
+| quit              | Exit the debugger                                                    |
 
 # Configuration (is simple)
 
