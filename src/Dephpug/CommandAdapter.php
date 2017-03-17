@@ -30,7 +30,7 @@ class CommandAdapter
             if($config->options['verboseMode']) {
                 echo $command . PHP_EOL;
             }
-            return [true, $command];
+            return $command;
         }
 
         if(preg_match('/^dbgp\(([^;]+)\);?/', $command, $result)) {
@@ -38,7 +38,7 @@ class CommandAdapter
             if($config->options['verboseMode']) {
                 echo $command . PHP_EOL;
             }
-            return [true, $command];
+            return $command;
         }
 
         // Example format: $variable
@@ -48,10 +48,9 @@ class CommandAdapter
             if($config->options['verboseMode']) {
                 echo $command . PHP_EOL;
             }
-            return [true, $command];
+            return $command;
         }
 
-        $valid = true;
         // Simple commands
         switch($command) {
             case 'n':
@@ -68,6 +67,6 @@ class CommandAdapter
         if($config->options['verboseMode']) {
             echo $newCommand . PHP_EOL;
         }
-        return [$valid, $newCommand];
+        return $newCommand;
     }
 }

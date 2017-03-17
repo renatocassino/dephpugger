@@ -54,12 +54,6 @@ class DbgpServer
     function sendCommand($fdSocket, $cmd) {
         $this->log->warning('send_command');
 
-        list($valid, $command) = CommandAdapter::convertCommand($cmd, $this->transactionId++);
-
-        if($valid) {
-            $cmd = $command;
-        }
-
         $result = @socket_write($fdSocket, "$cmd\0");
         if ($result === false) {
             $error = $this->formatSocketError($fdSocket, "Client socket error");
@@ -139,9 +133,14 @@ class DbgpServer
 
     public function readLine($response)
     {
-        return (!preg_match('/\<init xmlns/', $response))
-            ? trim(readline("(dephpug) $ "))
-            : 'continue';
+        if(!preg_match('/\<init xmlns/', $response)) {
+            $line = '';
+            while($line === '') {
+                $line = trim(readline("(dephpug) => "));
+            }
+            return $line;
+        }
+        return 'continue';
     }
 
     public static function start($output)
@@ -185,7 +184,7 @@ class DbgpServer
 
             // Might have been sent a Ctrl-c while waiting for the response.
             if ($conn->sendBreak) {
-                $dbgpServer->sendCommand($fdSocket, "break -i SIGINT\0");
+                $dbgpServer->sendCommand($fdSocket, "dbgp(break -i SIGINT\0)");
                 $conn->sendBreak = false;
                 // We're expecting a response for the break command, and the command
                 // before the break command.
@@ -213,11 +212,8 @@ class DbgpServer
 
             // Get a command from the user and send it.
             $line = $dbgpServer->readLine($response);
-            if ($line === "") {
-                continue;
-            }
-
-            $dbgpServer->sendCommand($fdSocket, $line);
+            $cmd = CommandAdapter::convertCommand($line, $dbgpServer->transactionId++);
+            $dbgpServer->sendCommand($fdSocket, $cmd);
         }
         socket_close($fdSocket);
         $conn->fd = null;
