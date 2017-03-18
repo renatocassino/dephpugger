@@ -6,10 +6,11 @@ class ExitProgram extends \Exception
 {
     private $statusMessage = [
         0 => 'Unexpected error',
-        99 => null
+        1 => 'Client socket error',
+        99 => null,
     ];
 
-    public function __construct($message, $code=0, \Exception $previous=null)
+    public function __construct($message, $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
@@ -17,17 +18,17 @@ class ExitProgram extends \Exception
     public function __toString()
     {
         $statusMessageError = $this->getStatusMessage();
-        if($statusMessageError !== '') {
+        if ($statusMessageError !== '') {
             $statusMessageError .= ' - ';
         }
 
-        return __CLASS__ . ": [{$this->code}]: {$statusMessageError}{$this->message}";
+        return __CLASS__.": [{$this->code}]: {$statusMessageError}{$this->message}";
     }
 
     public function getStatusMessage()
     {
         $statusMessageError = '';
-        if(
+        if (
             isset($this->statusMessage[$this->code]) &&
             $this->statusMessage[$this->code] != null
         ) {

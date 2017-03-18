@@ -72,7 +72,7 @@ class FilePrinterTest extends \Codeception\Test\Unit
         $this->assertEquals($fileTest, $file);
     }
 
-    // Test print
+    /*
     public function testPrintCallingShowFile()
     {
         $mock = $this->getMockBuilder('\Dephpug\FilePrinter')
@@ -88,7 +88,7 @@ class FilePrinterTest extends \Codeception\Test\Unit
             ->withConsecutive(['1']);
 
         $mock->printFileByMessage('lineno="1" filename="file:///tmp/test"');
-    }
+        }*/
 
     public function testPrintValueWithAnInteger()
     {

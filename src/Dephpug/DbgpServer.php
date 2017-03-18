@@ -11,6 +11,7 @@ class DbgpServer
     private $config;
     private $output;
     private $transactionId = 1;
+    private $messageParse;
 
     public function __construct($output)
     {
@@ -21,6 +22,7 @@ class DbgpServer
         $this->log->pushHandler(new StreamHandler(__DIR__ . '/../../dephpugger.log'));
         $this->filePrinter = new FilePrinter();
         $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
+        $this->messageParse = new MessageParse();
     }
 
     /**
@@ -81,54 +83,47 @@ class DbgpServer
         return $this->commandAdapter->startsWith($msg, $prefix);
     }
 
-    /* Formats the given dbgp response for output. */
-    public function formatResponse($message) {
-        // Remove # of bytes + null characters.
-        $message = str_replace("\0", "", $message);
-        $message = preg_replace("/^[0-9]+?(?=<)/", "", $message);
-        // Remove strings that could change between runs.
-        $message = preg_replace('/appid="[0-9]+"/', 'appid=""', $message);
-        $message = preg_replace('/engine version=".*?"/', 'engine version=""', $message);
-        $message = preg_replace('/protocol_version=".*?"/', 'protocol_version=""', $message);
-        $message = preg_replace('/ idekey=".*?"/', '', $message);
-        $message = preg_replace('/address="[0-9]+"/', 'address=""', $message);
-        if($message !== '') {
-            $this->log->warning('Message format: ' . $message);
-        }
-        return $message;
-    }
-
     protected function formatSocketError($fdSocket, $prefix) {
         $error = socket_last_error($fdSocket);
         return $prefix . ": " . socket_strerror($error);
     }
 
-    public function readResponse($socket) {
+    public function waitMessage(&$socket)
+    {
         $bytes = 0;
-        $message = "";
+        $message = '';
         do {
-            $buffer = "";
+            $buffer = '';
             $result = @socket_recv($socket, $buffer, 1024, 0);
             if ($result === false) {
-                return $this->formatSocketError($socket, "Client socket error") . "\n";
+                throw new Exception\ExitProgram('Client socket error', 1);
             }
+
             $bytes += $result;
             $message .= $buffer;
-        } while ($message !== "" && $message[$bytes - 1] !== "\0");
+        } while ($message !== '' && $message[$bytes - 1] !== "\0");
+        return $this->messageParse->formatMessage($message);
+    }
 
-        $responseMessage = $this->filePrinter->printFileByMessage($message);
-        if(null === $responseMessage) {
+    public function readResponse($socket) {
+        $message = $this->waitMessage($socket);
+        $fileAndLine = $this->messageParse->getFileAndLine($message);
+
+        if(null === $fileAndLine) {
+            # if is a value
             $responseMessage = $this->filePrinter->printValue($message);
+        } else {
+            # if is a file
+            $this->filePrinter->setFilename($fileAndLine[0]);
+            $responseMessage = $this->filePrinter->unformatedShowFile($fileAndLine[1]);
         }
 
         $this->output->writeln($responseMessage);
 
-        $formatResponse = $this->formatResponse($message);
-
-        if($this->commandAdapter->startsWith($formatResponse, "Client socket error")) {
-            throw new \Dephpug\Exception\ExitProgram('Client socket error', 1);
+        if($this->commandAdapter->startsWith($message, "Client socket error")) {
+            throw new Exception\ExitProgram('Client socket error', 1);
         }
-        return $formatResponse;
+        return $message;
     }
 
     public function readLine($response)

@@ -122,23 +122,8 @@ class FilePrinter
         return $content;
     }
 
-    public function printFileByMessage($message)
-    {
-        $message = $this->formatMessage($message);
-        $hasFileNo = preg_match('/lineno="(\d+)"/', $message, $fileno);
-        $hasFilename = preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
-
-        // Getting  lines
-        if($hasFileNo && $hasFilename) {
-            $this->setFilename($filename[1]);
-            return $this->unformatedShowFile($fileno[1]);
-        }
-        return null;
-    }
-
     public function printValue($message)
     {
-        $message = $this->formatMessage($message);
         $xml = simplexml_load_string($message);
 
         // Getting error messages
@@ -211,12 +196,5 @@ class FilePrinter
             }
         }
         return $data;
-    }
-
-    private function formatMessage($message)
-    {
-        $message = preg_replace('/^\d+/', '', $message);
-        $message = str_replace("\00", '', $message);
-        return $message;
     }
 }
