@@ -1,0 +1,7 @@
+engines:
+  phpcodesniffer:
+      enabled: true
+
+ratings:
+  paths:
+    - "**.php"
