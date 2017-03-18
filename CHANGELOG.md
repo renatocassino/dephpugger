@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Changed
 - Using DIRECTORY_SEPARATOR instead of '/' (windows support)
+- Refactor in DBGP server
+- Separate responsability to parse messages in one class
+
+### Fixed
+- The code were using 127.0.0.1 in debugger server instead of variable setted
 
 ## [0.3.1] - 2017-03-11
 ### Added

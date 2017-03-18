@@ -127,7 +127,7 @@ class DbgpServer
         } else {
             // if is a file
             $this->filePrinter->setFilename($fileAndLine[0]);
-            $responseMessage = $this->filePrinter->unformatedShowFile($fileAndLine[1]);
+            $responseMessage = $this->filePrinter->showFile($fileAndLine[1]);
         }
 
         $this->output->writeln($responseMessage);

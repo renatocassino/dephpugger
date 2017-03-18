@@ -166,9 +166,9 @@ EOL;
         $this->assertEquals(" => (array) \n{$jsonPrettyFormat}\n\n", $response);
     }
 
-    public function testUnformatedShowFile()
+    public function testShowFile()
     {
-        $unformated = $this->smallFilePrinter->unformatedShowFile(2);
+        $unformated = $this->smallFilePrinter->showFile(2);
         $content = <<<EOL
 \n<fg=blue>[1:3] in file://:2</>
    <fg=yellow>1:</> <fg=white>First line

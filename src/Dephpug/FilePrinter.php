@@ -88,13 +88,6 @@ class FilePrinter
 
     public function showFile($line = 1)
     {
-        $output = new ConsoleOutput();
-        $output->setFormatter(new OutputFormatter(true));
-        $output->writeln($this->unformatedShowFile($line));
-    }
-
-    public function unformatedShowFile($line = 1)
-    {
         $fileLines = $this->listLines($line);
         $fileToShow = '';
 
