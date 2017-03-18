@@ -13,7 +13,7 @@
       "TacBug\\": "src"
     }
   },
-  "bin": ["bin/dbgp-client", "bin/dephpugger"],
+  "bin": ["bin/dephpugger"],
   "license": "MIT",
   "authors": [
     {
