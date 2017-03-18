@@ -3,7 +3,6 @@
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Dephpug\Config;
 use Dephpug\Dephpugger;
 
 class RequirementsCommand extends Command
@@ -29,9 +28,9 @@ class RequirementsCommand extends Command
 
         $output->writeln("\n<comment>Checking your dependencies</comment>\n");
 
-        $output->writeln($printer->requiredMessage($phpInfo->checkPHPVersion(), "Your PHP version is 7.0 or more"));
-        $output->writeln($printer->requiredMessage($phpInfo->xdebugInstalled(), "XDebug is installed."));
-        $output->writeln($printer->requiredMessage($phpInfo->xdebugIsActive(), "XDebug is active."));
+        $output->writeln($printer->requiredMessage($phpInfo->checkPHPVersion(), 'Your PHP version is 7.0 or more'));
+        $output->writeln($printer->requiredMessage($phpInfo->xdebugInstalled(), 'XDebug is installed.'));
+        $output->writeln($printer->requiredMessage($phpInfo->xdebugIsActive(), 'XDebug is active.'));
 
         $output->writeln("\n<options=bold> -- Infos about PHP environment -- </>\n");
         $output->writeln($phpInfo->printVar('xdebug.idekey', 'XDebug idekey'));

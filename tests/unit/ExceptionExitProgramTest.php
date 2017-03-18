@@ -22,7 +22,7 @@ class ExceptionExitProgramTest extends \Codeception\Test\Unit
     {
         try {
             throw new ExitProgram('Status 0', 0);
-        } catch(ExitProgram $e) {
+        } catch (ExitProgram $e) {
             $this->assertEquals('Dephpug\Exception\ExitProgram: [0]: Unexpected error - Status 0', (string) $e);
         }
     }
@@ -31,7 +31,7 @@ class ExceptionExitProgramTest extends \Codeception\Test\Unit
     {
         try {
             throw new ExitProgram('Status 0', 0);
-        } catch(ExitProgram $e) {
+        } catch (ExitProgram $e) {
             $this->assertEquals('Unexpected error', $e->getStatusMessage());
         }
     }
@@ -40,7 +40,7 @@ class ExceptionExitProgramTest extends \Codeception\Test\Unit
     {
         try {
             throw new ExitProgram('Status 0', 999999999999999999);
-        } catch(ExitProgram $e) {
+        } catch (ExitProgram $e) {
             $this->assertEquals('', $e->getStatusMessage());
         }
     }
@@ -49,7 +49,7 @@ class ExceptionExitProgramTest extends \Codeception\Test\Unit
     {
         try {
             throw new ExitProgram('Custom message', 0);
-        } catch(ExitProgram $e) {
+        } catch (ExitProgram $e) {
             $this->assertEquals('Custom message', $e->getMessage());
         }
     }

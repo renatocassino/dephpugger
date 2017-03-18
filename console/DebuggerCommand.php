@@ -23,12 +23,14 @@ class DebuggerCommand extends Command
     protected function execute(InputInterface $_, OutputInterface $output)
     {
         $output->writeln(splashScreen('Debugger'));
-        while(true) {
+        while (true) {
             try {
                 DbgpServer::start($output);
-            } catch(ExitProgram $e) {
+            } catch (ExitProgram $e) {
                 $output->writeln("<fg=red;options=bold>{$e}</>");
-                if($e->getCode() == 2) { continue; }
+                if ($e->getCode() == 2) {
+                    continue;
+                }
                 exit(1);
             }
         }

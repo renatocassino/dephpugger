@@ -7,8 +7,9 @@ $paths = array_merge(
     glob('src/Dephpug/*.php')
 );
 
-foreach($paths as $file)
+foreach ($paths as $file) {
     require $file;
+}
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Formatter\OutputFormatter;

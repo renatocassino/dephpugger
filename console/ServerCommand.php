@@ -29,7 +29,7 @@ class ServeCommand extends Command
         $defaultHost = $config->server['host'];
         $debuggerPort = $config->debugger['port'];
         $path = $config->server['path'] == null ? '' : $config->server['path'];
-        $file = $config->server['file'] !== '' ? $path . $config->server['file'] : '';
+        $file = $config->server['file'] !== '' ? $path.$config->server['file'] : '';
 
         $pathWithParam = $path != '' ? "-t $path" : '';
 

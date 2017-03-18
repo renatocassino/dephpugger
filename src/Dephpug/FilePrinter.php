@@ -2,8 +2,8 @@
 
 namespace Dephpug;
 
-use \Symfony\Component\Console\Output\ConsoleOutput;
-use \Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 
 class FilePrinter
 {
@@ -33,7 +33,7 @@ class FilePrinter
         'if',
         'else',
         'do',
-        'while'
+        'while',
     ];
 
     private $consts = [
@@ -44,49 +44,57 @@ class FilePrinter
         '__LINE__',
         '__METHOD__',
         '__NAMESPACE__',
-        '__TRAIT__'
+        '__TRAIT__',
     ];
 
-    public function setFilename($filename) {
+    public function setFilename($filename)
+    {
         $this->filename = $filename;
         $this->file = file($filename);
     }
 
-    public function setFile($file) {
+    public function setFile($file)
+    {
         $this->file = $file;
     }
 
-    public function setOffset($offset) {
+    public function setOffset($offset)
+    {
         $this->offset = (int) $offset;
     }
 
     /**
      * @return array with indexes of pages, not lines
      */
-    public function getRangePagination($line=1) {
-        $numberOfLines = count($this->file)-1;
-        $firstLine = max($line-$this->offset, 0);
-        $lastLine = min($line+$this->offset, $numberOfLines);
+    public function getRangePagination($line = 1)
+    {
+        $numberOfLines = count($this->file) - 1;
+        $firstLine = max($line - $this->offset, 0);
+        $lastLine = min($line + $this->offset, $numberOfLines);
 
         return [$firstLine, $lastLine];
     }
 
-    public function listLines($line=1) {
+    public function listLines($line = 1)
+    {
         list($start, $end) = $this->getRangePagination($line);
         $lines = [];
-        foreach(range($start, $end) as $line) {
-            $lines[$line+1] = $this->file[$line];
+        foreach (range($start, $end) as $line) {
+            $lines[$line + 1] = $this->file[$line];
         }
+
         return $lines;
     }
 
-    public function showFile($line=1) {
+    public function showFile($line = 1)
+    {
         $output = new ConsoleOutput();
         $output->setFormatter(new OutputFormatter(true));
         $output->writeln($this->unformatedShowFile($line));
     }
 
-    public function unformatedShowFile($line=1) {
+    public function unformatedShowFile($line = 1)
+    {
         $fileLines = $this->listLines($line);
         $fileToShow = '';
 
@@ -97,21 +105,22 @@ class FilePrinter
         // Message first
         $fileToShow .= "\n<fg=blue>[{$firstLine}:{$lastLine}] in file://{$this->filename}:{$line}</>\n";
 
-        foreach($fileLines as $currentLine => $content) {
+        foreach ($fileLines as $currentLine => $content) {
             $isThisLineString = ($currentLine == $line) ? '<fg=magenta;options=bold>=> </>' : '   ';
             $content = $this->colorCode($content);
             $fileToShow .= "{$isThisLineString}<fg=yellow>{$currentLine}:</> <fg=white>{$content}</>";
         }
+
         return $fileToShow;
     }
 
-    public function colorCode($content) {
-        
-        foreach($this->reservedWords as $word) {
+    public function colorCode($content)
+    {
+        foreach ($this->reservedWords as $word) {
             $content = str_replace($word, "<fg=blue>{$word}</>", $content);
         }
 
-        foreach($this->consts as $word) {
+        foreach ($this->consts as $word) {
             $content = str_replace($word, "<fg=red>{$word}</>", $content);
         }
 
@@ -119,6 +128,7 @@ class FilePrinter
         $content = preg_replace('/(\".+\")/', '<fg=green>$1</>', $content);
         $content = preg_replace('/(\'.+\')/', '<fg=green>$1</>', $content);
         $content = preg_replace('/(\$[\w]+)/', '<fg=cyan>$1</>', $content);
+
         return $content;
     }
 
@@ -127,25 +137,26 @@ class FilePrinter
         $xml = simplexml_load_string($message);
 
         // Getting error messages
-        if(isset($xml->error)) {
+        if (isset($xml->error)) {
             $message = (string) $xml->error->message;
+
             return "<fg=red;options=bold>Error code: {$xml->error['code']} - {$message}</>";
         }
 
         // Getting value
         $command = (string) $xml['command'];
-        if('eval' === $command || 'property_get' === $command) {
+        if ('eval' === $command || 'property_get' === $command) {
             $typeVar = (string) $xml->property['type'];
 
-            if($typeVar == 'string') {
+            if ($typeVar == 'string') {
                 $content = base64_decode((string) $xml->property);
-            } elseif('array' === $typeVar) {
+            } elseif ('array' === $typeVar) {
                 $data = $this->getArrayFormat($xml->property);
-                $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
-            } elseif('object' === $typeVar) {
+                $content = PHP_EOL.json_encode($data, JSON_PRETTY_PRINT);
+            } elseif ('object' === $typeVar) {
                 $typeVar .= " {$xml->property['classname']}";
                 $data = $this->getObjectFormat($xml->property);
-                $content = PHP_EOL . json_encode($data, JSON_PRETTY_PRINT);
+                $content = PHP_EOL.json_encode($data, JSON_PRETTY_PRINT);
             } else {
                 // If string, float or another
                 $content = (string) $xml->property;
@@ -158,34 +169,34 @@ class FilePrinter
     private function getObjectFormat($elements)
     {
         $content = [];
-        foreach($elements->children() as $el) {
+        foreach ($elements->children() as $el) {
             $type = 'null' === (string) $el['type'] ? 'method' : $el['type'];
             $value = 'base64' === (string) $el['encoding']
                    ? base64_decode((string) $el)
                    : (string) $el;
-            if('' !== $value) {
-                $value = ' => ' . $value;
+            if ('' !== $value) {
+                $value = ' => '.$value;
             }
 
             $currentContent = "({$type}) `{$el['facet']}`{$value}";
 
             $key = (string) $el['name'];
-            if('method' === $type) {
+            if ('method' === $type) {
                 $key .= '()';
             }
             $content[$key] = $currentContent;
         }
+
         return $content;
     }
 
     private function getArrayFormat($elements)
     {
         $data = [];
-        foreach($elements->children() as $child) {
+        foreach ($elements->children() as $child) {
             $key = (string) $child->attributes()['name'];
 
-            switch($child->attributes()['type'])
-            {
+            switch ($child->attributes()['type']) {
             case 'int':
             case 'float':
                 $data[$key] = $child->__toString(); break;
@@ -195,6 +206,7 @@ class FilePrinter
                  $data[$key] = '(array) [...]';
             }
         }
+
         return $data;
     }
 }

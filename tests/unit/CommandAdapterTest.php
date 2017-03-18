@@ -47,7 +47,7 @@ class CommandAdapterTest extends \Codeception\Test\Unit
         $this->expectException(\Dephpug\Exception\ExitProgram::class);
         $command = CommandAdapter::convertCommand('quit', 1);
     }
-    
+
     public function testInvalidCommand()
     {
         $command = CommandAdapter::convertCommand('blabla', 1);

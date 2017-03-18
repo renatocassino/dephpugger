@@ -41,7 +41,7 @@ class ConfigTest extends \Codeception\Test\Unit
     public function testReplaceOptionsWithDataFromYaml()
     {
         Config::reset();
-        $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__ . '/../data/configValid.yml']);
+        $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__.'/../data/configValid.yml']);
         $config->configure();
         $this->assertEquals(4005, $config->debugger['port']);
     }
@@ -50,7 +50,7 @@ class ConfigTest extends \Codeception\Test\Unit
     {
         Config::reset();
         $this->expectException(\Symfony\Component\Yaml\Exception\ParseException::class);
-        $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__ . '/../data/configInvalid.yml']);
+        $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__.'/../data/configInvalid.yml']);
         $config->getConfigFromFile();
     }
 

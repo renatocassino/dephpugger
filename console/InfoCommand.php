@@ -3,8 +3,6 @@
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Dephpug\Config;
-use Dephpug\Dephpugger;
 
 class InfoCommand extends Command
 {
@@ -29,13 +27,13 @@ class InfoCommand extends Command
 
         $output->writeln("\n<comment>Checking your dependencies</comment>\n");
 
-        $output->writeln($printer->requiredMessage($phpInfo->xdebugInstalled(), "XDebug is installed."));
-        $output->writeln($printer->requiredMessage($phpInfo->xdebugIsActive(), "XDebug is active."));
+        $output->writeln($printer->requiredMessage($phpInfo->xdebugInstalled(), 'XDebug is installed.'));
+        $output->writeln($printer->requiredMessage($phpInfo->xdebugIsActive(), 'XDebug is active.'));
 
         $output->writeln("\n<options=bold> -- Infos about PHP environment -- </>\n");
         $vars = $phpInfo->getVars("/\nxdebug\.(?<name>\w+) \=\> (?<value>.+)\n/");
 
-        foreach($vars[0] as $key => $_) {
+        foreach ($vars[0] as $key => $_) {
             $output->writeln("xdebug.{$vars['name'][$key]}: <options=bold>{$vars['name'][$key]}</>");
         }
     }

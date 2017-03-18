@@ -19,46 +19,51 @@ class DbgpServer
         $this->config = Config::getInstance();
         $this->commandAdapter = new CommandAdapter();
         $this->log = new Logger('name');
-        $this->log->pushHandler(new StreamHandler(__DIR__ . '/../../dephpugger.log'));
+        $this->log->pushHandler(new StreamHandler(__DIR__.'/../../dephpugger.log'));
         $this->filePrinter = new FilePrinter();
         $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
         $this->messageParse = new MessageParse();
     }
 
     /**
-     * Create standart class for connection
+     * Create standart class for connection.
      */
     public function newConnection()
     {
-        $conn = new \stdClass;
+        $conn = new \stdClass();
         $conn->fd = null;
         $conn->sendBreak = false;
         $conn->expectResponses = 1;
         $conn->port = $this->config->debugger['port'];
+
         return $conn;
     }
 
     /**
      * Starts a client.  Returns the socket and port used.
+     *
      * @return array
      */
-    public function startClient($port) {
+    public function startClient($port)
+    {
         $this->log->warning('start_client');
         $socket = socket_create(AF_INET, SOCK_STREAM, 0);
         @socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
         @socket_bind($socket, $this->config->debugger['host'], $port);
         $result = socket_listen($socket);
         assert($result);
+
         return [$socket, $port];
     }
 
     /* Sends a command to the xdebug server.  Exits process on failure. */
-    function sendCommand($fdSocket, $cmd) {
+    public function sendCommand($fdSocket, $cmd)
+    {
         $this->log->warning('send_command');
 
         $result = @socket_write($fdSocket, "$cmd\0");
         if ($result === false) {
-            $error = $this->formatSocketError($fdSocket, "Client socket error");
+            $error = $this->formatSocketError($fdSocket, 'Client socket error');
             throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
     }
@@ -69,23 +74,28 @@ class DbgpServer
         while (true) {
             $fdSocket = @socket_accept($socket);
             if ($fdSocket !== false) {
-                $this->output->writeln("Connected to an <fg=yellow;options=bold>XDebug server</>!");
+                $this->output->writeln('Connected to an <fg=yellow;options=bold>XDebug server</>!');
                 break;
             }
         }
+
         return $fdSocket;
     }
-    
+
     /* Returns true iff the given message is a stream. */
-    public function isStream($msg) {
+    public function isStream($msg)
+    {
         // This is hacky, but it works in all cases and doesn't require parsing xml.
         $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
+
         return $this->commandAdapter->startsWith($msg, $prefix);
     }
 
-    protected function formatSocketError($fdSocket, $prefix) {
+    protected function formatSocketError($fdSocket, $prefix)
+    {
         $error = socket_last_error($fdSocket);
-        return $prefix . ": " . socket_strerror($error);
+
+        return $prefix.': '.socket_strerror($error);
     }
 
     public function waitMessage(&$socket)
@@ -102,39 +112,44 @@ class DbgpServer
             $bytes += $result;
             $message .= $buffer;
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
+
         return $this->messageParse->formatMessage($message);
     }
 
-    public function readResponse($socket) {
+    public function readResponse($socket)
+    {
         $message = $this->waitMessage($socket);
         $fileAndLine = $this->messageParse->getFileAndLine($message);
 
-        if(null === $fileAndLine) {
-            # if is a value
+        if (null === $fileAndLine) {
+            // if is a value
             $responseMessage = $this->filePrinter->printValue($message);
         } else {
-            # if is a file
+            // if is a file
             $this->filePrinter->setFilename($fileAndLine[0]);
             $responseMessage = $this->filePrinter->unformatedShowFile($fileAndLine[1]);
         }
 
         $this->output->writeln($responseMessage);
 
-        if($this->commandAdapter->startsWith($message, "Client socket error")) {
+        if ($this->commandAdapter->startsWith($message, 'Client socket error')) {
             throw new Exception\ExitProgram('Client socket error', 1);
         }
+
         return $message;
     }
 
     public function readLine($response)
     {
-        if(!preg_match('/\<init xmlns/', $response)) {
+        if (!preg_match('/\<init xmlns/', $response)) {
             $line = '';
-            while($line === '') {
-                $line = trim(readline("(dephpug) => "));
+            while ($line === '') {
+                $line = trim(readline('(dephpug) => '));
             }
+
             return $line;
         }
+
         return 'continue';
     }
 
@@ -159,19 +174,19 @@ class DbgpServer
 
         $conn->fd = $fdSocket;
 
-        while(true) {
+        while (true) {
             // Wait for the expect number of responses. Normally we expect 1
             // response, but with the break command, we expect 2
             $responses = '';
 
-            while($conn->expectResponses > 0) {
+            while ($conn->expectResponses > 0) {
                 // Add Exception here
                 // Return xml
                 $response = $dbgpServer->readResponse($fdSocket);
 
                 // Init packet doesn't end in </response>.
-                $conn->expectResponses -= substr_count($response, "</response>");
-                $conn->expectResponses -= substr_count($response, "</init>");
+                $conn->expectResponses -= substr_count($response, '</response>');
+                $conn->expectResponses -= substr_count($response, '</init>');
                 $responses .= $response;
             }
 
@@ -190,10 +205,10 @@ class DbgpServer
             // Echo back the response to the user if it isn't a stream.
             if (!$dbgpServer->isStream($responses)) {
                 $config = Config::getInstance();
-                if($config->options['verboseMode']) {
+                if ($config->options['verboseMode']) {
                     try {
                         $output->writeln("<comment>{$responses}</comment>\n");
-                    } catch(\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
+                    } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
                         echo "\n\n{$response}\n\n";
                     }
                 }
@@ -202,6 +217,7 @@ class DbgpServer
             // Received response saying we're stopping.
             if ($dbgpServer->commandAdapter->isStatusStop($responses)) {
                 $output->writeln("<comment>-- Request ended, restarting... --</comment>\n");
+
                 return;
             }
 
