@@ -74,7 +74,7 @@ class DbgpServer
         while (true) {
             $fdSocket = @socket_accept($socket);
             if ($fdSocket !== false) {
-                $this->output->writeln('Connected to an <fg=yellow;options=bold>XDebug server</>!');
+                $this->output->writeln('Connected to <fg=yellow;options=bold>XDebug server</>!');
                 break;
             }
         }

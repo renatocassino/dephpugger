@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Implement PSR-0 or PSR-4 to project
 - Better use for Singleton $config
 - Add command Help
+- Add documentation in each class and methods
+- If send command emtpy, repeat the last command sent
 
 ## [Unreleased]
 ### Changed
