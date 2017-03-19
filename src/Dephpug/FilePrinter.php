@@ -2,9 +2,6 @@
 
 namespace Dephpug;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Formatter\OutputFormatter;
-
 class FilePrinter
 {
     public $file; // Array
@@ -123,83 +120,5 @@ class FilePrinter
         $content = preg_replace('/(\$[\w]+)/', '<fg=cyan>$1</>', $content);
 
         return $content;
-    }
-
-    public function printValue($message)
-    {
-        $xml = simplexml_load_string($message);
-
-        // Getting error messages
-        if (isset($xml->error)) {
-            $message = (string) $xml->error->message;
-
-            return "<fg=red;options=bold>Error code: {$xml->error['code']} - {$message}</>";
-        }
-
-        // Getting value
-        $command = (string) $xml['command'];
-        if ('eval' === $command || 'property_get' === $command) {
-            $typeVar = (string) $xml->property['type'];
-
-            if ($typeVar == 'string') {
-                $content = base64_decode((string) $xml->property);
-            } elseif ('array' === $typeVar) {
-                $data = $this->getArrayFormat($xml->property);
-                $content = PHP_EOL.json_encode($data, JSON_PRETTY_PRINT);
-            } elseif ('object' === $typeVar) {
-                $typeVar .= " {$xml->property['classname']}";
-                $data = $this->getObjectFormat($xml->property);
-                $content = PHP_EOL.json_encode($data, JSON_PRETTY_PRINT);
-            } else {
-                // If string, float or another
-                $content = (string) $xml->property;
-            }
-
-            return " => ({$typeVar}) {$content}\n\n";
-        }
-    }
-
-    private function getObjectFormat($elements)
-    {
-        $content = [];
-        foreach ($elements->children() as $el) {
-            $type = 'null' === (string) $el['type'] ? 'method' : $el['type'];
-            $value = 'base64' === (string) $el['encoding']
-                   ? base64_decode((string) $el)
-                   : (string) $el;
-            if ('' !== $value) {
-                $value = ' => '.$value;
-            }
-
-            $currentContent = "({$type}) `{$el['facet']}`{$value}";
-
-            $key = (string) $el['name'];
-            if ('method' === $type) {
-                $key .= '()';
-            }
-            $content[$key] = $currentContent;
-        }
-
-        return $content;
-    }
-
-    private function getArrayFormat($elements)
-    {
-        $data = [];
-        foreach ($elements->children() as $child) {
-            $key = (string) $child->attributes()['name'];
-
-            switch ($child->attributes()['type']) {
-            case 'int':
-            case 'float':
-                $data[$key] = $child->__toString(); break;
-            case 'string':
-                $data[$key] = base64_decode($child->__toString()); break;
-            case 'array':
-                 $data[$key] = '(array) [...]';
-            }
-        }
-
-        return $data;
     }
 }
