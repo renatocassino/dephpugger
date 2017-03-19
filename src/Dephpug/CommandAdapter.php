@@ -68,6 +68,8 @@ class CommandAdapter
             case 'continue': $newCommand = "run -i {$transactionId}"; break;
             case 'l':
             case 'list': return ['command' => 'list'];
+            case 'h':
+            case 'help': return ['command' => 'help'];
             case 'q':
             case 'quit': throw new ExitProgram('Quitting debugger request and restart listening.', 2);
             default: $newCommand = "eval -i {$transactionId} -- ".base64_encode($command);

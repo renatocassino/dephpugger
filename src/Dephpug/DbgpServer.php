@@ -244,6 +244,8 @@ class DbgpServer
                     $newLine = min($dbgpServer->filePrinter->line+$offset, $dbgpServer->filePrinter->numberOfLines()-1);
                     $dbgpServer->filePrinter->line = $newLine;
                     $output->writeln($dbgpServer->filePrinter->showFile(false));
+                } elseif('help' === $cmd['command']) {
+                    $output->writeln(Dephpugger::help());
                 }
             }
             $dbgpServer->sendCommand($fdSocket, $cmd);

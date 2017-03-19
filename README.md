@@ -93,9 +93,11 @@ When you stop in a breakpoint you can make theese commands:
 
 | Command           | Explanation                                                          |
 |-------------------|----------------------------------------------------------------------|
-| n                 | To run a step over in code                                           |
+| next (or 'n')     | To run a step over in code                                           |
 | s                 | To run a step into in code                                           |
-| c                 | To continue script until found another breakpoint or finish the code |
+| continue (or 'c') | To continue script until found another breakpoint or finish the code |
+| list (or 'l')     | Show next lines in script                                            |
+| help (or 'h')     | Show help instructions                                               |
 | $variable         | Get a value from a variable                                          |
 | $variable = 33    | Set a variable                                                       |
 | my_function()     | Call a function                                                      |

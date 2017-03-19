@@ -8,11 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Refactor client DBGp protocol
 - Implement PSR-0 or PSR-4 to project
 - Better use for Singleton $config
-- Add command Help
 - Add documentation in each class and methods
 - Command 'set' to change the config
 
 ## [Unreleased]
+### Added
+- Add command Help
 
 ## [0.4.1] - 2017-03-19
 ### Changed
