@@ -13,6 +13,6 @@ class FloatExporter implements iExporter
 
     public function getExportedVar($xml)
     {
-        return $xml->property;
+        return (string) $xml->property;
     }
 }
