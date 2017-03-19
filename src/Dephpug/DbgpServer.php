@@ -214,7 +214,7 @@ class DbgpServer
             // Echo back the response to the user if it isn't a stream.
             if (!$dbgpServer->isStream($responses)) {
                 $config = Config::getInstance();
-                if ($config->options['verboseMode']) {
+                if ($config->debugger['verboseMode']) {
                     try {
                         $output->writeln("<comment>{$responses}</comment>\n");
                     } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {

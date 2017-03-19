@@ -31,7 +31,7 @@ class CommandAdapter
             $variableName = $result[1];
             $value = base64_encode($result[2]);
             $command = "property_set -i {$transactionId} -n \${$variableName} -- {$value}";
-            if ($config->options['verboseMode']) {
+            if ($config->debugger['verboseMode']) {
                 echo $command.PHP_EOL;
             }
 
@@ -40,7 +40,7 @@ class CommandAdapter
 
         if (preg_match('/^dbgp\(([^;]+)\);?/', $command, $result)) {
             $command = $result[1];
-            if ($config->options['verboseMode']) {
+            if ($config->debugger['verboseMode']) {
                 echo $command.PHP_EOL;
             }
 
@@ -51,7 +51,7 @@ class CommandAdapter
         if (preg_match('/^\$([\w_\[\]\"\\\'\-\>\{\}]+);?$/', $command, $result)) {
             $variableName = $result[1];
             $command = "property_get -i {$transactionId} -n {$variableName}";
-            if ($config->options['verboseMode']) {
+            if ($config->debugger['verboseMode']) {
                 echo $command.PHP_EOL;
             }
 
@@ -71,7 +71,7 @@ class CommandAdapter
             default: $newCommand = "eval -i {$transactionId} -- ".base64_encode($command);
         }
 
-        if ($config->options['verboseMode']) {
+        if ($config->debugger['verboseMode']) {
             echo $newCommand.PHP_EOL;
         }
 

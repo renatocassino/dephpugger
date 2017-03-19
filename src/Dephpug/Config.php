@@ -20,8 +20,6 @@ class Config
             'port' => 9005,
             'host' => 'localhost',
             'lineOffset' => 6,
-        ],
-        'options' => [
             'verboseMode' => false,
         ],
     ];

@@ -12,8 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add documentation in each class and methods
 - If send command emtpy, repeat the last command sent
 - Command l to list
+- Command 'set' to change the config
 
 ## [Unreleased]
+### Changed
+- Attribute verboseMode now is in debugger, not in options
 
 ## [0.4.0] - 2017-03-19
 ### Added

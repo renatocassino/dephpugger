@@ -121,8 +121,6 @@ The default config is:
             'port' => 9005, # Port to socket
             'host' => 'localhost', # Host to socket,
             'lineOffset' => 6, # Number of line offset to show in debugger
-        ],
-        'options' => [
             'verboseMode' => false # If true, show all messages from DBGp (only for dephpugger developers)
         ]
     ];
@@ -138,7 +136,6 @@ debugger:
   lineOffset: 10
   path: ./public/
   file: index.php
-options: 
   verboseMode: false
 server: 
   host: myproject.dev
