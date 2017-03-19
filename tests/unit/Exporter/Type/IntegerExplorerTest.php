@@ -1,4 +1,5 @@
 <?php
+
 namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\IntegerExporter;
@@ -21,13 +22,13 @@ class IntegerExplorerTest extends \Codeception\Test\Unit
     // tests
     public function testPrintValueWithAnInteger()
     {
-        $message = <<<EOL
+        $message = <<<'EOL'
 <?xml version="1.0" encoding="iso-8859-1"?>
-<response><property name="\$i" type="int"><![CDATA[1]]></property></response>
+<response><property name="$i" type="int"><![CDATA[1]]></property></response>
 EOL;
         $xml = simplexml_load_string($message);
         $integerExporter = new IntegerExporter();
         $response = $integerExporter->getExportedVar($xml);
-        $this->assertEquals("1", $response);
+        $this->assertEquals('1', $response);
     }
 }

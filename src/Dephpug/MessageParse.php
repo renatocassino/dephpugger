@@ -32,15 +32,17 @@ class MessageParse
         return $message;
     }
 
-    public function isErrorMessage($message, &$errors=[])
+    public function isErrorMessage($message, &$errors = [])
     {
         $xml = simplexml_load_string($message);
         // Getting error messages
         if (isset($xml->error)) {
             $errors['message'] = (string) $xml->error->message;
             $errors['code'] = $xml->error['code'];
+
             return true;
         }
+
         return false;
     }
 }

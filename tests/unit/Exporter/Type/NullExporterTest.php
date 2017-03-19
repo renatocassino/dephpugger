@@ -1,4 +1,5 @@
 <?php
+
 namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\NullExporter;
@@ -22,9 +23,9 @@ class NullExporterTest extends \Codeception\Test\Unit
     // tests
     public function testPrintValueWithAnInteger()
     {
-        $message = <<<EOL
+        $message = <<<'EOL'
 <?xml version="1.0" encoding="iso-8859-1"?>
-<response><property name="\$i" type="null"></property></response>
+<response><property name="$i" type="null"></property></response>
 EOL;
         $xml = simplexml_load_string($message);
         $nullExporter = new NullExporter();

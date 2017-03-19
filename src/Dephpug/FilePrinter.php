@@ -2,9 +2,6 @@
 
 namespace Dephpug;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Formatter\OutputFormatter;
-
 class FilePrinter
 {
     public $file; // Array

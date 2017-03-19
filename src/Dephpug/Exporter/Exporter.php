@@ -17,17 +17,13 @@ class Exporter
             return null;
         }
 
-        $klass = $this->getClassExporter();
-        if (null === $klass) {
-            return null;
-        }
-
-        $klass = new $klass();
+        $klassName = $this->getClassExporter();
+        $klass = new $klassName();
 
         return $this->printByClass($klass);
     }
 
-    public function printByClass(iExporter $klass)
+    private function printByClass(iExporter $klass)
     {
         $content = $klass->getExportedVar($this->xml);
 

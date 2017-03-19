@@ -1,6 +1,6 @@
 <?php
-namespace Exporter;
 
+namespace Exporter;
 
 class ExporterTest extends \Codeception\Test\Unit
 {
@@ -20,6 +20,5 @@ class ExporterTest extends \Codeception\Test\Unit
     // tests
     public function testMe()
     {
-
     }
 }
