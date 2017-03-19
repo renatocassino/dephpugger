@@ -23,7 +23,7 @@ class Exporter
         return $this->printByClass($klass);
     }
 
-    private function printByClass(iExporter $klass)
+    public function printByClass(iExporter $klass)
     {
         $content = $klass->getExportedVar($this->xml);
 
@@ -37,7 +37,7 @@ class Exporter
         return 'eval' === $command || 'property_get' === $command;
     }
 
-    public function getClassExporter()
+    private function getClassExporter()
     {
         // Getting value
         $typeVar = (string) $this->xml->property['type'];

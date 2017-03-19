@@ -72,24 +72,6 @@ class FilePrinterTest extends \Codeception\Test\Unit
         $this->assertEquals($fileTest, $file);
     }
 
-    /*
-    public function testPrintCallingShowFile()
-    {
-        $mock = $this->getMockBuilder('\Dephpug\FilePrinter')
-              ->setMethods(['setFilename', 'unformatedShowFile'])
-              ->getMock();
-
-        $mock->expects($this->exactly(1))
-            ->method('setFilename')
-            ->withConsecutive(['/tmp/test']);
-
-        $mock->expects($this->exactly(1))
-            ->method('unformatedShowFile')
-            ->withConsecutive(['1']);
-
-        $mock->printFileByMessage('lineno="1" filename="file:///tmp/test"');
-        }*/
-
     public function testShowFile()
     {
         $unformated = $this->smallFilePrinter->showFile(2);
