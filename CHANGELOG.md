@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Command l to list
 
 ## [Unreleased]
+
+## [0.4.0] - 2017-03-19
+### Added
+- If send empty string, repeat the last command in debugger
+
 ### Changed
 - Using DIRECTORY_SEPARATOR instead of '/' (windows support)
 - Refactor in DBGP server
