@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Better use for Singleton $config
 - Add documentation in each class and methods
 - Command 'set' to change the config
+- use var_export instead of property_get
 
 ## [Unreleased]
 ### Added
