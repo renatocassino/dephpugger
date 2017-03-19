@@ -1,6 +1,6 @@
 <?php
 
-namespace concerns;
+namespace Dephpug\Console\concerns;
 
 class PhpInfo
 {

@@ -10,13 +10,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Better use for Singleton $config
 - Add command Help
 - Add documentation in each class and methods
-- If send command emtpy, repeat the last command sent
-- Command l to list
 - Command 'set' to change the config
 
 ## [Unreleased]
+
+## [0.4.1] - 2017-03-19
 ### Changed
 - Attribute verboseMode now is in debugger, not in options
+- Command l to list
+- If send command emtpy, repeat the last command sent
+
+### Fixed
+- Bug in command requirements and info
 
 ## [0.4.0] - 2017-03-19
 ### Added
