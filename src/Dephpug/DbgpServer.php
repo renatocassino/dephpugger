@@ -136,7 +136,8 @@ class DbgpServer
         } else {
             // if is a file
             $this->filePrinter->setFilename($fileAndLine[0]);
-            $responseMessage = $this->filePrinter->showFile($fileAndLine[1]);
+            $this->filePrinter->line = $fileAndLine[1];
+            $responseMessage = $this->filePrinter->showFile();
         }
 
         $this->output->writeln($responseMessage);
@@ -230,9 +231,21 @@ class DbgpServer
                 return;
             }
 
-            // Get a command from the user and send it.
-            $line = $dbgpServer->readLine($response);
-            $cmd = CommandAdapter::convertCommand($line, $dbgpServer->transactionId++);
+            while(true) {
+                // Get a command from the user and send it.
+                $line = $dbgpServer->readLine($response);
+                $cmd = CommandAdapter::convertCommand($line, $dbgpServer->transactionId++);
+                if (!is_array($cmd)) {
+                    break;
+                }
+
+                if('list' === $cmd['command']) {
+                    $offset = $dbgpServer->filePrinter->offset;
+                    $newLine = min($dbgpServer->filePrinter->line+$offset, $dbgpServer->filePrinter->numberOfLines()-1);
+                    $dbgpServer->filePrinter->line = $newLine;
+                    $output->writeln($dbgpServer->filePrinter->showFile(false));
+                }
+            }
             $dbgpServer->sendCommand($fdSocket, $cmd);
         }
         socket_close($fdSocket);

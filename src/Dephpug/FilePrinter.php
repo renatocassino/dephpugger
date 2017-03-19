@@ -6,6 +6,7 @@ class FilePrinter
 {
     public $file; // Array
     public $filename;
+    public $line;
     public $offset = 6;
     public $config;
     private $reservedWords = [
@@ -65,9 +66,8 @@ class FilePrinter
      */
     public function getRangePagination($line = 1)
     {
-        $numberOfLines = count($this->file) - 1;
         $firstLine = max($line - $this->offset, 0);
-        $lastLine = min($line + $this->offset, $numberOfLines);
+        $lastLine = min($line + $this->offset, $this->numberOfLines()-1);
 
         return [$firstLine, $lastLine];
     }
@@ -83,9 +83,14 @@ class FilePrinter
         return $lines;
     }
 
-    public function showFile($line = 1)
+    public function numberOfLines()
     {
-        $fileLines = $this->listLines($line);
+        return count($this->file);
+    }
+
+    public function showFile($arrow = true)
+    {
+        $fileLines = $this->listLines($this->line);
         $fileToShow = '';
 
         $numberLines = array_keys($fileLines);
@@ -93,10 +98,10 @@ class FilePrinter
         $lastLine = array_reverse($numberLines)[0];
 
         // Message first
-        $fileToShow .= "\n<fg=blue>[{$firstLine}:{$lastLine}] in file://{$this->filename}:{$line}</>\n";
+        $fileToShow .= "\n<fg=blue>[{$firstLine}:{$lastLine}] in file://{$this->filename}:{$this->line}</>\n";
 
         foreach ($fileLines as $currentLine => $content) {
-            $isThisLineString = ($currentLine == $line) ? '<fg=magenta;options=bold>=> </>' : '   ';
+            $isThisLineString = ($currentLine == $this->line && $arrow) ? '<fg=magenta;options=bold>=> </>' : '   ';
             $content = $this->colorCode($content);
             $fileToShow .= "{$isThisLineString}<fg=yellow>{$currentLine}:</> <fg=white>{$content}</>";
         }

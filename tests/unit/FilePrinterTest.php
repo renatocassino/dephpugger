@@ -74,7 +74,8 @@ class FilePrinterTest extends \Codeception\Test\Unit
 
     public function testShowFile()
     {
-        $unformated = $this->smallFilePrinter->showFile(2);
+        $this->smallFilePrinter->line = 2;
+        $unformated = $this->smallFilePrinter->showFile();
         $content = <<<EOL
 \n<fg=blue>[1:3] in file://:2</>
    <fg=yellow>1:</> <fg=white>First line
@@ -83,6 +84,26 @@ class FilePrinterTest extends \Codeception\Test\Unit
 </>
 EOL;
         $this->assertEquals($content, $unformated);
+    }
+
+    public function testShowFileWithoutArrow()
+    {
+        $this->smallFilePrinter->line = 2;
+        $unformated = $this->smallFilePrinter->showFile(false);
+        $content = <<<EOL
+\n<fg=blue>[1:3] in file://:2</>
+   <fg=yellow>1:</> <fg=white>First line
+</>   <fg=yellow>2:</> <fg=white>Second line
+</>   <fg=yellow>3:</> <fg=white>Third line
+</>
+EOL;
+        $this->assertEquals($content, $unformated);
+    }
+
+    public function testNumberOfLines()
+    {
+        $numberOfLines = $this->smallFilePrinter->numberOfLines();
+        $this->assertEquals(3, $numberOfLines);
     }
 
     // Color codes

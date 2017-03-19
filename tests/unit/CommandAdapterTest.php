@@ -54,6 +54,18 @@ class CommandAdapterTest extends \Codeception\Test\Unit
         $this->assertEquals('eval -i 1 -- YmxhYmxh', $command);
     }
 
+    public function testListCommandAbbr()
+    {
+        $command = CommandAdapter::convertCommand('l', 1);
+        $this->assertEquals(['command' => 'list'], $command);
+    }
+
+    public function testListCommand()
+    {
+        $command = CommandAdapter::convertCommand('list', 1);
+        $this->assertEquals(['command' => 'list'], $command);
+    }
+
     public function testEvalCommand()
     {
         $command = CommandAdapter::convertCommand('dbgp(property_get -i 1 -n variable);', 1);
