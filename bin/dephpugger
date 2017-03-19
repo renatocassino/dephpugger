@@ -38,7 +38,8 @@ function includePaths($arrayOfPaths, &$application=null)
 
 includePaths([
     DIRNAME . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '*.php']),
-    DIRNAME . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '*.php'])
+    DIRNAME . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '*.php']),
+    DIRNAME . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '**', '*.php']),
 ]);
 
 

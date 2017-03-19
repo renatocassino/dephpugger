@@ -12,6 +12,7 @@ class DbgpServer
     private $output;
     private $transactionId = 1;
     private $messageParse;
+    private $exporter;
 
     public function __construct($output)
     {
@@ -23,6 +24,7 @@ class DbgpServer
         $this->filePrinter = new FilePrinter();
         $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
         $this->messageParse = new MessageParse();
+        $this->exporter = new Exporter\Exporter();
     }
 
     /**
@@ -121,9 +123,16 @@ class DbgpServer
         $message = $this->waitMessage($socket);
         $fileAndLine = $this->messageParse->getFileAndLine($message);
 
+        if ($this->messageParse->isErrorMessage($message, $errors)) {
+            $this->output->writeln("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
+
+            return $message;
+        }
+
         if (null === $fileAndLine) {
             // if is a value
-            $responseMessage = $this->filePrinter->printValue($message);
+            $this->exporter->setXml($message);
+            $responseMessage = $this->exporter->printByXml() ?? '';
         } else {
             // if is a file
             $this->filePrinter->setFilename($fileAndLine[0]);
