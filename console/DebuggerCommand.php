@@ -27,7 +27,9 @@ class DebuggerCommand extends Command
         $output->writeln(splashScreen('Debugger'));
         while (true) {
             try {
-                DbgpServer::start($output);
+                $dbgpServer = new DbgpServer($output);
+                $dbgpServer->init();
+                $dbgpServer->start($output);
             } catch (ExitProgram $e) {
                 $output->writeln("<fg=red;options=bold>{$e}</>");
                 if ($e->getCode() == 2) {
