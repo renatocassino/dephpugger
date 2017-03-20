@@ -72,7 +72,7 @@ class CommandAdapter
             case 'h':
             case 'help': return ['command' => 'help'];
             case 'q':
-            case 'quit': throw new ExitProgram('Quitting debugger request and restart listening.', 2);
+            case 'quit': return ['command' => 'quit'];
             default: $newCommand = "eval -i {$transactionId} -- ".base64_encode($command);
         }
 

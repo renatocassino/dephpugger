@@ -18,6 +18,7 @@ class DbgpServer
     private $conn;
     private $socket;
     private $fdSocket;
+    private $currentResponse;
 
     public function __construct($output)
     {
@@ -109,15 +110,6 @@ class DbgpServer
         }
     }
 
-    /* Returns true iff the given message is a stream. */
-    public function isStream($msg)
-    {
-        // This is hacky, but it works in all cases and doesn't require parsing xml.
-        $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
-
-        return $this->commandAdapter->startsWith($msg, $prefix);
-    }
-
     protected function formatSocketError($prefix)
     {
         $error = socket_last_error($this->fdSocket);
@@ -174,9 +166,9 @@ class DbgpServer
         return $message;
     }
 
-    public function readLine($response)
+    public function readLine()
     {
-        if (!preg_match('/\<init xmlns/', $response)) {
+        if (!preg_match('/\<init xmlns/', $this->currentResponse)) {
             $line = '';
             while ($line === '') {
                 $line = trim(readline('(dephpug) => '));
@@ -186,6 +178,67 @@ class DbgpServer
         }
 
         return 'continue';
+    }
+
+    /**
+     * Wait for the expect number of responses. Normally we expect 1
+     * response, but with the break command, we expect 2
+     */
+    public function waitResponses()
+    {
+        $responses = '';
+        while ($this->conn->expectResponses > 0) {
+            $this->currentResponse = $this->readResponse();
+
+            // Init packet doesn't end in </response>.
+            $this->conn->expectResponses -= substr_count($this->currentResponse, '</response>');
+            $this->conn->expectResponses -= substr_count($this->currentResponse, '</init>');
+            $responses .= $this->currentResponse;
+        }
+
+        return $responses;
+    }
+
+    public function printIfIsStream($responses)
+    {
+        // This is hacky, but it works in all cases and doesn't require parsing xml.
+        $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
+        $isStream = $this->commandAdapter->startsWith($responses, $prefix);
+
+        // Echo back the response to the user if it isn't a stream.
+        if (!$isStream) {
+            try {
+                $r = $this->formatXmlString($this->currentResponse);
+                $this->output->writeln("<comment>{$r}</comment>\n");
+            } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
+                echo "\n\n{$this->currentResponse}\n\n";
+            }
+        }
+    }
+
+    public function getCommandToSend()
+    {
+        while(true) {
+            // Get a command from the user and send it.
+            $line = $this->readLine();
+            $command = CommandAdapter::convertCommand($line, $this->transactionId++);
+            if (!is_array($command)) {
+                return $command;
+            }
+
+            if('quit' === $cmd['command']) {
+                $message = 'Quitting debugger request and restart listening';
+                $this->output->writeln("\n<info> -- $message -- </info>\n");
+                return;
+            } elseif('list' === $cmd['command']) {
+                $offset = $this->filePrinter->offset;
+                $newLine = min($this->filePrinter->line+$offset, $this->filePrinter->numberOfLines()-1);
+                $this->filePrinter->line = $newLine;
+                $this->output->writeln($this->filePrinter->showFile(false));
+            } elseif('help' === $cmd['command']) {
+                $this->output->writeln(Dephpugger::help());
+            }
+        }
     }
 
     public function init()
@@ -211,33 +264,12 @@ class DbgpServer
         $this->conn->socket = $this->fdSocket;
 
         while (true) {
-            // Wait for the expect number of responses. Normally we expect 1
-            // response, but with the break command, we expect 2
-            $responses = '';
-
-            while ($this->conn->expectResponses > 0) {
-                // Add Exception here
-                // Return xml
-                $response = $this->readResponse();
-
-                // Init packet doesn't end in </response>.
-                $this->conn->expectResponses -= substr_count($response, '</response>');
-                $this->conn->expectResponses -= substr_count($response, '</init>');
-                $responses .= $response;
-            }
+            $responses = $this->waitResponses();
 
             $this->conn->expectResponses = 1;
 
-            // Echo back the response to the user if it isn't a stream.
-            if (!$this->isStream($responses)) {
-                if ($this->config->debugger['verboseMode']) {
-                    try {
-                        $r = $this->formatXmlString($response);
-                        $this->output->writeln("<comment>{$r}</comment>\n");
-                    } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
-                        echo "\n\n{$response}\n\n";
-                    }
-                }
+            if($this->config->debugger['verboseMode']) {
+                $this->printIfIsStream($responses);
             }
 
             // Received response saying we're stopping.
@@ -247,24 +279,8 @@ class DbgpServer
                 return;
             }
 
-            while(true) {
-                // Get a command from the user and send it.
-                $line = $this->readLine($response);
-                $cmd = CommandAdapter::convertCommand($line, $this->transactionId++);
-                if (!is_array($cmd)) {
-                    break;
-                }
-
-                if('list' === $cmd['command']) {
-                    $offset = $this->filePrinter->offset;
-                    $newLine = min($this->filePrinter->line+$offset, $this->filePrinter->numberOfLines()-1);
-                    $this->filePrinter->line = $newLine;
-                    $this->output->writeln($this->filePrinter->showFile(false));
-                } elseif('help' === $cmd['command']) {
-                    $this->output->writeln(Dephpugger::help());
-                }
-            }
-            $this->sendCommand($cmd);
+            $command = $this->getCommandToSend();
+            $this->sendCommand($command);
         }
         socket_close($this->fdSocket);
         $this->conn->socket = null;
