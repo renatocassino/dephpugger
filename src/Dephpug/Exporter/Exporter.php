@@ -17,17 +17,9 @@ class Exporter
             return null;
         }
 
-        $klassName = $this->getClassExporter();
-        $klass = new $klassName();
-
-        return $this->printByClass($klass);
-    }
-
-    public function printByClass(iExporter $klass)
-    {
-        $content = $klass->getExportedVar($this->xml);
-
-        return "{$content}\n\n";
+        $typeVar = base64_decode((string) $this->xml->property->children()[0]);
+        $content = base64_decode((string) $this->xml->property->children()[1]);
+        return " => ({$typeVar}) {$content}";
     }
 
     public function isContentToPrint()
@@ -35,23 +27,5 @@ class Exporter
         $command = (string) $this->xml['command'];
 
         return 'eval' === $command || 'property_get' === $command;
-    }
-
-    private function getClassExporter()
-    {
-        // Getting value
-        $typeVar = (string) $this->xml->property['type'];
-
-        switch ($typeVar) {
-            case 'int': return Type\IntegerExporter::class;
-            case 'float': return Type\FloatExporter::class;
-            case 'null': return Type\NullExporter::class;
-            case 'bool': return Type\BoolExporter::class;
-            case 'string': return Type\StringExporter::class;
-            case 'array': return Type\ArrayExporter::class;
-            case 'object': return Type\ObjectExporter::class;
-            case 'resource': return Type\ResourceExporter::class;
-            default: return Type\UnknownExporter::class;
-        }
     }
 }

@@ -3,6 +3,7 @@
 namespace Dephpug\Exporter\Type;
 
 use Dephpug\Exporter\iExporter;
+use Dephpug\DbgpServer;
 
 class ArrayExporter implements iExporter
 {

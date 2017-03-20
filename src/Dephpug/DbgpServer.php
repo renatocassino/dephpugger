@@ -10,19 +10,18 @@ class DbgpServer
 {
     private $log;
     private $config;
-    private $output;
+    private static $output;
     private $transactionId = 1;
     private $messageParse;
     private $exporter;
 
-    private $conn;
+    private static $conn;
     private static $socket;
     private static $fdSocket;
     private static $currentResponse;
 
-    public function __construct($output)
+    public function __construct()
     {
-        $this->output = $output;
         $this->config = Config::getInstance();
         $this->commandAdapter = new CommandAdapter();
         $this->log = new Logger('name');
@@ -31,6 +30,7 @@ class DbgpServer
         $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
         $this->messageParse = new MessageParse();
         $this->exporter = new Exporter\Exporter();
+        $this->setConnectionClass();
     }
 
     public function formatXmlString($xml){
@@ -64,9 +64,9 @@ class DbgpServer
      */
     public function setConnectionClass()
     {
-        $this->conn = new \stdClass();
-        $this->conn->expectResponses = 1;
-        $this->conn->port = $this->config->debugger['port'];
+        self::$conn = new \stdClass();
+        self::$conn->expectResponses = 1;
+        self::$conn->port = $this->config->debugger['port'];
     }
 
     /**
@@ -89,7 +89,7 @@ class DbgpServer
         while (true) {
             self::$fdSocket = @socket_accept(self::$socket);
             if (self::$fdSocket !== false) {
-                $this->output->writeln('Connected to <fg=yellow;options=bold>XDebug server</>!');
+                self::$output->writeln('Connected to <fg=yellow;options=bold>XDebug server</>!');
                 break;
             }
         }
@@ -140,7 +140,7 @@ class DbgpServer
         $fileAndLine = $this->messageParse->getFileAndLine($message);
 
         if ($this->messageParse->isErrorMessage($message, $errors)) {
-            $this->output->writeln("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
+            self::$output->writeln("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
 
             return $message;
         }
@@ -156,7 +156,7 @@ class DbgpServer
             $responseMessage = $this->filePrinter->showFile();
         }
 
-        $this->output->writeln($responseMessage);
+        self::$output->writeln($responseMessage);
 
         if ($this->commandAdapter->startsWith($message, 'Client socket error')) {
             throw new Exception\ExitProgram('Client socket error', 1);
@@ -186,12 +186,12 @@ class DbgpServer
     public function waitResponses()
     {
         $responses = '';
-        while ($this->conn->expectResponses > 0) {
+        while (self::$conn->expectResponses > 0) {
             self::$currentResponse = $this->readResponse();
 
             // Init packet doesn't end in </response>.
-            $this->conn->expectResponses -= substr_count(self::$currentResponse, '</response>');
-            $this->conn->expectResponses -= substr_count(self::$currentResponse, '</init>');
+            self::$conn->expectResponses -= substr_count(self::$currentResponse, '</response>');
+            self::$conn->expectResponses -= substr_count(self::$currentResponse, '</init>');
             $responses .= self::$currentResponse;
         }
 
@@ -208,7 +208,7 @@ class DbgpServer
         if (!$isStream) {
             try {
                 $r = $this->formatXmlString(self::$currentResponse);
-                $this->output->writeln("<comment>{$r}</comment>\n");
+                self::$output->writeln("<comment>{$r}</comment>\n");
             } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
                 echo "\n\n{self::$currentResponse}\n\n";
             }
@@ -227,30 +227,32 @@ class DbgpServer
 
             if('quit' === $cmd['command']) {
                 $message = 'Quitting debugger request and restart listening';
-                $this->output->writeln("\n<info> -- $message -- </info>\n");
+                self::$output->writeln("\n<info> -- $message -- </info>\n");
                 return;
             } elseif('list' === $cmd['command']) {
                 $offset = $this->filePrinter->offset;
                 $newLine = min($this->filePrinter->line+$offset, $this->filePrinter->numberOfLines()-1);
                 $this->filePrinter->line = $newLine;
-                $this->output->writeln($this->filePrinter->showFile(false));
+                self::$output->writeln($this->filePrinter->showFile(false));
             } elseif('help' === $cmd['command']) {
-                $this->output->writeln(Dephpugger::help());
+                self::$output->writeln(Dephpugger::help());
             }
         }
     }
 
-    public function init()
+    public function init($output)
     {
         declare(ticks=1); // declare for pcntl_signal
         assert(pcntl_signal(SIGINT, ['DbgpServer', 'handle_sigint']));
 
+        self::$output = $output;
+
         // Starting a connection class
-        $this->setConnectionClass();
         $this->startClient();
 
         // Message
-        $this->output->writeln("<fg=blue> --- Listening on port {$this->conn->port} ---</>\n");
+        $port = self::$conn->port;
+        self::$output->writeln("<fg=blue> --- Listening on port {$port} ---</>\n");
     }
 
     public function start()
@@ -262,7 +264,7 @@ class DbgpServer
         while (true) {
             $responses = $this->waitResponses();
 
-            $this->conn->expectResponses = 1;
+            self::$conn->expectResponses = 1;
 
             if($this->config->debugger['verboseMode']) {
                 $this->printIfIsStream($responses);
@@ -270,7 +272,7 @@ class DbgpServer
 
             // Received response saying we're stopping.
             if ($this->commandAdapter->isStatusStop($responses)) {
-                $this->output->writeln("<comment>-- Request ended, restarting... --</comment>\n");
+                self::$output->writeln("<comment>-- Request ended, restarting... --</comment>\n");
 
                 return;
             }
