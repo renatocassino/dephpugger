@@ -16,9 +16,9 @@ class DbgpServer
     private $exporter;
 
     private $conn;
-    private $socket;
-    private $fdSocket;
-    private $currentResponse;
+    private static $socket;
+    private static $fdSocket;
+    private static $currentResponse;
 
     public function __construct($output)
     {
@@ -65,7 +65,6 @@ class DbgpServer
     public function setConnectionClass()
     {
         $this->conn = new \stdClass();
-        $this->conn->socket = null;
         $this->conn->expectResponses = 1;
         $this->conn->port = $this->config->debugger['port'];
     }
@@ -77,33 +76,33 @@ class DbgpServer
      */
     public function startClient()
     {
-        $this->socket = socket_create(AF_INET, SOCK_STREAM, 0);
-        @socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
-        @socket_bind($this->socket, $this->config->debugger['host'], $this->config->debugger['port']);
-        $result = socket_listen($this->socket);
+        self::$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+        @socket_set_option(self::$socket, SOL_SOCKET, SO_REUSEADDR, 1);
+        @socket_bind(self::$socket, $this->config->debugger['host'], $this->config->debugger['port']);
+        $result = socket_listen(self::$socket);
         assert($result);
     }
 
     public function eventConnectXdebugServer()
     {
-        $this->fdSocket = null;
+        self::$fdSocket = null;
         while (true) {
-            $this->fdSocket = @socket_accept($this->socket);
-            if ($this->fdSocket !== false) {
+            self::$fdSocket = @socket_accept(self::$socket);
+            if (self::$fdSocket !== false) {
                 $this->output->writeln('Connected to <fg=yellow;options=bold>XDebug server</>!');
                 break;
             }
         }
 
-        return $this->fdSocket;
+        return self::$fdSocket;
     }
 
     /* Sends a command to the xdebug server.  Exits process on failure. */
-    public function sendCommand($cmd)
+    public function sendCommand($command)
     {
         $this->log->warning('send_command');
 
-        $result = @socket_write($this->fdSocket, "$cmd\0");
+        $result = @socket_write(self::$fdSocket, "$command\0");
         if ($result === false) {
             $error = $this->formatSocketError('Client socket error');
             throw new \Dephpug\Exception\ExitProgram($error, 1);
@@ -112,7 +111,7 @@ class DbgpServer
 
     protected function formatSocketError($prefix)
     {
-        $error = socket_last_error($this->fdSocket);
+        $error = socket_last_error(self::$fdSocket);
 
         return $prefix.': '.socket_strerror($error);
     }
@@ -123,7 +122,7 @@ class DbgpServer
         $message = '';
         do {
             $buffer = '';
-            $result = @socket_recv($this->fdSocket, $buffer, 1024, 0);
+            $result = @socket_recv(self::$fdSocket, $buffer, 1024, 0);
             if ($result === false) {
                 throw new Exception\ExitProgram('Client socket error', 1);
             }
@@ -149,7 +148,7 @@ class DbgpServer
         if (null === $fileAndLine) {
             // if is a value
             $this->exporter->setXml($message);
-            $responseMessage = $this->exporter->printByXml() ?? '';
+            $responseMessage = "<comment>{$this->exporter->printByXml()}</comment>" ?? '';
         } else {
             // if is a file
             $this->filePrinter->setFilename($fileAndLine[0]);
@@ -168,7 +167,7 @@ class DbgpServer
 
     public function readLine()
     {
-        if (!preg_match('/\<init xmlns/', $this->currentResponse)) {
+        if (!preg_match('/\<init xmlns/', self::$currentResponse)) {
             $line = '';
             while ($line === '') {
                 $line = trim(readline('(dephpug) => '));
@@ -188,12 +187,12 @@ class DbgpServer
     {
         $responses = '';
         while ($this->conn->expectResponses > 0) {
-            $this->currentResponse = $this->readResponse();
+            self::$currentResponse = $this->readResponse();
 
             // Init packet doesn't end in </response>.
-            $this->conn->expectResponses -= substr_count($this->currentResponse, '</response>');
-            $this->conn->expectResponses -= substr_count($this->currentResponse, '</init>');
-            $responses .= $this->currentResponse;
+            $this->conn->expectResponses -= substr_count(self::$currentResponse, '</response>');
+            $this->conn->expectResponses -= substr_count(self::$currentResponse, '</init>');
+            $responses .= self::$currentResponse;
         }
 
         return $responses;
@@ -208,10 +207,10 @@ class DbgpServer
         // Echo back the response to the user if it isn't a stream.
         if (!$isStream) {
             try {
-                $r = $this->formatXmlString($this->currentResponse);
+                $r = $this->formatXmlString(self::$currentResponse);
                 $this->output->writeln("<comment>{$r}</comment>\n");
             } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
-                echo "\n\n{$this->currentResponse}\n\n";
+                echo "\n\n{self::$currentResponse}\n\n";
             }
         }
     }
@@ -257,11 +256,8 @@ class DbgpServer
     public function start()
     {
         // Getting XDebug Connection
-        $this->fdSocket = $this->eventConnectXdebugServer();
-        socket_close($this->socket);
-
-        // Set socket for connection
-        $this->conn->socket = $this->fdSocket;
+        self::$fdSocket = $this->eventConnectXdebugServer();
+        socket_close(self::$socket);
 
         while (true) {
             $responses = $this->waitResponses();
@@ -282,7 +278,6 @@ class DbgpServer
             $command = $this->getCommandToSend();
             $this->sendCommand($command);
         }
-        socket_close($this->fdSocket);
-        $this->conn->socket = null;
+        socket_close(self::$fdSocket);
     }
 }
