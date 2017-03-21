@@ -167,37 +167,13 @@ class DbgpServer
             throw new Exception\ExitProgram('Client socket error', 1);
         }
 
+        self::$currentResponse = $message;
         return $message;
     }
 
-    /**
-     * Wait for the expect number of responses. Normally we expect 1
-     * response, but with the break command, we expect 2
-     *
-     * @return string xml format
-     */
-    public function getResponse()
+    public function printIfIsStream()
     {
-        $responses = '';
-        $expectResponses = 1;
-
-        while ($expectResponses > 0) {
-            // Try get any response
-            self::$currentResponse = $this->readResponse();
-
-            // Init packet doesn't end in </response>.
-            $expectResponses -= substr_count(self::$currentResponse, '</response>');
-            $expectResponses -= substr_count(self::$currentResponse, '</init>');
-            $responses .= self::$currentResponse;
-        }
-
-        $this->printIfIsStream($responses);
-
-        return $responses;
-    }
-
-    public function printIfIsStream($responses)
-    {
+        $responses = self::$currentResponse;
         // This is hacky, but it works in all cases and doesn't require parsing xml.
         $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
         $isStream = $this->commandAdapter->startsWith($responses, $prefix);
@@ -286,7 +262,8 @@ class DbgpServer
     public function start()
     {
         // Get first message response
-        $this->getResponse();
+        $this->readResponse();
+        $this->printIfIsStream();
 
         while (true) {
             // Ask command to dev
@@ -294,10 +271,10 @@ class DbgpServer
             $this->sendCommand($command);
 
             // Get response
-            $responses = $this->getResponse();
+            $this->readResponse();
 
             // Received response saying we're stopping.
-            if ($this->commandAdapter->isStatusStop($responses)) {
+            if ($this->commandAdapter->isStatusStop(self::$currentResponse)) {
                 self::$output->writeln("<comment>-- Request ended, restarting... --</comment>\n");
 
                 return;
@@ -311,6 +288,6 @@ class DbgpServer
     {
         $dbgpServer = new DbgpServer();
         $dbgpServer->sendCommand($command);
-        return $dbgpServer->getResponse();
+        return $dbgpServer->readResponse();
     }
 }
