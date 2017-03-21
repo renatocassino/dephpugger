@@ -48,14 +48,13 @@ class CommandAdapter
         }
 
         // Example format: $variable
-        if (preg_match('/^(\$[\w_\[\]\"\\\'\-\>\{\}]+);?$/', $command, $result)) {
+        if (preg_match('/^\$([\w_\[\]\"\\\'\-\>\{\}]+);?$/', $command, $result)) {
             $variableName = $result[1];
             $typeVarName = uniqid();
             $contentVarName = uniqid();
             $command = "property_get -i {$transactionId} -n {$variableName}";
-            $command = "list(\$___{$typeVarName}, \$___{$contentVarName}) = [gettype({$variableName}), var_export($variableName, true)]";
-            $commandEncoded = base64_encode($command);
-            $command = "eval -i 1 -- {$commandEncoded}";
+            //$commandEncoded = base64_encode($command);
+            //$command = "eval -i 1 -- {$commandEncoded}";
 
             if ($config->debugger['verboseMode']) {
                 echo $command.PHP_EOL;

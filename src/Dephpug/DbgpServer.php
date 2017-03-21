@@ -65,7 +65,6 @@ class DbgpServer
     public function setConnectionClass()
     {
         self::$conn = new \stdClass();
-        self::$conn->expectResponses = 1;
         self::$conn->port = $this->config->debugger['port'];
     }
 
@@ -83,6 +82,11 @@ class DbgpServer
         assert($result);
     }
 
+    /**
+     * Remote commands are async. Method to wait xDebug response
+     *
+     * @return void
+     */
     public function eventConnectXdebugServer()
     {
         self::$fdSocket = null;
@@ -93,29 +97,27 @@ class DbgpServer
                 break;
             }
         }
-
-        return self::$fdSocket;
     }
 
-    /* Sends a command to the xdebug server.  Exits process on failure. */
+    /**
+     * Sends a command to the xdebug server.
+     * Exits process on failure.
+     */
     public function sendCommand($command)
     {
-        $this->log->warning('send_command');
-
         $result = @socket_write(self::$fdSocket, "$command\0");
         if ($result === false) {
-            $error = $this->formatSocketError('Client socket error');
+            $errorSocket = socket_last_error(self::$fdSocket);
+
+            $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
             throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
     }
 
-    protected function formatSocketError($prefix)
-    {
-        $error = socket_last_error(self::$fdSocket);
-
-        return $prefix.': '.socket_strerror($error);
-    }
-
+    /**
+     * Commands to xDebug are async. While true to get message.
+     * @return string xml format
+     */
     public function waitMessage()
     {
         $bytes = 0;
@@ -134,6 +136,9 @@ class DbgpServer
         return $this->messageParse->formatMessage($message);
     }
 
+    /**
+     * 
+     */
     public function readResponse()
     {
         $message = $this->waitMessage();
@@ -165,35 +170,28 @@ class DbgpServer
         return $message;
     }
 
-    public function readLine()
-    {
-        if (!preg_match('/\<init xmlns/', self::$currentResponse)) {
-            $line = '';
-            while ($line === '') {
-                $line = trim(readline('(dephpug) => '));
-            }
-
-            return $line;
-        }
-
-        return 'continue';
-    }
-
     /**
      * Wait for the expect number of responses. Normally we expect 1
      * response, but with the break command, we expect 2
+     *
+     * @return string xml format
      */
-    public function waitResponses()
+    public function getResponse()
     {
         $responses = '';
-        while (self::$conn->expectResponses > 0) {
+        $expectResponses = 1;
+
+        while ($expectResponses > 0) {
+            // Try get any response
             self::$currentResponse = $this->readResponse();
 
             // Init packet doesn't end in </response>.
-            self::$conn->expectResponses -= substr_count(self::$currentResponse, '</response>');
-            self::$conn->expectResponses -= substr_count(self::$currentResponse, '</init>');
+            $expectResponses -= substr_count(self::$currentResponse, '</response>');
+            $expectResponses -= substr_count(self::$currentResponse, '</init>');
             $responses .= self::$currentResponse;
         }
+
+        $this->printIfIsStream($responses);
 
         return $responses;
     }
@@ -207,20 +205,29 @@ class DbgpServer
         // Echo back the response to the user if it isn't a stream.
         if (!$isStream) {
             try {
-                $r = $this->formatXmlString(self::$currentResponse);
-                self::$output->writeln("<comment>{$r}</comment>\n");
+                $responseParsed = $this->formatXmlString(self::$currentResponse);
+
+                if($this->config->debugger['verboseMode']) {
+                    self::$output->writeln("<comment>{$responseParsed}</comment>\n");
+                }
             } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
-                echo "\n\n{self::$currentResponse}\n\n";
+                $currentResponse = self::$currentResponse;
+                echo ("\n\n{$currentResponse}\n\n");
             }
         }
     }
 
+    /**
+     * Command to run local or remote commands
+     */
     public function getCommandToSend()
     {
         while(true) {
             // Get a command from the user and send it.
             $line = $this->readLine();
             $command = CommandAdapter::convertCommand($line, $this->transactionId++);
+
+            // Refactor this part bellow
             if (!is_array($command)) {
                 return $command;
             }
@@ -240,6 +247,24 @@ class DbgpServer
         }
     }
 
+    /**
+     * Command to read line (like scanf in C)
+     * @return string
+     */
+    public function readLine()
+    {
+        if (!preg_match('/\<init xmlns/', self::$currentResponse)) {
+            $line = '';
+            while ($line === '') {
+                $line = trim(readline('(dephpug) => '));
+            }
+
+            return $line;
+        }
+
+        return 'continue';
+    }
+
     public function init($output)
     {
         declare(ticks=1); // declare for pcntl_signal
@@ -253,22 +278,23 @@ class DbgpServer
         // Message
         $port = self::$conn->port;
         self::$output->writeln("<fg=blue> --- Listening on port {$port} ---</>\n");
+
+        $this->eventConnectXdebugServer();
+        socket_close(self::$socket);
     }
 
     public function start()
     {
-        // Getting XDebug Connection
-        self::$fdSocket = $this->eventConnectXdebugServer();
-        socket_close(self::$socket);
+        // Get first message response
+        $this->getResponse();
 
         while (true) {
-            $responses = $this->waitResponses();
+            // Ask command to dev
+            $command = $this->getCommandToSend();
+            $this->sendCommand($command);
 
-            self::$conn->expectResponses = 1;
-
-            if($this->config->debugger['verboseMode']) {
-                $this->printIfIsStream($responses);
-            }
+            // Get response
+            $responses = $this->getResponse();
 
             // Received response saying we're stopping.
             if ($this->commandAdapter->isStatusStop($responses)) {
@@ -276,10 +302,15 @@ class DbgpServer
 
                 return;
             }
-
-            $command = $this->getCommandToSend();
-            $this->sendCommand($command);
         }
+
         socket_close(self::$fdSocket);
+    }
+
+    public static function getResponseByCommand($command)
+    {
+        $dbgpServer = new DbgpServer();
+        $dbgpServer->sendCommand($command);
+        return $dbgpServer->getResponse();
     }
 }
