@@ -5,7 +5,6 @@ namespace Dephpug;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-
 class DbgpServer
 {
     private $log;
@@ -30,42 +29,30 @@ class DbgpServer
         $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
         $this->messageParse = new MessageParse();
         $this->exporter = new Exporter\Exporter();
-        $this->setConnectionClass();
     }
 
-    public function formatXmlString($xml){
-        $xml = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $xml);
-        $token      = strtok($xml, "\n");
-        $result     = '';
-        $pad        = 0; 
-        $matches    = array();
-        while ($token !== false) : 
-            if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) : 
-                $indent=0;
-        elseif (preg_match('/^<\/\w/', $token, $matches)) :
-            $pad--;
-        $indent = 0;
-        elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
-            $indent=1;
-        else :
-            $indent = 0; 
-        endif;
-        $line    = str_pad($token, strlen($token)+$pad, ' ', STR_PAD_LEFT);
-        $result .= $line . "\n";
-        $token   = strtok("\n");
-        $pad    += $indent;
-        endwhile; 
-        return $result;
-    }
-
-
-    /**
-     * Create standart class for connection.
-     */
-    public function setConnectionClass()
+    public function formatXmlString($xml)
     {
-        self::$conn = new \stdClass();
-        self::$conn->port = $this->config->debugger['port'];
+        $xml = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $xml);
+        $token = strtok($xml, "\n");
+        $result = '';
+        $pad = 0;
+        $matches = array();
+        while ($token !== false) :
+            if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) :
+                $indent = 0; elseif (preg_match('/^<\/\w/', $token, $matches)) :
+            $pad--;
+        $indent = 0; elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
+            $indent = 1; else :
+            $indent = 0;
+        endif;
+        $line = str_pad($token, strlen($token) + $pad, ' ', STR_PAD_LEFT);
+        $result .= $line."\n";
+        $token = strtok("\n");
+        $pad += $indent;
+        endwhile;
+
+        return $result;
     }
 
     /**
@@ -83,9 +70,7 @@ class DbgpServer
     }
 
     /**
-     * Remote commands are async. Method to wait xDebug response
-     *
-     * @return void
+     * Remote commands are async. Method to wait xDebug response.
      */
     public function eventConnectXdebugServer()
     {
@@ -116,6 +101,7 @@ class DbgpServer
 
     /**
      * Commands to xDebug are async. While true to get message.
+     *
      * @return string xml format
      */
     public function waitMessage()
@@ -136,9 +122,6 @@ class DbgpServer
         return $this->messageParse->formatMessage($message);
     }
 
-    /**
-     * 
-     */
     public function readResponse()
     {
         $message = $this->waitMessage();
@@ -168,6 +151,7 @@ class DbgpServer
         }
 
         self::$currentResponse = $message;
+
         return $message;
     }
 
@@ -183,22 +167,22 @@ class DbgpServer
             try {
                 $responseParsed = $this->formatXmlString(self::$currentResponse);
 
-                if($this->config->debugger['verboseMode']) {
+                if ($this->config->debugger['verboseMode']) {
                     self::$output->writeln("<comment>{$responseParsed}</comment>\n");
                 }
             } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
                 $currentResponse = self::$currentResponse;
-                echo ("\n\n{$currentResponse}\n\n");
+                echo "\n\n{$currentResponse}\n\n";
             }
         }
     }
 
     /**
-     * Command to run local or remote commands
+     * Command to run local or remote commands.
      */
     public function getCommandToSend()
     {
-        while(true) {
+        while (true) {
             // Get a command from the user and send it.
             $line = $this->readLine();
             $command = CommandAdapter::convertCommand($line, $this->transactionId++);
@@ -208,23 +192,25 @@ class DbgpServer
                 return $command;
             }
 
-            if('quit' === $cmd['command']) {
+            if ('quit' === $cmd['command']) {
                 $message = 'Quitting debugger request and restart listening';
                 self::$output->writeln("\n<info> -- $message -- </info>\n");
+
                 return;
-            } elseif('list' === $cmd['command']) {
+            } elseif ('list' === $cmd['command']) {
                 $offset = $this->filePrinter->offset;
-                $newLine = min($this->filePrinter->line+$offset, $this->filePrinter->numberOfLines()-1);
+                $newLine = min($this->filePrinter->line + $offset, $this->filePrinter->numberOfLines() - 1);
                 $this->filePrinter->line = $newLine;
                 self::$output->writeln($this->filePrinter->showFile(false));
-            } elseif('help' === $cmd['command']) {
+            } elseif ('help' === $cmd['command']) {
                 self::$output->writeln(Dephpugger::help());
             }
         }
     }
 
     /**
-     * Command to read line (like scanf in C)
+     * Command to read line (like scanf in C).
+     *
      * @return string
      */
     public function readLine()
@@ -252,8 +238,7 @@ class DbgpServer
         $this->startClient();
 
         // Message
-        $port = self::$conn->port;
-        self::$output->writeln("<fg=blue> --- Listening on port {$port} ---</>\n");
+        self::$output->writeln("<fg=blue> --- Listening on port {$this->config->debugger['port']} ---</>\n");
 
         $this->eventConnectXdebugServer();
         socket_close(self::$socket);
@@ -286,8 +271,9 @@ class DbgpServer
 
     public static function getResponseByCommand($command)
     {
-        $dbgpServer = new DbgpServer();
+        $dbgpServer = new self();
         $dbgpServer->sendCommand($command);
+
         return $dbgpServer->readResponse();
     }
 }
