@@ -38,14 +38,15 @@ class CommandAdapterTest extends \Codeception\Test\Unit
 
     public function testQuitAbbrRunCommand()
     {
-        $this->expectException(\Dephpug\Exception\ExitProgram::class);
         $command = CommandAdapter::convertCommand('q', 1);
+        $this->assertEquals(['command' => 'quit'], $command);
     }
 
     public function testQuitRunCommand()
     {
-        $this->expectException(\Dephpug\Exception\ExitProgram::class);
+        //$this->expectException(\Dephpug\Exception\ExitProgram::class);
         $command = CommandAdapter::convertCommand('quit', 1);
+        $this->assertEquals(['command' => 'quit'], $command);
     }
 
     public function testInvalidCommand()

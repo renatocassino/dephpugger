@@ -2,8 +2,6 @@
 
 namespace Dephpug;
 
-use Dephpug\Exception\ExitProgram;
-
 class CommandAdapter
 {
     public static function convertCommand($command, $transactionId)

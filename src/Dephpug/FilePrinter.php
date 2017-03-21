@@ -67,7 +67,7 @@ class FilePrinter
     public function getRangePagination($line = 1)
     {
         $firstLine = max($line - $this->offset, 0);
-        $lastLine = min($line + $this->offset, $this->numberOfLines()-1);
+        $lastLine = min($line + $this->offset, $this->numberOfLines() - 1);
 
         return [$firstLine, $lastLine];
     }

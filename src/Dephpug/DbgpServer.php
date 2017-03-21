@@ -31,30 +31,6 @@ class DbgpServer
         $this->exporter = new Exporter\Exporter();
     }
 
-    public function formatXmlString($xml)
-    {
-        $xml = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $xml);
-        $token = strtok($xml, "\n");
-        $result = '';
-        $pad = 0;
-        $matches = array();
-        while ($token !== false) :
-            if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) :
-                $indent = 0; elseif (preg_match('/^<\/\w/', $token, $matches)) :
-            $pad--;
-        $indent = 0; elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
-            $indent = 1; else :
-            $indent = 0;
-        endif;
-        $line = str_pad($token, strlen($token) + $pad, ' ', STR_PAD_LEFT);
-        $result .= $line."\n";
-        $token = strtok("\n");
-        $pad += $indent;
-        endwhile;
-
-        return $result;
-    }
-
     /**
      * Starts a client.  Returns the socket and port used.
      *
@@ -104,7 +80,7 @@ class DbgpServer
      *
      * @return string xml format
      */
-    public function waitMessage()
+    public function getResponse()
     {
         $bytes = 0;
         $message = '';
@@ -119,23 +95,23 @@ class DbgpServer
             $message .= $buffer;
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
 
-        return $this->messageParse->formatMessage($message);
+        self::$currentResponse = $this->messageParse->formatMessage($message);
     }
 
-    public function readResponse()
+    /**
+     * After send command, get the response.
+     */
+    public function printResponse()
     {
-        $message = $this->waitMessage();
-        $fileAndLine = $this->messageParse->getFileAndLine($message);
+        $fileAndLine = $this->messageParse->getFileAndLine(self::$currentResponse);
 
-        if ($this->messageParse->isErrorMessage($message, $errors)) {
+        if ($this->messageParse->isErrorMessage(self::$currentResponse, $errors)) {
             self::$output->writeln("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
-
-            return $message;
         }
 
         if (null === $fileAndLine) {
             // if is a value
-            $this->exporter->setXml($message);
+            $this->exporter->setXml(self::$currentResponse);
             $responseMessage = "<comment>{$this->exporter->printByXml()}</comment>" ?? '';
         } else {
             // if is a file
@@ -145,14 +121,6 @@ class DbgpServer
         }
 
         self::$output->writeln($responseMessage);
-
-        if ($this->commandAdapter->startsWith($message, 'Client socket error')) {
-            throw new Exception\ExitProgram('Client socket error', 1);
-        }
-
-        self::$currentResponse = $message;
-
-        return $message;
     }
 
     public function printIfIsStream()
@@ -165,7 +133,7 @@ class DbgpServer
         // Echo back the response to the user if it isn't a stream.
         if (!$isStream) {
             try {
-                $responseParsed = $this->formatXmlString(self::$currentResponse);
+                $responseParsed = $this->messageParse->formatXmlString(self::$currentResponse);
 
                 if ($this->config->debugger['verboseMode']) {
                     self::$output->writeln("<comment>{$responseParsed}</comment>\n");
@@ -246,17 +214,10 @@ class DbgpServer
 
     public function start()
     {
-        // Get first message response
-        $this->readResponse();
-        $this->printIfIsStream();
-
-        while (true) {
-            // Ask command to dev
-            $command = $this->getCommandToSend();
-            $this->sendCommand($command);
-
-            // Get response
-            $this->readResponse();
+        do {
+            $this->getResponse();
+            $this->printResponse();
+            $this->printIfIsStream();
 
             // Received response saying we're stopping.
             if ($this->commandAdapter->isStatusStop(self::$currentResponse)) {
@@ -264,7 +225,11 @@ class DbgpServer
 
                 return;
             }
-        }
+
+            // Ask command to dev
+            $command = $this->getCommandToSend();
+            $this->sendCommand($command);
+        } while (true);
 
         socket_close(self::$fdSocket);
     }
@@ -273,7 +238,8 @@ class DbgpServer
     {
         $dbgpServer = new self();
         $dbgpServer->sendCommand($command);
+        $dbgpServer->getResponse();
 
-        return $dbgpServer->readResponse();
+        return self::$currentResponse;
     }
 }
