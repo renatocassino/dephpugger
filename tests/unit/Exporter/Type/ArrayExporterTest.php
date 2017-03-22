@@ -20,7 +20,7 @@ class ArrayExporterTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testMixArray()
+    public function __testMixArray()
     {
         // Example of response
         $message = <<<'EOL'
