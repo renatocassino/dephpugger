@@ -21,6 +21,7 @@ class Config
             'host' => 'localhost',
             'lineOffset' => 6,
             'verboseMode' => false,
+            'historyFile' => '.dephpugger_history',
         ],
     ];
 

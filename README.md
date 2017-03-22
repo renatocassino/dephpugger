@@ -123,7 +123,8 @@ The default config is:
             'port' => 9005, # Port to socket
             'host' => 'localhost', # Host to socket,
             'lineOffset' => 6, # Number of line offset to show in debugger
-            'verboseMode' => false # If true, show all messages from DBGp (only for dephpugger developers)
+            'verboseMode' => false, # If true, show all messages from DBGp (only for dephpugger developers)
+            'historyFile' => '.dephpugger_history', # File with history to use use commands in debugger
         ]
     ];
 ```
@@ -139,6 +140,7 @@ debugger:
   path: ./public/
   file: index.php
   verboseMode: false
+  historyFile: ~/.dephpugger_history
 server: 
   host: myproject.dev
   phpPath: /usr/local/bin/php

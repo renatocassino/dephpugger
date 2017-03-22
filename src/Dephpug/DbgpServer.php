@@ -186,7 +186,7 @@ class DbgpServer
         if (!preg_match('/\<init xmlns/', self::$currentResponse)) {
             $line = '';
             while ($line === '') {
-                $line = trim(readline('(dephpug) => '));
+                $line = trim(Readline::readline());
             }
 
             return $line;
