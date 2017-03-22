@@ -25,6 +25,9 @@ class DebuggerCommand extends Command
     protected function execute(InputInterface $_, OutputInterface $output)
     {
         $output->writeln(splashScreen('Debugger'));
+        $config = \Dephpug\Config::getInstance();
+        \Dephpug\Readline::load($config->debugger['historyFile']);
+
         while (true) {
             try {
                 $dbgpServer = new DbgpServer();

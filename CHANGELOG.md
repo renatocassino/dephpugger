@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Add command Help
+- Add history to debugger
 
 ## [0.4.1] - 2017-03-19
 ### Changed
