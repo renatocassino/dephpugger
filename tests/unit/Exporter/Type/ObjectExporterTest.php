@@ -20,7 +20,7 @@ class ObjectExporterTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testPrintValueWithAClass()
+    public function _testPrintValueWithAClass()
     {
         $message = <<<'EOL'
 <?xml version="1.0" encoding="iso-8859-1"?><response><property name="$klass" type="object" classname="stdClass"><property name="i" facet="public" type="int"><![CDATA[1]]></property></property></response>

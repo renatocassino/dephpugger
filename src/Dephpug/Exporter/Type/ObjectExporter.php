@@ -3,6 +3,7 @@
 namespace Dephpug\Exporter\Type;
 
 use Dephpug\Exporter\iExporter;
+use Dephpug\DbgpServer;
 
 class ObjectExporter implements iExporter
 {
@@ -13,31 +14,11 @@ class ObjectExporter implements iExporter
 
     public function getExportedVar($xml)
     {
-        $obj = $this->getObjectFormat($xml->property);
-
-        return json_encode($obj, JSON_PRETTY_PRINT);
-    }
-
-    public function getObjectFormat($elements)
-    {
-        $content = [];
-        foreach ($elements->children() as $el) {
-            $type = 'null' === (string) $el['type'] ? 'method' : $el['type'];
-            $value = 'base64' === (string) $el['encoding']
-                   ? base64_decode((string) $el)
-                   : (string) $el;
-            if ('' !== $value) {
-                $value = ' => '.$value;
-            }
-
-            $currentContent = "({$type}) `{$el['facet']}`{$value}";
-
-            $key = (string) $el['name'];
-            if ('method' === $type) {
-                $key .= '()';
-            }
-            $content[$key] = $currentContent;
-        }
+        $command = "var_export({$xml->property->attributes()['name']}, true);";
+        $command = base64_encode($command);
+        $responseXDebug = DbgpServer::getResponseByCommand('eval -i 1 -- '.$command);
+        $newXml = simplexml_load_string($responseXDebug);
+        $content = base64_decode((string) $newXml->property);
 
         return $content;
     }
