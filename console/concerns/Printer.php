@@ -14,7 +14,7 @@ class Printer
     public function getEmoji($success)
     {
         return ($success)
-            ? '<fg=green;options=bold>✔️</>️'
+            ? '<fg=green;options=bold>✔</>️'
             : '<fg=red;options=bold>✖️</>';
     }
 }

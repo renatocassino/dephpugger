@@ -3,6 +3,7 @@
 namespace Dephpug\Exporter\Type;
 
 use Dephpug\Exporter\iExporter;
+use Dephpug\DbgpServer;
 
 class ArrayExporter implements iExporter
 {
@@ -13,9 +14,13 @@ class ArrayExporter implements iExporter
 
     public function getExportedVar($xml)
     {
-        $data = $this->getArrayFormat($xml->property);
+        $command = "var_export({$xml->property->attributes()['name']}, true);";
+        $command = base64_encode($command);
+        $responseXDebug = DbgpServer::getResponseByCommand('eval -i 1 -- '.$command);
+        $newXml = simplexml_load_string($responseXDebug);
+        $content = base64_decode((string) $newXml->property);
 
-        return PHP_EOL.json_encode($data, JSON_PRETTY_PRINT);
+        return $content;
     }
 
     private function getArrayFormat($elements)

@@ -2,8 +2,6 @@
 
 namespace Dephpug;
 
-use Dephpug\Exception\ExitProgram;
-
 class CommandAdapter
 {
     public static function convertCommand($command, $transactionId)
@@ -50,7 +48,12 @@ class CommandAdapter
         // Example format: $variable
         if (preg_match('/^\$([\w_\[\]\"\\\'\-\>\{\}]+);?$/', $command, $result)) {
             $variableName = $result[1];
+            $typeVarName = uniqid();
+            $contentVarName = uniqid();
             $command = "property_get -i {$transactionId} -n {$variableName}";
+            //$commandEncoded = base64_encode($command);
+            //$command = "eval -i 1 -- {$commandEncoded}";
+
             if ($config->debugger['verboseMode']) {
                 echo $command.PHP_EOL;
             }
@@ -71,7 +74,7 @@ class CommandAdapter
             case 'h':
             case 'help': return ['command' => 'help'];
             case 'q':
-            case 'quit': throw new ExitProgram('Quitting debugger request and restart listening.', 2);
+            case 'quit': return ['command' => 'quit'];
             default: $newCommand = "eval -i {$transactionId} -- ".base64_encode($command);
         }
 
