@@ -159,12 +159,11 @@ class DbgpServer
                 return $command;
             }
 
-            if ('quit' === $cmd['command']) {
+            if ('quit' === $command['command']) {
                 $message = 'Quitting debugger request and restart listening';
                 Output::print("\n<info> -- $message -- </info>\n");
-
-                return;
-            } elseif ('list' === $cmd['command']) {
+                throw new Exception\QuitException('');
+            } elseif ('list' === $command['command']) {
                 $offset = $this->filePrinter->offset;
                 $newLine = min($this->filePrinter->line + $offset, $this->filePrinter->numberOfLines() - 1);
                 $this->filePrinter->line = $newLine;
@@ -211,22 +210,25 @@ class DbgpServer
 
     public function start()
     {
-        do {
-            $this->getResponse();
-            $this->printResponse();
-            $this->printIfIsStream();
+        try {
+            do {
+                $this->getResponse();
+                $this->printResponse();
+                $this->printIfIsStream();
 
-            // Received response saying we're stopping.
-            if ($this->commandAdapter->isStatusStop(self::$currentResponse)) {
-                Output::print("<comment>-- Request ended, restarting... --</comment>\n");
+                // Received response saying we're stopping.
+                if ($this->commandAdapter->isStatusStop(self::$currentResponse)) {
+                    Output::print("<comment>-- Request ended, restarting... --</comment>\n");
 
-                return;
-            }
+                    return;
+                }
 
-            // Ask command to dev
-            $command = $this->getCommandToSend();
-            $this->sendCommand($command);
-        } while (true);
+                // Ask command to dev
+                $command = $this->getCommandToSend();
+                $this->sendCommand($command);
+            } while (true);
+        } catch (Exception\QuitException $e) {
+        }
 
         socket_close(self::$fdSocket);
     }
