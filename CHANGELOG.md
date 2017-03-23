@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add command Help
 - Add history to debugger
 - Create a unique class to print with symfony color
+- Command `list-previous` to show previous lines in file
 
 ## [0.4.1] - 2017-03-19
 ### Changed

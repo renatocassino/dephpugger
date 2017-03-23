@@ -71,6 +71,8 @@ class CommandAdapter
             case 'continue': $newCommand = "run -i {$transactionId}"; break;
             case 'l':
             case 'list': return ['command' => 'list'];
+            case 'lp':
+            case 'list-previous': return ['command' => 'list-previous'];
             case 'h':
             case 'help': return ['command' => 'help'];
             case 'q':

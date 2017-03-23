@@ -168,6 +168,11 @@ class DbgpServer
                 $newLine = min($this->filePrinter->line + $offset, $this->filePrinter->numberOfLines() - 1);
                 $this->filePrinter->line = $newLine;
                 Output::print($this->filePrinter->showFile(false));
+            } elseif ('list-previous' === $command['command']) {
+                $offset = $this->filePrinter->offset;
+                $newLine = max($this->filePrinter->line - $offset, 0);
+                $this->filePrinter->line = $newLine;
+                Output::print($this->filePrinter->showFile(false));
             } elseif ('help' === $cmd['command']) {
                 Output::print(Dephpugger::help());
             }
