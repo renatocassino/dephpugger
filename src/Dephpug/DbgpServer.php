@@ -173,7 +173,7 @@ class DbgpServer
                 $newLine = max($this->filePrinter->line - $offset, 0);
                 $this->filePrinter->line = $newLine;
                 Output::print($this->filePrinter->showFile(false));
-            } elseif ('help' === $cmd['command']) {
+            } elseif ('help' === $command['command']) {
                 Output::print(Dephpugger::help());
             }
         }

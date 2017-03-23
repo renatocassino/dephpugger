@@ -4,7 +4,7 @@ namespace Dephpug;
 
 class Dephpugger
 {
-    public static $VERSION = '0.4.0';
+    public static $VERSION = '0.5.0';
 
     public static function help()
     {
@@ -14,16 +14,18 @@ class Dephpugger
 
 <options=bold>Commands to navigate:</>
 
-<comment>`next`              </comment>- Step out in code debugger
-<comment>`n`                 </comment>- Alias to next
-<comment>`s`                 </comment>- Get in method. Step into
-<comment>`list`              </comment>- Show next lines
-<comment>`l`                 </comment>- Alias to list
-<comment>`continue`          </comment>- Command to run code
-<comment>`c`                 </comment>- Alias to command
-<comment>`dbgp(\<command>`)   </comment>- Run native DBGP command
-<comment>`quit`              </comment>- Command to close the Dephpugger
-<comment>`q`                 </comment>- Alias to quit
+<comment>`next`              </comment>--- Step out in code debugger
+<comment>`n`                 </comment>--- Alias to next
+<comment>`s`                 </comment>--- Get in method. Step into
+<comment>`list`              </comment>--- Show next lines
+<comment>`l`                 </comment>--- Alias to list next lines
+<comment>`list-previous`     </comment>--- Show previous lines
+<comment>`lp`                </comment>--- Alias to list previous lines
+<comment>`continue`          </comment>--- Command to run code
+<comment>`c`                 </comment>--- Alias to command
+<comment>`dbgp(\<command>`)   </comment>--- Run native DBGP command
+<comment>`quit`              </comment>--- Command to close the Dephpugger
+<comment>`q`                 </comment>--- Alias to quit
 
 
 <options=bold>Get variables</>

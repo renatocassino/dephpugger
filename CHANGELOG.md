@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Join verboseMode in one log
 
 ## [Unreleased]
+
+## [0.5.0] - 2017-03-22
 ### Added
 - Add command Help
 - Add history to debugger
