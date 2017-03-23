@@ -231,11 +231,10 @@ class DbgpServer
         socket_close(self::$fdSocket);
     }
 
-    public static function getResponseByCommand($command)
+    public function getResponseByCommand($command)
     {
-        $dbgpServer = new self();
-        $dbgpServer->sendCommand($command);
-        $dbgpServer->getResponse();
+        $this->sendCommand($command);
+        $this->getResponse();
 
         return self::$currentResponse;
     }

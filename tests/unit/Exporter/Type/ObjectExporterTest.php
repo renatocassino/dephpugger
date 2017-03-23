@@ -2,8 +2,6 @@
 
 namespace Exporter\Type;
 
-use Dephpug\Exporter\Type\ObjectExporter;
-
 class ObjectExporterTest extends \Codeception\Test\Unit
 {
     /**
@@ -26,10 +24,23 @@ class ObjectExporterTest extends \Codeception\Test\Unit
 <?xml version="1.0" encoding="iso-8859-1"?><response><property name="$klass" type="object" classname="stdClass"><property name="i" facet="public" type="int"><![CDATA[1]]></property></property></response>
 EOL;
 
+        $response = <<<'EOL'
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <property><![CDATA[b2JqZWN0KGNvbnRlbnQgaGVyZSk=]]></property>
+</response>
+EOL;
+
         $xml = simplexml_load_string($message);
-        $objectExporter = new ObjectExporter();
+        $objectExporter = $this->getMockBuilder('\Dephpug\Exporter\Type\ObjectExporter')
+                        ->setMethods(['getResponseByCommand'])
+                        ->getMock();
+
+        $objectExporter->method('getResponseByCommand')
+            ->willReturn($response);
+
         $response = $objectExporter->getExportedVar($xml);
 
-        $this->assertEquals("{\n    \"i\": \"(int) `public` => 1\"\n}", $response);
+        $this->assertEquals('object(content here)', $response);
     }
 }
