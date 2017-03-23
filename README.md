@@ -91,18 +91,18 @@ $ dephpugger cli myJob.php
 
 When you stop in a breakpoint you can make theese commands:
 
-| Command           | Explanation                                                          |
-|-------------------|----------------------------------------------------------------------|
-| next (or 'n')     | To run a step over in code                                           |
-| s                 | To run a step into in code                                           |
-| continue (or 'c') | To continue script until found another breakpoint or finish the code |
-| list (or 'l')     | Show next lines in script                                            |
-| help (or 'h')     | Show help instructions                                               |
-| $variable         | Get a value from a variable                                          |
-| $variable = 33    | Set a variable                                                       |
-| my_function()     | Call a function                                                      |
-| dbgp(\<command\>) | To run a command in dbgp                                             |
-| quit              | Exit the debugger                                                    |
+| Command           | Alias | Explanation                                                          |
+|-------------------|-------|----------------------------------------------------------------------|
+| next              | n     | To run a step over in code                                           |
+| step              | s     | To run a step into in code                                           |
+| continue          | c     | To continue script until found another breakpoint or finish the code |
+| list              | l     | Show next lines in script                                            |
+| help              | h     | Show help instructions                                               |
+| $variable         |       | Get a value from a variable                                          |
+| $variable = 33    |       | Set a variable                                                       |
+| my_function()     |       | Call a function                                                      |
+| dbgp(\<command\>) |       | To run a command in dbgp                                             |
+| quit              | q     | Exit the debugger                                                    |
 
 # Configuration (is simple)
 
