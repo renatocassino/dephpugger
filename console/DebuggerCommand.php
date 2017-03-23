@@ -31,8 +31,8 @@ class DebuggerCommand extends Command
         while (true) {
             try {
                 $dbgpServer = new DbgpServer();
-                $dbgpServer->init($output);
-                $dbgpServer->start($output);
+                $dbgpServer->init();
+                $dbgpServer->start();
             } catch (ExitProgram $e) {
                 $output->writeln("<fg=red;options=bold>{$e}</>");
                 if ($e->getCode() == 2) {

@@ -10,13 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Better use for Singleton $config
 - Add documentation in each class and methods
 - Command 'set' to change the config
-- Create a unique class to print with symfony color
 - Join verboseMode in one log
 
 ## [Unreleased]
 ### Added
 - Add command Help
 - Add history to debugger
+- Create a unique class to print with symfony color
 
 ## [0.4.1] - 2017-03-19
 ### Changed

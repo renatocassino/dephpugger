@@ -9,7 +9,6 @@ class DbgpServer
 {
     private $log;
     private $config;
-    private static $output;
     private $transactionId = 1;
     private $messageParse;
     private $exporter;
@@ -54,7 +53,7 @@ class DbgpServer
         while (true) {
             self::$fdSocket = @socket_accept(self::$socket);
             if (self::$fdSocket !== false) {
-                self::$output->writeln('Connected to <fg=yellow;options=bold>XDebug server</>!');
+                Output::print('Connected to <fg=yellow;options=bold>XDebug server</>!');
                 break;
             }
         }
@@ -106,7 +105,7 @@ class DbgpServer
         $fileAndLine = $this->messageParse->getFileAndLine(self::$currentResponse);
 
         if ($this->messageParse->isErrorMessage(self::$currentResponse, $errors)) {
-            self::$output->writeln("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
+            Output::print("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
         }
 
         if (null === $fileAndLine) {
@@ -120,7 +119,7 @@ class DbgpServer
             $responseMessage = $this->filePrinter->showFile();
         }
 
-        self::$output->writeln($responseMessage);
+        Output::print($responseMessage);
     }
 
     public function printIfIsStream()
@@ -136,7 +135,7 @@ class DbgpServer
                 $responseParsed = $this->messageParse->formatXmlString(self::$currentResponse);
 
                 if ($this->config->debugger['verboseMode']) {
-                    self::$output->writeln("<comment>{$responseParsed}</comment>\n");
+                    Output::print("<comment>{$responseParsed}</comment>\n");
                 }
             } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
                 $currentResponse = self::$currentResponse;
@@ -162,16 +161,16 @@ class DbgpServer
 
             if ('quit' === $cmd['command']) {
                 $message = 'Quitting debugger request and restart listening';
-                self::$output->writeln("\n<info> -- $message -- </info>\n");
+                Output::print("\n<info> -- $message -- </info>\n");
 
                 return;
             } elseif ('list' === $cmd['command']) {
                 $offset = $this->filePrinter->offset;
                 $newLine = min($this->filePrinter->line + $offset, $this->filePrinter->numberOfLines() - 1);
                 $this->filePrinter->line = $newLine;
-                self::$output->writeln($this->filePrinter->showFile(false));
+                Output::print($this->filePrinter->showFile(false));
             } elseif ('help' === $cmd['command']) {
-                self::$output->writeln(Dephpugger::help());
+                Output::print(Dephpugger::help());
             }
         }
     }
@@ -195,18 +194,16 @@ class DbgpServer
         return 'continue';
     }
 
-    public function init($output)
+    public function init()
     {
         declare(ticks=1); // declare for pcntl_signal
         assert(pcntl_signal(SIGINT, ['DbgpServer', 'handle_sigint']));
-
-        self::$output = $output;
 
         // Starting a connection class
         $this->startClient();
 
         // Message
-        self::$output->writeln("<fg=blue> --- Listening on port {$this->config->debugger['port']} ---</>\n");
+        Output::print("<fg=blue> --- Listening on port {$this->config->debugger['port']} ---</>\n");
 
         $this->eventConnectXdebugServer();
         socket_close(self::$socket);
@@ -221,7 +218,7 @@ class DbgpServer
 
             // Received response saying we're stopping.
             if ($this->commandAdapter->isStatusStop(self::$currentResponse)) {
-                self::$output->writeln("<comment>-- Request ended, restarting... --</comment>\n");
+                Output::print("<comment>-- Request ended, restarting... --</comment>\n");
 
                 return;
             }

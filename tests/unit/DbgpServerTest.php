@@ -12,8 +12,6 @@ class DbgpServerTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
-        $output = new ConsoleOutput();
-        $output->setFormatter(new OutputFormatter(true));
     }
 
     protected function _after()
