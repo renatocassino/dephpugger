@@ -4,7 +4,7 @@
 define('DIRNAME', dirname(__DIR__) . '/');
 
 $autoloads = [
-    getcwd() . implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']),
+    getcwd() . '/' . implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']),
     DIRNAME . implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php'])
 ];
 
