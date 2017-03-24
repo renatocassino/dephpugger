@@ -200,9 +200,6 @@ class DbgpServer
 
     public function init()
     {
-        declare(ticks=1); // declare for pcntl_signal
-        assert(pcntl_signal(SIGINT, ['DbgpServer', 'handle_sigint']));
-
         // Starting a connection class
         $this->startClient();
 
