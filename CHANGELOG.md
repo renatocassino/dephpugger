@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Join verboseMode in one log
 
 ## [Unreleased]
+## [0.5.1] - 2017-03-24
+### Fixed
+- Bug in autoload
 
 ## [0.5.0] - 2017-03-22
 ### Added
