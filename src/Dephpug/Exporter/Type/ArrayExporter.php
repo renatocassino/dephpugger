@@ -26,7 +26,9 @@ class ArrayExporter implements iExporter
     public function getResponseByCommand($command)
     {
         $dbgpServer = new DbgpServer();
+        $transactionId = $dbgpServer->getTransactionId();
+        $dbgpServer->sendCommand('eval -i {$transactionId} -- '.$command);
 
-        return $dbgpServer->getResponseByCommand('eval -i 1 -- '.$command);
+        return $dbgpServer->getCurrentResponse();
     }
 }

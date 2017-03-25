@@ -45,12 +45,13 @@ EOL;
     {
         $dbgpServer = new DbgpServer();
         $dbgpServer->startClient();
-
+        $dbgpServer->getResponse();
         $messageParse = new MessageParse();
+
 
         try {
             do {
-                $dbgpServer->getResponse();
+
                 $dbgpServer->printResponse();
                 $dbgpServer->printIfIsStream();
 

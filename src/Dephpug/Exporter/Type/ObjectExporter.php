@@ -14,7 +14,6 @@ class ObjectExporter implements iExporter
 
     public function getExportedVar($xml)
     {
-        $dbgpServer = new DbgpServer();
         $command = "var_export({$xml->property->attributes()['name']}, true);";
         $command = base64_encode($command);
         $responseXDebug = $this->getResponseByCommand($command);
@@ -27,7 +26,9 @@ class ObjectExporter implements iExporter
     public function getResponseByCommand($command)
     {
         $dbgpServer = new DbgpServer();
+        $transactionId = $dbgpServer->getTransactionId();
+        $dbgpServer->sendCommand('eval -i {$transactionId} -- '.$command);
 
-        return $dbgpServer->getResponseByCommand('eval -i 1 -- '.$command);
+        return $dbgpServer->getCurrentResponse();
     }
 }

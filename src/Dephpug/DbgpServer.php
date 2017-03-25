@@ -2,15 +2,48 @@
 
 namespace Dephpug;
 
+/**
+ * Class to create a socket to remote debugger in xDebug.
+ *
+ * Class contain the login to make a connection with xDebug
+ * and create a client socket to receive a code, convert and
+ * send to DBGP protocol
+ */
 class DbgpServer
 {
+    /**
+     * Configuration of Dephpugger.
+     */
     private $config;
-    private $transactionId = 1;
+
+    /**
+     * Class MessageParse.
+     */
     private $messageParse;
+
+    /**
+     * Class Exporter to print var by type.
+     */
     private $exporter;
 
+    /**
+     * Transaction id usage for Dbgp protocol.
+     */
+    private static $transactionId = 1;
+
+    /**
+     * Socket to connect xDebug.
+     */
     private static $socket;
+
+    /**
+     * Socket server to debug.
+     */
     private static $fdSocket;
+
+    /**
+     * Last response.
+     */
     private static $currentResponse;
 
     public function __construct()
@@ -24,9 +57,7 @@ class DbgpServer
     }
 
     /**
-     * Starts a client.  Returns the socket and port used.
-     *
-     * @return array
+     * Starts a client. Set socket server to start client and close the server.
      */
     public function startClient()
     {
@@ -36,15 +67,28 @@ class DbgpServer
         $result = socket_listen(self::$socket);
         assert($result);
 
-
         Output::print("<fg=blue> --- Listening on port {$this->config->debugger['port']} ---</>\n");
         $this->eventConnectXdebugServer();
         socket_close(self::$socket);
     }
 
+    /**
+     * Close the client socket.
+     */
     public function closeClient()
     {
         socket_close(self::$fdSocket);
+    }
+
+    /**
+     * Get transactionId to send to DBGP protocol.
+     *
+     * Each time this methos is called, append 1 to next
+     * call has a different transactionId
+     */
+    public function getTransactionId()
+    {
+        return self::$transactionId++;
     }
 
     /**
@@ -65,6 +109,8 @@ class DbgpServer
     /**
      * Sends a command to the xdebug server.
      * Exits process on failure.
+     *
+     * @param string $command Command to send to DBGP
      */
     public function sendCommand($command)
     {
@@ -75,12 +121,14 @@ class DbgpServer
             $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
             throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
+
+        $this->getResponse();
     }
 
     /**
-     * Commands to xDebug are async. While true to get message.
+     * Wait the response and set in static property
      *
-     * @return string xml format
+     * @return void
      */
     public function getResponse()
     {
@@ -102,6 +150,8 @@ class DbgpServer
 
     /**
      * After send command, get the response.
+     *
+     * @return void
      */
     public function printResponse()
     {
@@ -155,7 +205,7 @@ class DbgpServer
         while (true) {
             // Get a command from the user and send it.
             $line = $this->readLine();
-            $command = CommandAdapter::convertCommand($line, $this->transactionId++);
+            $command = CommandAdapter::convertCommand($line, $this->getTransactionId());
 
             // Refactor this part bellow
             if (!is_array($command)) {
@@ -201,16 +251,13 @@ class DbgpServer
         return 'continue';
     }
 
+    /**
+     * Get response setted in readCommand.
+     *
+     * @return string
+     */
     public function getCurrentResponse()
     {
-        return self::$currentResponse;
-    }
-
-    public function getResponseByCommand($command)
-    {
-        $this->sendCommand($command);
-        $this->getResponse();
-
         return self::$currentResponse;
     }
 }
