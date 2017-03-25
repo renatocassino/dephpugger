@@ -175,28 +175,6 @@ class DbgpServer
         Output::print($responseMessage);
     }
 
-    public function printIfIsStream()
-    {
-        $responses = self::$currentResponse;
-        // This is hacky, but it works in all cases and doesn't require parsing xml.
-        $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
-        $isStream = $this->messageParse->startsWith($responses, $prefix);
-
-        // Echo back the response to the user if it isn't a stream.
-        if (!$isStream) {
-            try {
-                $responseParsed = $this->messageParse->xmlBeautifier(self::$currentResponse);
-
-                if ($this->config->debugger['verboseMode']) {
-                    Output::print("<comment>{$responseParsed}</comment>\n");
-                }
-            } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
-                $currentResponse = self::$currentResponse;
-                echo "\n\n{$currentResponse}\n\n";
-            }
-        }
-    }
-
     /**
      * Command to run local or remote commands.
      */

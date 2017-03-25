@@ -47,13 +47,17 @@ EOL;
         $dbgpServer->startClient();
         $dbgpServer->getResponse();
         $messageParse = new MessageParse();
-
+        $config = Config::getInstance();
 
         try {
             do {
-
                 $dbgpServer->printResponse();
-                $dbgpServer->printIfIsStream();
+                if ($config->debugger['verboseMode']) {
+                    $message = $messageParse->printIfIsStream($dbgpServer->getCurrentResponse());
+                    if($message) {
+                        Output::print($message);
+                    }
+                }
 
                 // Received response saying we're stopping.
                 if ($messageParse->isStatusStop($dbgpServer->getCurrentResponse())) {
