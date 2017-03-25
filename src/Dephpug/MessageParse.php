@@ -2,8 +2,19 @@
 
 namespace Dephpug;
 
+/**
+ * Class to parse messages in DBGP protocol.
+ */
 class MessageParse
 {
+    /**
+     * Method to get xml from DBGP and return
+     * range of lines in a file.
+     *
+     * @param string $message String xml with info of file
+     *
+     * @return array With first index as a filename and second as a line
+     */
     public function getFileAndLine($message)
     {
         $hasFileNo = preg_match('/lineno="(\d+)"/', $message, $fileno);
@@ -16,6 +27,44 @@ class MessageParse
         return null;
     }
 
+    /**
+     * Check if text starts with a string.
+     *
+     * @param string $text    a text
+     * @param string $pattern a string to check
+     *
+     * @return bool
+     */
+    public function startsWith($text, $pattern)
+    {
+        $slen = strlen($pattern);
+
+        return $slen === 0 || strncmp($text, $pattern, $slen) === 0;
+    }
+
+    /**
+     * Check if status is for stop if file ended.
+     *
+     * @param string $response String with xml from DBGP
+     *
+     * @return bool
+     */
+    public function isStatusStop($response)
+    {
+        return (bool) preg_match('/status=\"stopp(?:ed|ing)\"/', $response);
+    }
+
+    /**
+     * Format to make message compatible with parse xml.
+     *
+     * When dephpugger receive the xml, there is any invalid chars
+     * and start with code (three ints). This method remove this
+     * to make compatible with `simplexml_load_string`
+     *
+     * @param string $message String with xml from DBGP
+     *
+     * @return string Format xml
+     */
     public function formatMessage($message)
     {
         // Remove # of bytes + null characters.
@@ -32,7 +81,12 @@ class MessageParse
         return $message;
     }
 
-    public function formatXmlString($xml)
+    /**
+     * Method to get a xml and beautifier to print formated.
+     *
+     * @param string $xml String with xml format
+     */
+    public function xmlBeautifier($xml)
     {
         $xml = preg_replace('/(>)(<)(\/*)/', "$1\n$2$3", $xml);
         $token = strtok($xml, "\n");
@@ -56,6 +110,14 @@ class MessageParse
         return $result;
     }
 
+    /**
+     * Check if receive an error from DBGP.
+     *
+     * @param string $message String with xml from DBGP
+     * @param array  $errors  Pointer to return errors
+     *
+     * @return bool
+     */
     public function isErrorMessage($message, &$errors = [])
     {
         $xml = simplexml_load_string($message);

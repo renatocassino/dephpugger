@@ -9,18 +9,6 @@ class CommandAdapter
         return self::convertCommandToDBGp($command, $transactionId);
     }
 
-    public function startsWith($big, $small)
-    {
-        $slen = strlen($small);
-
-        return $slen === 0 || strncmp($big, $small, $slen) === 0;
-    }
-
-    public function isStatusStop($responses)
-    {
-        return preg_match('/status=\"stopp(?:ed|ing)\"/', $responses);
-    }
-
     public static function convertCommandToDBGp($command, $transactionId)
     {
         $config = Config::getInstance();

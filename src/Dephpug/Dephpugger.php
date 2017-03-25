@@ -40,4 +40,38 @@ Ex: <comment>`str_repeat('a', 'b', 'blablabla')`</comment>
 
 EOL;
     }
+
+    public static function start()
+    {
+        $dbgpServer = new DbgpServer();
+        $dbgpServer->startClient();
+
+        $config = Config::getInstance();
+
+        // Message
+        Output::print("<fg=blue> --- Listening on port {$config->debugger['port']} ---</>\n");
+        $messageParse = new MessageParse();
+
+        try {
+            do {
+                $dbgpServer->getResponse();
+                $dbgpServer->printResponse();
+                $dbgpServer->printIfIsStream();
+
+                // Received response saying we're stopping.
+                if ($messageParse->isStatusStop($dbgpServer->getCurrentResponse())) {
+                    Output::print("<comment>-- Request ended, restarting... --</comment>\n");
+
+                    return;
+                }
+
+                // Ask command to dev
+                $command = $dbgpServer->getCommandToSend();
+                $dbgpServer->sendCommand($command);
+            } while (true);
+        } catch (Exception\QuitException $e) {
+        }
+
+        $dbgpServer->closeClient();
+    }
 }

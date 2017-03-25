@@ -2,18 +2,13 @@
 
 namespace Dephpug;
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-
 class DbgpServer
 {
-    private $log;
     private $config;
     private $transactionId = 1;
     private $messageParse;
     private $exporter;
 
-    private static $conn;
     private static $socket;
     private static $fdSocket;
     private static $currentResponse;
@@ -22,8 +17,6 @@ class DbgpServer
     {
         $this->config = Config::getInstance();
         $this->commandAdapter = new CommandAdapter();
-        $this->log = new Logger('name');
-        $this->log->pushHandler(new StreamHandler(__DIR__.'/../../dephpugger.log'));
         $this->filePrinter = new FilePrinter();
         $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
         $this->messageParse = new MessageParse();
@@ -42,6 +35,14 @@ class DbgpServer
         @socket_bind(self::$socket, $this->config->debugger['host'], $this->config->debugger['port']);
         $result = socket_listen(self::$socket);
         assert($result);
+
+        $this->eventConnectXdebugServer();
+        socket_close(self::$socket);
+    }
+
+    public function closeClient()
+    {
+        socket_close(self::$fdSocket);
     }
 
     /**
@@ -127,12 +128,12 @@ class DbgpServer
         $responses = self::$currentResponse;
         // This is hacky, but it works in all cases and doesn't require parsing xml.
         $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
-        $isStream = $this->commandAdapter->startsWith($responses, $prefix);
+        $isStream = $this->messageParse->startsWith($responses, $prefix);
 
         // Echo back the response to the user if it isn't a stream.
         if (!$isStream) {
             try {
-                $responseParsed = $this->messageParse->formatXmlString(self::$currentResponse);
+                $responseParsed = $this->messageParse->xmlBeautifier(self::$currentResponse);
 
                 if ($this->config->debugger['verboseMode']) {
                     Output::print("<comment>{$responseParsed}</comment>\n");
@@ -198,41 +199,9 @@ class DbgpServer
         return 'continue';
     }
 
-    public function init()
+    public function getCurrentResponse()
     {
-        // Starting a connection class
-        $this->startClient();
-
-        // Message
-        Output::print("<fg=blue> --- Listening on port {$this->config->debugger['port']} ---</>\n");
-
-        $this->eventConnectXdebugServer();
-        socket_close(self::$socket);
-    }
-
-    public function start()
-    {
-        try {
-            do {
-                $this->getResponse();
-                $this->printResponse();
-                $this->printIfIsStream();
-
-                // Received response saying we're stopping.
-                if ($this->commandAdapter->isStatusStop(self::$currentResponse)) {
-                    Output::print("<comment>-- Request ended, restarting... --</comment>\n");
-
-                    return;
-                }
-
-                // Ask command to dev
-                $command = $this->getCommandToSend();
-                $this->sendCommand($command);
-            } while (true);
-        } catch (Exception\QuitException $e) {
-        }
-
-        socket_close(self::$fdSocket);
+        return self::$currentResponse;
     }
 
     public function getResponseByCommand($command)

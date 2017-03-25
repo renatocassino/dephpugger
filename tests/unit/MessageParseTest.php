@@ -59,4 +59,28 @@ class MessageParseTest extends \Codeception\Test\Unit
         $hasError = $this->messageParse->isErrorMessage($message);
         $this->assertFalse($hasError);
     }
+
+    public function testIfStartsWithAString()
+    {
+        $message = new MessageParse();
+        $this->assertTrue($message->startsWith('FirstWorld in my string', 'FirstWorld'));
+    }
+
+    public function testIfStartsWithAStringWithOneChar()
+    {
+        $message = new MessageParse();
+        $this->assertTrue($message->startsWith('FirstWorld in my string', 'F'));
+    }
+
+    public function testIfStartsWithAStringPassingEmpty()
+    {
+        $message = new MessageParse();
+        $this->assertTrue($message->startsWith('FirstWorld in my string', ''));
+    }
+
+    public function testIfDoesNotStartWithAString()
+    {
+        $message = new MessageParse();
+        $this->assertFalse($message->startsWith('FirstWorld in my string', 'Second'));
+    }
 }

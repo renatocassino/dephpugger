@@ -5,7 +5,7 @@ namespace Dephpug\Console;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Dephpug\DbgpServer;
+use Dephpug\Dephpugger;
 use Dephpug\Exception\ExitProgram;
 
 class DebuggerCommand extends Command
@@ -30,9 +30,7 @@ class DebuggerCommand extends Command
 
         while (true) {
             try {
-                $dbgpServer = new DbgpServer();
-                $dbgpServer->init();
-                $dbgpServer->start();
+                Dephpugger::start();
             } catch (ExitProgram $e) {
                 $output->writeln("<fg=red;options=bold>{$e}</>");
                 if ($e->getCode() == 2) {

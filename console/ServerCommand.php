@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Dephpug\Config;
 use Dephpug\Dephpugger;
 
-class ServeCommand extends Command
+class ServerCommand extends Command
 {
     protected function configure()
     {
@@ -51,4 +51,4 @@ class ServeCommand extends Command
     }
 }
 
-$application->add(new ServeCommand());
+$application->add(new ServerCommand());
