@@ -18,7 +18,8 @@ class MessageParse
     public function getFileAndLine($message)
     {
         $hasFileNo = preg_match('/lineno="(\d+)"/', $message, $fileno);
-        $hasFilename = preg_match('/filename="file:\/\/([^\"]+)"/', $message, $filename);
+        $pattern = '/filename="file:\/\/([^\"]+)"/';
+        $hasFilename = preg_match($pattern, $message, $filename);
 
         if ($hasFileNo && $hasFilename) {
             return [$filename[1], $fileno[1]];
@@ -85,6 +86,8 @@ class MessageParse
      * Method to get a xml and beautifier to print formated.
      *
      * @param string $xml String with xml format
+     *
+     * @return string
      */
     public function xmlBeautifier($xml)
     {
@@ -93,19 +96,22 @@ class MessageParse
         $result = '';
         $pad = 0;
         $matches = array();
-        while ($token !== false) :
-            if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) :
-                $indent = 0; elseif (preg_match('/^<\/\w/', $token, $matches)) :
-            $pad--;
-        $indent = 0; elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) :
-            $indent = 1; else :
-            $indent = 0;
-        endif;
-        $line = str_pad($token, strlen($token) + $pad, ' ', STR_PAD_LEFT);
-        $result .= $line."\n";
-        $token = strtok("\n");
-        $pad += $indent;
-        endwhile;
+        while ($token !== false) {
+            if (preg_match('/.+<\/\w[^>]*>$/', $token, $matches)) {
+                $indent = 0;
+            } elseif (preg_match('/^<\/\w/', $token, $matches)) {
+                --$pad;
+                $indent = 0;
+            } elseif (preg_match('/^<\w[^>]*[^\/]>.*$/', $token, $matches)) {
+                $indent = 1;
+            } else {
+                $indent = 0;
+            }
+            $line = str_pad($token, strlen($token) + $pad, ' ', STR_PAD_LEFT);
+            $result .= $line."\n";
+            $token = strtok("\n");
+            $pad += $indent;
+        }
 
         return $result;
     }

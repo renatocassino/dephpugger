@@ -36,6 +36,8 @@ class DbgpServer
         $result = socket_listen(self::$socket);
         assert($result);
 
+
+        Output::print("<fg=blue> --- Listening on port {$this->config->debugger['port']} ---</>\n");
         $this->eventConnectXdebugServer();
         socket_close(self::$socket);
     }

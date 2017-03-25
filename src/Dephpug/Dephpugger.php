@@ -46,10 +46,6 @@ EOL;
         $dbgpServer = new DbgpServer();
         $dbgpServer->startClient();
 
-        $config = Config::getInstance();
-
-        // Message
-        Output::print("<fg=blue> --- Listening on port {$config->debugger['port']} ---</>\n");
         $messageParse = new MessageParse();
 
         try {
