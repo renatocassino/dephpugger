@@ -5,14 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
-- Refactor client DBGp protocol
-- Implement PSR-0 or PSR-4 to project
 - Better use for Singleton $config
 - Add documentation in each class and methods
 - Command 'set' to change the config
 - Join verboseMode in one log
 
 ## [Unreleased]
+### Changed
+- Refactor client DBGp protocol
+
 ## [0.5.1] - 2017-03-24
 ### Fixed
 - Bug in autoload

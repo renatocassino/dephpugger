@@ -5,26 +5,16 @@ namespace Dephpug;
 /**
  * Class to create a socket to remote debugger in xDebug.
  *
- * Class contain the login to make a connection with xDebug
+ * Class contains the login to make a connection with xDebug
  * and create a client socket to receive a code, convert and
  * send to DBGP protocol
  */
 class DbgpServer
 {
     /**
-     * Configuration of Dephpugger.
-     */
-    private $config;
-
-    /**
      * Class MessageParse.
      */
     private $messageParse;
-
-    /**
-     * Class Exporter to print var by type.
-     */
-    private $exporter;
 
     /**
      * Transaction id usage for Dbgp protocol.
@@ -43,26 +33,21 @@ class DbgpServer
 
     public function __construct()
     {
-        $this->config = Config::getInstance();
-        $this->commandAdapter = new CommandAdapter();
-        $this->filePrinter = new FilePrinter();
-        $this->filePrinter->setOffset($this->config->debugger['lineOffset']);
         $this->messageParse = new MessageParse();
-        $this->exporter = new Exporter\Exporter();
     }
 
     /**
      * Starts a client. Set socket server to start client and close the server.
      */
-    public function startClient()
+    public function startClient($host='localhost', $port=9005)
     {
         self::$socket = socket_create(AF_INET, SOCK_STREAM, 0);
         @socket_set_option(self::$socket, SOL_SOCKET, SO_REUSEADDR, 1);
-        @socket_bind(self::$socket, $this->config->debugger['host'], $this->config->debugger['port']);
+        @socket_bind(self::$socket, $host, $port);
         $result = socket_listen(self::$socket);
         assert($result);
 
-        Output::print("<fg=blue> --- Listening on port {$this->config->debugger['port']} ---</>\n");
+        Output::print("<fg=blue> --- Listening on port {$port} ---</>\n");
         $this->eventConnectXdebugServer();
         socket_close(self::$socket);
     }
@@ -81,7 +66,7 @@ class DbgpServer
      * Each time this methos is called, append 1 to next
      * call has a different transactionId
      */
-    public function getTransactionId()
+    public static function getTransactionId()
     {
         return self::$transactionId++;
     }
@@ -139,86 +124,5 @@ class DbgpServer
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
 
         return $this->messageParse->formatMessage($message);
-    }
-
-    /**
-     * After send command, get the response.
-     *
-     * @return void
-     */
-    public function printResponse($currentResponse)
-    {
-        $fileAndLine = $this->messageParse->getFileAndLine($currentResponse);
-
-        if ($this->messageParse->isErrorMessage($currentResponse, $errors)) {
-            Output::print("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
-        }
-
-        if (null === $fileAndLine) {
-            // if is a value
-            $this->exporter->setXml($currentResponse);
-            $responseMessage = "<comment>{$this->exporter->printByXml()}</comment>" ?? '';
-        } else {
-            // if is a file
-            $this->filePrinter->setFilename($fileAndLine[0]);
-            $this->filePrinter->line = $fileAndLine[1];
-            $responseMessage = $this->filePrinter->showFile();
-        }
-
-        Output::print($responseMessage);
-    }
-
-    /**
-     * Command to run local or remote commands.
-     */
-    public function getCommandToSend($currentResponse)
-    {
-        while (true) {
-            // Get a command from the user and send it.
-            $line = $this->readLine($currentResponse);
-            $command = CommandAdapter::convertCommand($line, $this->getTransactionId());
-
-            // Refactor this part bellow
-            if (!is_array($command)) {
-                return $command;
-            }
-
-            if ('quit' === $command['command']) {
-                $message = 'Quitting debugger request and restart listening';
-                Output::print("\n<info> -- $message -- </info>\n");
-                throw new Exception\QuitException('');
-            } elseif ('list' === $command['command']) {
-                $offset = $this->filePrinter->offset;
-                $newLine = min($this->filePrinter->line + $offset, $this->filePrinter->numberOfLines() - 1);
-                $this->filePrinter->line = $newLine;
-                Output::print($this->filePrinter->showFile(false));
-            } elseif ('list-previous' === $command['command']) {
-                $offset = $this->filePrinter->offset;
-                $newLine = max($this->filePrinter->line - $offset, 0);
-                $this->filePrinter->line = $newLine;
-                Output::print($this->filePrinter->showFile(false));
-            } elseif ('help' === $command['command']) {
-                Output::print(Dephpugger::help());
-            }
-        }
-    }
-
-    /**
-     * Command to read line (like scanf in C).
-     *
-     * @return string
-     */
-    public function readLine($currentResponse)
-    {
-        if (!preg_match('/\<init xmlns/', $currentResponse)) {
-            $line = '';
-            while ($line === '') {
-                $line = trim(Readline::readline());
-            }
-
-            return $line;
-        }
-
-        return 'continue';
     }
 }
