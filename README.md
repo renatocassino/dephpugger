@@ -39,6 +39,7 @@ Now run `source ~/.bash_profile` and you can run the commands using only `$ deph
 - PHP 7.0 or more (not tested in older versions)
 - Xdebug activate
 - [This plugin for chrome](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc)
+- [Or this plugin for Firefox](https://addons.mozilla.org/pt-br/firefox/addon/the-easiest-xdebug/)
 
 You can run this commands to check your dependencies:
 
