@@ -41,7 +41,7 @@ Ex: <comment>`str_repeat('a', 'b', 'blablabla')`</comment>
 EOL;
     }
 
-    public static function start()
+    public function start()
     {
         $dbgpServer = new DbgpServer();
         $dbgpServer->startClient();

@@ -30,7 +30,8 @@ class DebuggerCommand extends Command
 
         while (true) {
             try {
-                Dephpugger::start();
+                $dephpugger = new Dephpugger();
+                $dephpugger->start();
             } catch (ExitProgram $e) {
                 $output->writeln("<fg=red;options=bold>{$e}</>");
                 if ($e->getCode() == 2) {
