@@ -139,9 +139,10 @@ class MessageParse
     }
 
     /**
-     * If message is a stream, print xml formated
+     * If message is a stream, print xml formated.
      *
      * @param string $response Xml message from DBGP
+     *
      * @return string|null
      */
     public function printIfIsStream($response)
@@ -154,11 +155,13 @@ class MessageParse
         if (!$isStream) {
             try {
                 $responseParsed = $this->xmlBeautifier($response);
+
                 return "<comment>{$responseParsed}</comment>\n";
             } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
                 return "\n\n{$response}\n\n";
             }
         }
+
         return null;
     }
 }

@@ -53,9 +53,8 @@ EOL;
         $currentResponse = $dbgpServer->getResponse();
         $messageParse = new MessageParse();
 
-
         try {
-            while(true) {
+            while (true) {
                 // Ask command to dev
                 $command = $this->getCommandToSend($currentResponse);
                 $dbgpServer->sendCommand($command);
@@ -64,8 +63,12 @@ EOL;
                 $this->printResponse($currentResponse);
                 if ($config->debugger['verboseMode']) {
                     $message = $messageParse->printIfIsStream($currentResponse);
-                    if($message) {
-                        Output::print($message);
+                    if ($message) {
+                        try {
+                            Output::print($message);
+                        } catch (\Exception $e) {
+                            echo $message;
+                        }
                     }
                 }
 
@@ -84,8 +87,6 @@ EOL;
 
     /**
      * After send command, get the response.
-     *
-     * @return void
      */
     public function printResponse($currentResponse)
     {
@@ -112,7 +113,7 @@ EOL;
         Output::print($responseMessage);
     }
 
-        /**
+    /**
      * Command to run local or remote commands.
      */
     public function getCommandToSend($currentResponse)
@@ -142,7 +143,7 @@ EOL;
                 $this->filePrinter->line = $newLine;
                 Output::print($this->filePrinter->showFile(false));
             } elseif ('help' === $command['command']) {
-                Output::print(Dephpugger::help());
+                Output::print(self::help());
             }
         }
     }
@@ -165,5 +166,4 @@ EOL;
 
         return 'continue';
     }
-
 }

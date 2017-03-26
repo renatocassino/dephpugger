@@ -29,7 +29,7 @@ class DbgpServer
     /**
      * Starts a client. Set socket server to start client and close the server.
      */
-    public function startClient($host='localhost', $port=9005)
+    public function startClient($host = 'localhost', $port = 9005)
     {
         self::$socket = socket_create(AF_INET, SOCK_STREAM, 0);
         @socket_set_option(self::$socket, SOL_SOCKET, SO_REUSEADDR, 1);
@@ -94,9 +94,7 @@ class DbgpServer
     }
 
     /**
-     * Wait the response and set in static property
-     *
-     * @return void
+     * Wait the response and set in static property.
      */
     public function getResponse()
     {
@@ -114,6 +112,7 @@ class DbgpServer
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
 
         $messageParse = new MessageParse();
+
         return $messageParse->formatMessage($message);
     }
 }
