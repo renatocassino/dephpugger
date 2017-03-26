@@ -5,17 +5,12 @@ namespace Dephpug;
 /**
  * Class to create a socket to remote debugger in xDebug.
  *
- * Class contains the login to make a connection with xDebug
- * and create a client socket to receive a code, convert and
- * send to DBGP protocol
+ * Class contains the logic to make a connection with xDebug
+ * and create a client socket to receive a code and send to
+ * DBGP protocol
  */
 class DbgpServer
 {
-    /**
-     * Class MessageParse.
-     */
-    private $messageParse;
-
     /**
      * Transaction id usage for Dbgp protocol.
      */
@@ -30,11 +25,6 @@ class DbgpServer
      * Socket server to debug.
      */
     private static $fdSocket;
-
-    public function __construct()
-    {
-        $this->messageParse = new MessageParse();
-    }
 
     /**
      * Starts a client. Set socket server to start client and close the server.
@@ -123,6 +113,7 @@ class DbgpServer
             $message .= $buffer;
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
 
-        return $this->messageParse->formatMessage($message);
+        $messageParse = new MessageParse();
+        return $messageParse->formatMessage($message);
     }
 }
