@@ -41,11 +41,6 @@ class DbgpServer
      */
     private static $fdSocket;
 
-    /**
-     * Last response.
-     */
-    private static $currentResponse;
-
     public function __construct()
     {
         $this->config = Config::getInstance();
@@ -121,8 +116,6 @@ class DbgpServer
             $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
             throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
-
-        $this->getResponse();
     }
 
     /**
@@ -145,7 +138,7 @@ class DbgpServer
             $message .= $buffer;
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
 
-        self::$currentResponse = $this->messageParse->formatMessage($message);
+        return $this->messageParse->formatMessage($message);
     }
 
     /**
@@ -153,17 +146,17 @@ class DbgpServer
      *
      * @return void
      */
-    public function printResponse()
+    public function printResponse($currentResponse)
     {
-        $fileAndLine = $this->messageParse->getFileAndLine(self::$currentResponse);
+        $fileAndLine = $this->messageParse->getFileAndLine($currentResponse);
 
-        if ($this->messageParse->isErrorMessage(self::$currentResponse, $errors)) {
+        if ($this->messageParse->isErrorMessage($currentResponse, $errors)) {
             Output::print("<fg=red;options=bold>Error code: [{$errors['code']}] - {$errors['message']}</>");
         }
 
         if (null === $fileAndLine) {
             // if is a value
-            $this->exporter->setXml(self::$currentResponse);
+            $this->exporter->setXml($currentResponse);
             $responseMessage = "<comment>{$this->exporter->printByXml()}</comment>" ?? '';
         } else {
             // if is a file
@@ -178,11 +171,11 @@ class DbgpServer
     /**
      * Command to run local or remote commands.
      */
-    public function getCommandToSend()
+    public function getCommandToSend($currentResponse)
     {
         while (true) {
             // Get a command from the user and send it.
-            $line = $this->readLine();
+            $line = $this->readLine($currentResponse);
             $command = CommandAdapter::convertCommand($line, $this->getTransactionId());
 
             // Refactor this part bellow
@@ -215,9 +208,9 @@ class DbgpServer
      *
      * @return string
      */
-    public function readLine()
+    public function readLine($currentResponse)
     {
-        if (!preg_match('/\<init xmlns/', self::$currentResponse)) {
+        if (!preg_match('/\<init xmlns/', $currentResponse)) {
             $line = '';
             while ($line === '') {
                 $line = trim(Readline::readline());
@@ -227,15 +220,5 @@ class DbgpServer
         }
 
         return 'continue';
-    }
-
-    /**
-     * Get response setted in readCommand.
-     *
-     * @return string
-     */
-    public function getCurrentResponse()
-    {
-        return self::$currentResponse;
     }
 }

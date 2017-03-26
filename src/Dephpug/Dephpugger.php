@@ -45,31 +45,32 @@ EOL;
     {
         $dbgpServer = new DbgpServer();
         $dbgpServer->startClient();
-        $dbgpServer->getResponse();
+        $currentResponse = $dbgpServer->getResponse();
         $messageParse = new MessageParse();
         $config = Config::getInstance();
 
         try {
-            do {
-                $dbgpServer->printResponse();
+            while(true) {
+                // Ask command to dev
+                $command = $dbgpServer->getCommandToSend($currentResponse);
+                $dbgpServer->sendCommand($command);
+                $currentResponse = $dbgpServer->getResponse();
+
+                $dbgpServer->printResponse($currentResponse);
                 if ($config->debugger['verboseMode']) {
-                    $message = $messageParse->printIfIsStream($dbgpServer->getCurrentResponse());
+                    $message = $messageParse->printIfIsStream($currentResponse);
                     if($message) {
                         Output::print($message);
                     }
                 }
 
                 // Received response saying we're stopping.
-                if ($messageParse->isStatusStop($dbgpServer->getCurrentResponse())) {
+                if ($messageParse->isStatusStop($currentResponse)) {
                     Output::print("<comment>-- Request ended, restarting... --</comment>\n");
 
                     return;
                 }
-
-                // Ask command to dev
-                $command = $dbgpServer->getCommandToSend();
-                $dbgpServer->sendCommand($command);
-            } while (true);
+            }
         } catch (Exception\QuitException $e) {
         }
 

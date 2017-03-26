@@ -29,6 +29,6 @@ class ObjectExporter implements iExporter
         $transactionId = $dbgpServer->getTransactionId();
         $dbgpServer->sendCommand('eval -i {$transactionId} -- '.$command);
 
-        return $dbgpServer->getCurrentResponse();
+        return $dbgpServer->getResponse();
     }
 }
