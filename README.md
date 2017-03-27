@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/tacnoman/dephpugger.svg?branch=master)](https://travis-ci.org/tacnoman/dephpugger) [![Code Climate](https://codeclimate.com/github/tacnoman/dephpug/badges/gpa.svg)](https://codeclimate.com/github/tacnoman/dephpug)
 
-![dephpugger](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/dephpugger.gif)
+<img src="https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/logo.png" alt="logo" title="Dephpugger logo" height="500">
 
 # What is Dephpugger?
 
 Dephpugger (read depugger) is an open source lib to make a debug in php direct in terminal, without necessary configure an IDE. The dephpugger run in Php Built in Server using another command.
 
-![dephpugger screenshot](./images/dephpugger.png)  
+![dephpugger](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/dephpugger.gif)
 `Image 1.0 - Screenshot for dephpugger`
 
 # Install
