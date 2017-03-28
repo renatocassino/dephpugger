@@ -1,64 +1,78 @@
 #!/usr/bin/env php
 <?php
 
-define('DIRNAME', dirname(__DIR__));
+define('DIRNAME', dirname(dirname(__DIR__)));
+define('AUTOLOAD_FILE', implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']));
 
 $autoloads = [
-    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']),
-    getcwd() . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']),
+    getcwd() . DIRECTORY_SEPARATOR, // /path/of/project
+    DIRNAME . DIRECTORY_SEPARATOR, // ../
+    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['vendor', 'tacnoman', 'dephpugger']) . DIRECTORY_SEPARATOR, // ../vendor/tacnoman/dephpugger/
 ];
 
-$loaded = false;
-foreach($autoloads as $autoload) {
+// Checking if file is found
+$dirPath = false;
+foreach($autoloads as $path) {
+    $autoload = $path . AUTOLOAD_FILE;
     if(file_exists($autoload)) {
         require_once $autoload;
-        $loaded = true;
+        $dirPath = $path;
         break;
     }
 }
 
-if(!$loaded) {
+// If not found, get message error
+if(!$dirPath) {
     echo "Cannot find autoload.php in folders: \n";
-    echo " - {$autoloads[0]}\n";
-    echo " - {$autoloads[1]}\n";
+    foreach($autoloads as $autoload) {
+        echo " - {$autoload}".AUTOLOAD_FILE."\n";
+    }
     echo 'You must run `composer install` first.';
     exit;
 }
 
+// Folder vendor/ in project found
+define('VENDORDIR', $dirPath.'vendor'.DIRECTORY_SEPARATOR.'tacnoman'.DIRECTORY_SEPARATOR.'dephpugger'.DIRECTORY_SEPARATOR);
+
+/**
+ * Function to include paths
+ */
 function includePaths($arrayOfPaths, &$application=null)
 {
     $paths = [];
     foreach($arrayOfPaths as $path) {
-        $files = glob($path);
+        $pathFile = VENDORDIR.$path;
+        $files = glob($pathFile);
         $paths = array_merge($paths, $files);
     }
 
     foreach($paths as $path)
     {
-        require $path;
+        require_once $path;
     }
 }
 
-includePaths([
-    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '*.php']),
-    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '*.php']),
-    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '**', '*.php']),
-]);
+// Paths to load all classes in src/Dephpug (like psr-0)
+$paths = [
+    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '***.php']),
+    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '*.php']),
+    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '**', '*.php']),
+];
+includePaths($paths);
 
+// Create application
+$application = new Symfony\Component\Console\Application();
 
-use Symfony\Component\Console\Application;
-use Dephpug\Config;
-use Dephpug\Dephpugger;
+// Paths to console
+$paths = [
+    implode(DIRECTORY_SEPARATOR, ['console', '*.php']),
+    implode(DIRECTORY_SEPARATOR, ['console', 'concerns', '*.php'])
+];
+includePaths($paths, $application);
 
-$application = new Application();
-
-includePaths([
-    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['console', '*.php']),
-    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['console', 'concerns', '*.php'])
-], $application);
-
+// Function to splash screen
 function splashScreen($word='Server') {
-    $version = 'v' . Dephpugger::$VERSION;
+    $version = 'v' . Dephpug\Dephpugger::$VERSION;
     return <<<EOL
 <info>
   _____             _                                       
@@ -71,7 +85,6 @@ function splashScreen($word='Server') {
              |_|         |_|          |___/ |___/           </info>
 
                                    $word - Version: <fg=cyan>$version</>
-
 
 EOL;
 }
