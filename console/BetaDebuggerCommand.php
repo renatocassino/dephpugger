@@ -28,6 +28,7 @@ class BetaDebuggerCommand extends Command
     {
         $dephpugger = new \Dephpug\Debug;
         $dephpugger->addPlugin(new \Dephpug\Plugin\ContinuePlugin());
+        $dephpugger->addPlugin(new \Dephpug\Plugin\InitBreakPlugin());
         $config = \Dephpug\Config::getInstance();
         $dephpugger->host = $config->debugger['host'];
         $dephpugger->port = $config->debugger['port'];

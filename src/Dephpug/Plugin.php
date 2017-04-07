@@ -9,6 +9,7 @@ interface iPlugin
 
 class Plugin implements iPlugin
 {
+    public $dbgpServer;
     public function getName()
     {
         return 'Not implemented plugin';

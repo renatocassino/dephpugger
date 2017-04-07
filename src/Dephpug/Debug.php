@@ -7,9 +7,17 @@ class Debug
     private $plugins = [];
     public $host;
     public $port;
+    public $dbgpServer;
+    public $state;
+
+    public function __construct()
+    {
+        $this->dbgpServer = new DbgpServer();
+    }
 
     public function addPlugin(iPlugin $plugin)
     {
+        $plugin->dbgpServer = &$this->dbgpServer;
         $this->plugins[] = $plugin;
     }
 
@@ -19,24 +27,29 @@ class Debug
         {
             if (method_exists($plugin, $methodName)) {
                 $returnMethod = $plugin->$methodName(...$params);
-                if($returnMethod[0] == 'valid') {
-                    return $returnMethod[1];
-                }
             }
         }
     }
 
     public function run()
     {
-        $dbgpServer = new DbgpServer();
-        $dbgpServer->startClient($this->host, $this->port);
-        $currentResponse = $dbgpServer->getResponse();
+        $this->dbgpServer->startClient($this->host, $this->port);
 
-        while(true) {
-            $line = Readline::readline();
-            $command = $this->callPluginMethod('convertCommand', [$line, DbgpServer::getTransactionId()]);
+        do {
+            if($this->dbgpServer->hasMessage()) {
+                $currentResponse = $this->dbgpServer->getResponse();
+                echo $currentResponse;
+                $this->callPluginMethod('receiveXmlMessage', [$currentResponse]);
+                continue;
+            }
 
-            if($line == 'q') {break;}
-        }
+            if(!$this->dbgpServer->hasMessage()) {
+                $line = Readline::readline();
+                $command = $this->callPluginMethod('convertCommand', [$line, DbgpServer::getTransactionId()]);
+
+                if($line == 'q') {break;}
+                continue;
+            }
+        } while(true);
     }
 }

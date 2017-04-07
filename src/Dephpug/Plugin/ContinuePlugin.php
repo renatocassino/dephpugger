@@ -12,9 +12,8 @@ class ContinuePlugin extends \Dephpug\Plugin
     public function convertCommand($line, $transactionId)
     {
         if(preg_match('/^c(?:ontinue)?/i', $line)) {
-            return ['valid', sprintf('run -i %s', $transactionId)];
+            $command = sprintf('run -i %s', $transactionId);
+            $this->dbgpServer->sendCommand($command);
         }
-
-        return ['invalid'];
     }
 }

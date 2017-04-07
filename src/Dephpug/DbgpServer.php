@@ -26,6 +26,8 @@ class DbgpServer
      */
     private static $fdSocket;
 
+    public $hasMessage = true;
+
     /**
      * Starts a client. Set socket server to start client and close the server.
      */
@@ -76,6 +78,11 @@ class DbgpServer
         }
     }
 
+    public function hasMessage()
+    {
+        return $this->hasMessage;
+    }
+
     /**
      * Sends a command to the xdebug server.
      * Exits process on failure.
@@ -91,6 +98,7 @@ class DbgpServer
             $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
             throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
+        $this->hasMessage = true;
     }
 
     /**
@@ -113,6 +121,7 @@ class DbgpServer
 
         $messageParse = new MessageParse();
 
+        $this->hasMessage = false;
         return $messageParse->formatMessage($message);
     }
 }
