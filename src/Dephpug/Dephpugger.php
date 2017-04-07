@@ -44,6 +44,10 @@ EOL;
 
     public function start()
     {
+        declare(ticks = 1);
+        pcntl_signal(SIGTERM, "signal_handler");
+        pcntl_signal(SIGINT, "signal_handler");
+
         $config = Config::getInstance();
         $this->filePrinter = new FilePrinter();
         $this->filePrinter->setOffset($config->debugger['lineOffset']);
@@ -156,12 +160,7 @@ EOL;
     public function readLine($currentResponse)
     {
         if (!preg_match('/\<init xmlns/', $currentResponse)) {
-            $line = '';
-            while ($line === '') {
-                $line = trim(Readline::readline());
-            }
-
-            return $line;
+            return Readline::readline();
         }
 
         return 'continue';

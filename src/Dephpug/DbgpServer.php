@@ -68,7 +68,7 @@ class DbgpServer
     {
         self::$fdSocket = null;
         while (true) {
-            self::$fdSocket = @socket_accept(self::$socket);
+            self::$fdSocket = socket_accept(self::$socket);
             if (self::$fdSocket !== false) {
                 Output::print('Connected to <fg=yellow;options=bold>XDebug server</>!');
                 break;
