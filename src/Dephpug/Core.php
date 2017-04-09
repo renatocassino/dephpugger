@@ -34,8 +34,6 @@ class Core
 
             $line = $this->readline->scan();
             $this->commandList->run($line);
-
-            if($line == 'q') {break;}
         }
     }
 }

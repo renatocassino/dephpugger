@@ -15,11 +15,11 @@ class Readline
         }
     }
 
-    public function scan()
+    public function scan($msg = '(dbgp) => ')
     {
         $line = '';
         while ($line === '') {
-            $line = trim(readline('(dbgp) => '));
+            $line = trim(readline($msg));
             if ($line !== self::$lastLine) {
                 readline_add_history($line);
                 readline_write_history(self::$historyFile);
