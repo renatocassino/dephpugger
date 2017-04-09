@@ -2,17 +2,20 @@
 
 namespace Dephpug;
 
-require_once __DIR__ . '/iMessageEvent.php';
+require_once(__DIR__ . '/Interfaces/iMessageEvent.php');
+require_once(__DIR__ . '/Interfaces/iCore.php');
 
-abstract class MessageEvent implements iMessageEvent
+use Dephpug\Interfaces\iMessageEvent;
+use Dephpug\Interfaces\iCore;
+
+abstract class MessageEvent implements iMessageEvent, iCore
 {
-    public function setCore($core)
+    public function setCore(&$core)
     {
         $this->core = $core;
     }
 
     public function match(string $xml)
     {
-        
     }
 }

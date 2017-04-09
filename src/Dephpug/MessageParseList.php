@@ -9,7 +9,7 @@ class MessageParseList
 
     public function __construct(&$core)
     {
-        $this->reflection = new PluginReflection($core, 'Dephpug\iMessageEvent');
+        $this->reflection = new PluginReflection($core, 'Dephpug\Interfaces\iMessageEvent');
         $this->core = $core;
     }
 

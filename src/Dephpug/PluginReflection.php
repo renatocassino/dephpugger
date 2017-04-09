@@ -10,7 +10,7 @@ class PluginReflection
     public $interfaceReflection;
     public $core;
 
-    public function __construct(&$core, $interfaceReflection = 'Dephpug\iCommand')
+    public function __construct(&$core, $interfaceReflection = 'Dephpug\Interfaces\iCommand')
     {
         $this->core = $core;
         $this->interfaceReflection = $interfaceReflection;

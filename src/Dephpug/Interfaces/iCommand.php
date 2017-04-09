@@ -1,6 +1,6 @@
 <?php
 
-namespace Dephpug;
+namespace Dephpug\Interfaces;
 
 interface iCommand
 {

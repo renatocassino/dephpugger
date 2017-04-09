@@ -8,27 +8,6 @@ namespace Dephpug;
 class MessageParse
 {
     /**
-     * Method to get xml from DBGP and return
-     * range of lines in a file.
-     *
-     * @param string $message String xml with info of file
-     *
-     * @return array With first index as a filename and second as a line
-     */
-    public function getFileAndLine($message)
-    {
-        $hasFileNo = preg_match('/lineno="(\d+)"/', $message, $fileno);
-        $pattern = '/filename="file:\/\/([^\"]+)"/';
-        $hasFilename = preg_match($pattern, $message, $filename);
-
-        if ($hasFileNo && $hasFilename) {
-            return [$filename[1], $fileno[1]];
-        }
-
-        return null;
-    }
-
-    /**
      * Check if text starts with a string.
      *
      * @param string $text    a text
@@ -41,18 +20,6 @@ class MessageParse
         $slen = strlen($pattern);
 
         return $slen === 0 || strncmp($text, $pattern, $slen) === 0;
-    }
-
-    /**
-     * Check if status is for stop if file ended.
-     *
-     * @param string $response String with xml from DBGP
-     *
-     * @return bool
-     */
-    public function isStatusStop($response)
-    {
-        return (bool) preg_match('/status=\"stopp(?:ed|ing)\"/', $response);
     }
 
     /**
@@ -114,28 +81,6 @@ class MessageParse
         }
 
         return $result;
-    }
-
-    /**
-     * Check if receive an error from DBGP.
-     *
-     * @param string $message String with xml from DBGP
-     * @param array  $errors  Pointer to return errors
-     *
-     * @return bool
-     */
-    public function isErrorMessage($message, &$errors = [])
-    {
-        $xml = simplexml_load_string($message);
-        // Getting error messages
-        if (isset($xml->error)) {
-            $errors['message'] = (string) $xml->error->message;
-            $errors['code'] = $xml->error['code'];
-
-            return true;
-        }
-
-        return false;
     }
 
     /**

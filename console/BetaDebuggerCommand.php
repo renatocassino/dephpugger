@@ -36,6 +36,7 @@ class BetaDebuggerCommand extends Command
             } catch(\Dephpug\Exception\ExitProgram $e) {
                 $message = $e->getMessage();
                 $output->writeln("<fg=red;options=bold> --- {$message} --- </>");
+                break;
             }
         }
     }

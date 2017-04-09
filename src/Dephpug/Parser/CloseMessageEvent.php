@@ -8,7 +8,7 @@ class CloseMessageEvent extends MessageParse
 {
     public function match(string $xml)
     {
-        return preg_match('/status=\"stopping\"/', $xml);
+        return (bool) preg_match('/status=\"stopp(?:ed|ing)\"/', $xml);
     }
 
     public function exec()

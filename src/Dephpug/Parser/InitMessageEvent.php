@@ -8,7 +8,6 @@ class InitMessageEvent extends MessageParse
 {
     public function match(string $xml)
     {
-        echo $xml;
         return preg_match('/init/', $xml);
     }
 
