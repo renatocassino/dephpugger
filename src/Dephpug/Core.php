@@ -20,7 +20,6 @@ class Core
         $port = $config->debugger['port'];
 
         $this->dbgpServer->startClient($host, $port);
-
         $this->startRepl();
     }
 
@@ -30,6 +29,7 @@ class Core
             if($this->dbgpServer->hasMessage) {
                 $currentResponse = $this->dbgpServer->getResponse();
                 $this->parserList->run($currentResponse);
+                continue;
             }
 
             $line = $this->readline->scan();

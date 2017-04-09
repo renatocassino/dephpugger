@@ -26,7 +26,6 @@ class ContinueCommand extends \Dephpug\Command
 
     public function exec()
     {
-        echo 'Executing continue command';
         $this->core->dbgpServer->sendCommand('run -i 1');
     }
 }

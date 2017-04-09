@@ -3,6 +3,8 @@
 namespace Dephpug\Parse;
 
 use Dephpug\MessageEvent as MessageParse;
+use Dephpug\FilePrinter;
+use Dephpug\Output;
 
 class FilePrinterMessageEvent extends MessageParse
 {
@@ -25,6 +27,9 @@ class FilePrinterMessageEvent extends MessageParse
 
     public function exec()
     {
-        echo 'HERE I\'m PRINTING FILE' . $this->fileNumber . ' - ' . $this->fileName;
+        $filePrinter = new FilePrinter();
+        $filePrinter->setFilename($this->fileName);
+        $filePrinter->line = $this->fileNumber;
+        Output::print($filePrinter->showFile());
     }
 }

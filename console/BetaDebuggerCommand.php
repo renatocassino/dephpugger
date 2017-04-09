@@ -26,8 +26,18 @@ class BetaDebuggerCommand extends Command
 
     protected function execute(InputInterface $_, OutputInterface $output)
     {
-        $dephpugCore = new \Dephpug\Core();
-        $dephpugCore->run();
+        while(true) {
+            try {
+                $dephpugCore = new \Dephpug\Core();
+                $dephpugCore->run();
+            } catch(\Dephpug\Exception\QuitException $e) {
+                $message = $e->getMessage();
+                $output->writeln("<comment> --- {$message} --- </comment>");
+            } catch(\Dephpug\Exception\ExitProgram $e) {
+                $message = $e->getMessage();
+                $output->writeln("<fg=red;options=bold> --- {$message} --- </>");
+            }
+        }
     }
 }
 
