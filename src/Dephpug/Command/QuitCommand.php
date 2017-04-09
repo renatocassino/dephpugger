@@ -15,12 +15,17 @@ class QuitCommand extends \Dephpug\Command
 
     public function getShortDescription()
     {
-        
+        return 'Quit the debugger';
     }
 
     public function getDescription()
     {
         
+    }
+
+    public function getAlias()
+    {
+        return 'q | quit';
     }
 
     public function getRegexp()

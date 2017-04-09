@@ -11,12 +11,17 @@ class NextCommand extends \Dephpug\Command
 
     public function getShortDescription()
     {
-        
+        return 'Step over in breakpoint';
     }
 
     public function getDescription()
     {
         
+    }
+
+    public function getAlias()
+    {
+        return 'n | next';
     }
 
     public function getRegexp()
