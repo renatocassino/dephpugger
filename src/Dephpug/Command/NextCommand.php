@@ -27,7 +27,7 @@ class NextCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'n | next';
+        return 'n / next';
     }
 
     public function getRegexp()

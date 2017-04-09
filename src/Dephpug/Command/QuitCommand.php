@@ -25,7 +25,7 @@ class QuitCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'q | quit';
+        return 'q / quit';
     }
 
     public function getRegexp()

@@ -24,7 +24,7 @@ class ContinueCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'c | continue';
+        return 'c / continue';
     }
 
     public function getRegexp()

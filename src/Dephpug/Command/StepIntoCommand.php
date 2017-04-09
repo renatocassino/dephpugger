@@ -27,7 +27,7 @@ class StepIntoCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 's | step_into';
+        return 's / step_into';
     }
 
     public function getRegexp()

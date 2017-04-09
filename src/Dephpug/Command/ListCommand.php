@@ -27,7 +27,7 @@ class ListCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'l | list';
+        return 'l / list';
     }
 
     public function getRegexp()

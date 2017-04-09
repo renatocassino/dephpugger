@@ -27,7 +27,7 @@ class ListPreviousCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'lp | list_previous';
+        return 'lp / list_previous';
     }
 
     public function getRegexp()

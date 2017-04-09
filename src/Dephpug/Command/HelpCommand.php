@@ -27,7 +27,7 @@ class HelpCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'h | help';
+        return 'h / help';
     }
 
     public function getRegexp()
@@ -62,12 +62,13 @@ class HelpCommand extends \Dephpug\Command
 
 <info>-- Help command --</info>
 
-<options=bold>Command         </>|<options=bold> Short Description</>
+<options=bold>Command             </>|<options=bold> Short Description</>
+--------------------+---------------------
 
 EOL;
 
         foreach($this->core->commandList->reflection->getPlugins() as $command) {
-            $alias = $this->getCharsWithSpaces($command->getAlias(), 16);
+            $alias = $this->getCharsWithSpaces($command->getAlias(), 20);
             $shortDescription = $command->getShortDescription();
             $content .= "<comment>{$alias}</comment>| {$shortDescription}\n";
         }
