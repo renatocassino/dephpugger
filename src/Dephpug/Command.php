@@ -24,6 +24,16 @@ abstract class Command implements iCommand, iCore
         return preg_match($this->getRegexp(), $command, $this->match);
     }
 
+    public function getBigDescription()
+    {
+        $content = "\n\n<options=bold>Method name: {$this->getName()}</>\n\n";
+        $content .= "You can call as: <options=bold>{$this->getAlias()}</>\n";
+        $content .= "Regex to match this command: <options=bold>{$this->getRegexp()}</>\n\n";
+        $content .= "<comment>{$this->getShortDescription()}";
+        $content .= "\n\n";
+        return $content . $this->getDescription() . "</comment>\n";
+    }
+
     public function getName()
     {
         return 'Not implemented plugin';

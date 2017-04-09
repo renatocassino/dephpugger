@@ -19,7 +19,10 @@ class HelpCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        
+        return join(' ', [
+            'This command is used to get help for a dephpugger usage or a define command.',
+            'You need to use the command `help <commandName>` to see all informations about a command.',
+        ]);
     }
 
     public function getAlias()
@@ -29,10 +32,31 @@ class HelpCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^h(?:elp)?/i';
+        return '/^h(?:elp)?( (?P<command>\w+))?/i';
     }
 
     public function exec()
+    {
+        if(isset($this->match['command'])) {
+            return $this->renderHelpCommand();
+        }
+        return $this->helpDefault();
+    }
+
+    public function renderHelpCommand()
+    {
+        foreach($this->core->commandList->reflection->getPlugins() as $command) {
+            if(strtolower($command->getName()) === $this->match['command']) {
+                $bigDescription = $command->getBigDescription();
+                Output::print($bigDescription);
+                return;
+            }
+        }
+
+        Output::print("<fg=red;options=bold>Not found command `{$this->match['command']}`.</>");
+    }
+
+    public function helpDefault()
     {
         $content = <<<'EOL'
 
