@@ -26,6 +26,9 @@ class DbgpServer
      */
     private static $fdSocket;
 
+    /**
+     * If has message to receive
+     */
     public $hasMessage = true;
 
     /**
@@ -108,6 +111,7 @@ class DbgpServer
     {
         $bytes = 0;
         $message = '';
+
         do {
             $buffer = '';
             $result = @socket_recv(self::$fdSocket, $buffer, 1024, 0);

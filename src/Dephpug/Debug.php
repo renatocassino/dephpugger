@@ -4,7 +4,6 @@ namespace Dephpug;
 
 class Debug
 {
-    private $plugins = [];
     public $host;
     public $port;
     public $dbgpServer;
@@ -13,22 +12,6 @@ class Debug
     public function __construct()
     {
         $this->dbgpServer = new DbgpServer();
-    }
-
-    public function addPlugin(iPlugin $plugin)
-    {
-        $plugin->dbgpServer = &$this->dbgpServer;
-        $this->plugins[] = $plugin;
-    }
-
-    public function callPluginMethod($methodName, $params)
-    {
-        foreach($this->plugins as $plugin)
-        {
-            if (method_exists($plugin, $methodName)) {
-                $returnMethod = $plugin->$methodName(...$params);
-            }
-        }
     }
 
     public function run()
