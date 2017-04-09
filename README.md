@@ -120,44 +120,22 @@ When you stop in a breakpoint you can make theese commands:
 # Configuration (is simple)
 
 The Dephpugger project has default options like a port, host, socket port, etc. You can change this values adding a file `.dephpugger.yml` in root directory project.
-
-The default config is:
-
-```php
-    $defaultConfig = [
-        'server' => [
-            'port' => 8888, # Port to your php built in web server
-            'host' => 'localhost', # Host to your php build in web server
-            'phpPath' => 'php', # Path to run php
-            'path' => null, # Path to folder (param -t in php command)
-            'file' => ''
-        ],
-        'debugger' => [
-            'port' => 9005, # Port to socket
-            'host' => 'localhost', # Host to socket,
-            'lineOffset' => 6, # Number of line offset to show in debugger
-            'verboseMode' => false, # If true, show all messages from DBGp (only for dephpugger developers)
-            'historyFile' => '.dephpugger_history', # File with history to use use commands in debugger
-        ]
-    ];
-```
-
-You can replace in your `.dephpugger.yml` file. Like this:
+You can create in your `.dephpugger.yml` file the configurations. Like this:
 
 ```yml
 --- 
 debugger: 
-  host: mysocket.dev
-  port: 9002
-  lineOffset: 10
-  path: ./public/
-  file: index.php
-  verboseMode: false
-  historyFile: ~/.dephpugger_history
-server: 
-  host: myproject.dev
-  phpPath: /usr/local/bin/php
-  port: 8080
+  host: mysocket.dev # default: localhost
+  port: 9002 # default: 9005
+  lineOffset: 10 # default: 6
+  path: ./public/ # default: null
+  file: index.php # default: null
+  verboseMode: false # default: false
+  historyFile: ~/.dephpugger_history # default: .dephpugger_history
+server:
+  host: myproject.dev # default: localhost
+  phpPath: /usr/local/bin/php # default: php
+  port: 8080 # default: 8888
 ```
 
 Theese values will replace the default configuration.
