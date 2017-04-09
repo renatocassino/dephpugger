@@ -12,10 +12,16 @@ abstract class Command implements iCommand, iCore
 {
     public $dbgpServer;
     public $core;
+    public $match;
 
     public function setCore(&$core)
     {
         $this->core = $core;
+    }
+
+    public function match($command)
+    {
+        return preg_match($this->getRegexp(), $command, $this->match);
     }
 
     public function getName()

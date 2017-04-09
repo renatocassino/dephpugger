@@ -17,7 +17,7 @@ class CommandList
     {
         foreach($this->reflection->getPlugins() as $plugin)
         {
-            if(preg_match($plugin->getRegexp(), $command)) {
+            if($plugin->match($command)) {
                 return $plugin;
             }
         }

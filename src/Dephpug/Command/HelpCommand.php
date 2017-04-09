@@ -38,12 +38,12 @@ class HelpCommand extends \Dephpug\Command
 
 <info>-- Help command --</info>
 
-<options=bold>Command      </>|<options=bold> Short Description</>
+<options=bold>Command         </>|<options=bold> Short Description</>
 
 EOL;
 
         foreach($this->core->commandList->reflection->getPlugins() as $command) {
-            $alias = $this->getCharsWithSpaces($command->getAlias(), 13);
+            $alias = $this->getCharsWithSpaces($command->getAlias(), 16);
             $shortDescription = $command->getShortDescription();
             $content .= "<comment>{$alias}</comment>| {$shortDescription}\n";
         }
