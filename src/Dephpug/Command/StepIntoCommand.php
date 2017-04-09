@@ -2,7 +2,7 @@
 
 namespace Dephpug\Command;
 
-class StepInCommand extends \Dephpug\Command
+class StepIntoCommand extends \Dephpug\Command
 {
     public function getName()
     {
@@ -11,7 +11,7 @@ class StepInCommand extends \Dephpug\Command
 
     public function getShortDescription()
     {
-        return 'Step-in in breakpoint';
+        return 'Step into in breakpoint';
     }
 
     public function getDescription()
