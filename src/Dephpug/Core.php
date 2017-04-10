@@ -11,6 +11,7 @@ class Core
         $this->readline = new Readline();
         $this->dbgpServer = new DbgpServer();
         $this->filePrinter = new FilePrinter();
+        $this->config = Config::getInstance();
     }
 
     public function run()

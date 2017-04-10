@@ -29,6 +29,7 @@ class FilePrinter
         'unset',
         'function',
         'for',
+        'foreach',
         'if',
         'else',
         'do',
