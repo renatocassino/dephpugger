@@ -27,9 +27,9 @@ class FilePrinterMessageEvent extends MessageParse
 
     public function exec()
     {
-        $filePrinter = new FilePrinter();
-        $filePrinter->setFilename($this->fileName);
-        $filePrinter->line = $this->fileNumber;
-        Output::print($filePrinter->showFile());
+        $this->core->filePrinter->setFilename($this->fileName);
+        $this->core->filePrinter->line = $this->fileNumber;
+        $this->core->filePrinter->lineToRange = $this->fileNumber;
+        Output::print($this->core->filePrinter->showFile());
     }
 }

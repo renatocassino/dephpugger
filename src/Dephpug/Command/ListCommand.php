@@ -2,6 +2,8 @@
 
 namespace Dephpug\Command;
 
+use Dephpug\Output;
+
 class ListCommand extends \Dephpug\Command
 {
     public function getName()
@@ -32,11 +34,17 @@ class ListCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^l(?:ist)?/i';
+        return '/^l(?:ist)?$/i';
     }
 
     public function exec()
     {
-        //        $this->core->dbgpServer->sendCommand('step_over -i 1');
+        $lineToRange = $this->core->filePrinter->lineToRange;
+        $totalLines = $this->core->filePrinter->numberOfLines();
+        $offset = $this->core->filePrinter->offset;
+        $lineToRange = min($totalLines - $offset, $lineToRange + $offset);
+        $this->core->filePrinter->lineToRange = $lineToRange;
+
+        Output::print($this->core->filePrinter->showFile());
     }
 }

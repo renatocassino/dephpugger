@@ -10,6 +10,7 @@ class Core
         $this->parserList = new MessageParseList($this);
         $this->readline = new Readline();
         $this->dbgpServer = new DbgpServer();
+        $this->filePrinter = new FilePrinter();
     }
 
     public function run()

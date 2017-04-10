@@ -2,6 +2,8 @@
 
 namespace Dephpug\Command;
 
+use Dephpug\Output;
+
 class ListPreviousCommand extends \Dephpug\Command
 {
     public function getName()
@@ -37,6 +39,11 @@ class ListPreviousCommand extends \Dephpug\Command
 
     public function exec()
     {
-        //        $this->core->dbgpServer->sendCommand('step_over -i 1');
+        $lineToRange = $this->core->filePrinter->lineToRange;
+        $offset = $this->core->filePrinter->offset;
+        $lineToRange = max($offset, $lineToRange - $offset);
+        $this->core->filePrinter->lineToRange = $lineToRange;
+
+        Output::print($this->core->filePrinter->showFile());
     }
 }
