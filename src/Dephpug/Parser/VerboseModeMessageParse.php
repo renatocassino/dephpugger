@@ -13,7 +13,11 @@ class VerboseModeMessageEvent extends MessageParse
         if($this->core->config->debugger['verboseMode']) {
             $messageParser = new MessageParser();
             $xml = $messageParser->xmlBeautifier($xml);
-            Output::print("\n<comment>{$xml}</comment>\n");
+            try {
+                Output::print("\n<comment>{$xml}</comment>\n");
+            } catch (\Exception $e) {
+                echo $xml;
+            }
         }
     }
 
