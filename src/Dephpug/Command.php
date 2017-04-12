@@ -10,6 +10,7 @@ use Dephpug\Interfaces\iCore;
 
 abstract class Command implements iCommand, iCore
 {
+    public $level = 1;
     public $dbgpServer;
     public $core;
     public $match;

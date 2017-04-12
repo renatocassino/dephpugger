@@ -32,7 +32,7 @@ class HelpCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^h(?:elp)?( (?P<command>\w+))?/i';
+        return '/^h(?:elp)?( (?P<command>\w+))?$/i';
     }
 
     public function exec()

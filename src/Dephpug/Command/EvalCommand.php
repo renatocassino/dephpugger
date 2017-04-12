@@ -2,16 +2,18 @@
 
 namespace Dephpug\Command;
 
-class ContinueCommand extends \Dephpug\Command
+class EvalCommand extends \Dephpug\Command
 {
+    public $level = 2;
+
     public function getName()
     {
-        return 'Continue';
+        return 'eval';
     }
 
     public function getShortDescription()
     {
-        return 'Run the script to the next breakpoint or finish the code';
+        return 'If command does not match in any case, run eval.';
     }
 
     public function getDescription()
@@ -24,16 +26,17 @@ class ContinueCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'c / continue';
+        return '*';
     }
 
     public function getRegexp()
     {
-        return '/^c(?:ont(?:inue)?)?$/i';
+        return '/(.+)/i';
     }
 
     public function exec()
     {
-        $this->core->dbgpServer->sendCommand('run -i 1');
+        $eval = base64_encode($this->match[1]);
+        $this->core->dbgpServer->sendCommand('eval -i 1 -- '.$eval);
     }
 }

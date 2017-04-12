@@ -32,7 +32,7 @@ class NextCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^n(?:ext)?/i';
+        return '/^n(?:ext)?$/i';
     }
 
     public function exec()

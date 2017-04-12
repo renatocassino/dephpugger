@@ -30,7 +30,7 @@ class QuitCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^q(?:uit)?/i';
+        return '/^q(?:uit)?$/i';
     }
 
     public function exec()

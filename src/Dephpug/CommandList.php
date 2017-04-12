@@ -15,7 +15,12 @@ class CommandList
 
     public function match($command)
     {
-        foreach($this->reflection->getPlugins() as $plugin)
+        $plugins = $this->reflection->getPlugins();
+        usort($plugins, function($a, $b) {
+            return $a->level > $b->level;
+        });
+
+        foreach($plugins as $plugin)
         {
             if($plugin->match($command)) {
                 return $plugin;

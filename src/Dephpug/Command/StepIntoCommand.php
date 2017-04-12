@@ -32,7 +32,7 @@ class StepIntoCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^s(?:tep_into)?/i';
+        return '/^s(?:tep_into)?$/i';
     }
 
     public function exec()

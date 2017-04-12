@@ -28,7 +28,7 @@ class DbgpCommand extends \Dephpug\Command
 
     public function getAlias()
     {
-        return 'dbgp(<command>)';
+        return 'dbgp(<command>)$';
     }
 
     public function getRegexp()
