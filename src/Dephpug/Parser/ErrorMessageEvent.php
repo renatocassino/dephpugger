@@ -3,6 +3,7 @@
 namespace Dephpug\Parse;
 
 use Dephpug\MessageEvent as MessageParse;
+use Dephpug\Output;
 
 class ErrorMessageEvent extends MessageParse
 {
@@ -23,6 +24,6 @@ class ErrorMessageEvent extends MessageParse
 
     public function exec()
     {
-        Ouput::print("<fg=red;options=bold>Code: {$this->code} - {$this->message}</>");
+        Output::print("<fg=red;options=bold>Code: {$this->code} - {$this->message}</>");
     }
 }
