@@ -62,15 +62,16 @@ class HelpCommand extends \Dephpug\Command
 
 <info>-- Help command --</info>
 
-<options=bold>Command             </>|<options=bold> Short Description</>
---------------------+---------------------
+<options=bold>Name         </>| <options=bold>Command             </>|<options=bold> Short Description</>
+-------------+---------------------+---------------------
 
 EOL;
 
         foreach($this->core->commandList->reflection->getPlugins() as $command) {
             $alias = $this->getCharsWithSpaces($command->getAlias(), 20);
+            $name = $this->getCharsWithSpaces($command->getName(), 12);
             $shortDescription = $command->getShortDescription();
-            $content .= "<comment>{$alias}</comment>| {$shortDescription}\n";
+            $content .= "{$name} | <comment>{$alias}</comment>| {$shortDescription}\n";
         }
 
         $content .= <<<'EOL'
@@ -84,6 +85,9 @@ EOL;
 
 Ex: <comment>`str_replace('a', 'b', 'blablabla')`</comment>
   => (string) blbblbblb
+
+To get more information about a command, run: `help <nameOfCommand>`.
+Ex: <options=bold>help Next</>
 
 EOL;
 
