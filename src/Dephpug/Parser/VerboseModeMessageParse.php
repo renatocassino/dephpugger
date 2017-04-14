@@ -6,11 +6,11 @@ use Dephpug\MessageEvent as MessageParse;
 use Dephpug\MessageParse as MessageParser;
 use Dephpug\Output;
 
-class VerboseModeMessageEvent extends MessageParse
+class VerboseModeMessageParse extends MessageParse
 {
     public function match(string $xml)
     {
-        if($this->core->config->debugger['verboseMode']) {
+        if ($this->core->config->debugger['verboseMode']) {
             $messageParser = new MessageParser();
             $xml = $messageParser->xmlBeautifier($xml);
             try {

@@ -19,9 +19,8 @@ class PluginReflection
 
     public function setPlugins()
     {
-        foreach(get_declared_classes() as $klass)
-        {
-            if($this->isPlugin($klass)) {
+        foreach (get_declared_classes() as $klass) {
+            if ($this->isPlugin($klass)) {
                 $this->addPlugin($klass);
             }
         }
@@ -37,7 +36,7 @@ class PluginReflection
         $obj = new $klass();
         $obj->setCore($this->core);
 
-        if(!in_array($obj, $this->plugins)) {
+        if (!in_array($obj, $this->plugins)) {
             $this->plugins[] = $obj;
         }
     }
@@ -46,9 +45,10 @@ class PluginReflection
     {
         $reflectionClass = new ReflectionClass($klass);
         $interfaces = array_keys($reflectionClass->getInterfaces());
-        return (
+
+        return
             !$reflectionClass->isAbstract() &&
             in_array($this->interfaceReflection, $interfaces)
-        );
+        ;
     }
 }

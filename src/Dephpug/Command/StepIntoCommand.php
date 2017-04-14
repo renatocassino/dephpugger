@@ -16,12 +16,12 @@ class StepIntoCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return join(' ', [
+        return implode(' ', [
             'This command will get inside the method/function or next line if this one doesn\' exist.',
             "For example, if you have this code:\n\n",
             "=> 2. functionCall();\n    3. \$var = 1;\n\n",
             "Instead of get the next line, you\'ll get inside the method\n\n",
-            "   33. function functionCall() {\n => 34.   echo \"Your function here.\";\n    35. }"
+            "   33. function functionCall() {\n => 34.   echo \"Your function here.\";\n    35. }",
         ]);
     }
 

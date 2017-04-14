@@ -16,6 +16,7 @@ class ErrorMessageEvent extends MessageParse
         if (isset($xml->error)) {
             $this->message = (string) $xml->error->message;
             $this->code = $xml->error['code'];
+
             return true;
         }
 

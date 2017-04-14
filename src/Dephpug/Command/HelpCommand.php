@@ -2,7 +2,6 @@
 
 namespace Dephpug\Command;
 
-use Dephpug\Exception\ExitProgram;
 use Dephpug\Output;
 
 class HelpCommand extends \Dephpug\Command
@@ -19,7 +18,7 @@ class HelpCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return join(' ', [
+        return implode(' ', [
             'This command is used to get help for a dephpugger usage or a define command.',
             'You need to use the command `help <commandName>` to see all informations about a command.',
         ]);
@@ -37,18 +36,20 @@ class HelpCommand extends \Dephpug\Command
 
     public function exec()
     {
-        if(isset($this->match['command'])) {
+        if (isset($this->match['command'])) {
             return $this->renderHelpCommand();
         }
+
         return $this->helpDefault();
     }
 
     public function renderHelpCommand()
     {
-        foreach($this->core->commandList->reflection->getPlugins() as $command) {
-            if(strtolower($command->getName()) === $this->match['command']) {
+        foreach ($this->core->commandList->reflection->getPlugins() as $command) {
+            if (strtolower($command->getName()) === $this->match['command']) {
                 $bigDescription = $command->getBigDescription();
                 Output::print($bigDescription);
+
                 return;
             }
         }
@@ -67,7 +68,7 @@ class HelpCommand extends \Dephpug\Command
 
 EOL;
 
-        foreach($this->core->commandList->reflection->getPlugins() as $command) {
+        foreach ($this->core->commandList->reflection->getPlugins() as $command) {
             $alias = $this->getCharsWithSpaces($command->getAlias(), 20);
             $name = $this->getCharsWithSpaces($command->getName(), 12);
             $shortDescription = $command->getShortDescription();
@@ -94,9 +95,10 @@ EOL;
         Output::print($content);
     }
 
-    public function getCharsWithSpaces($word, $numberOfSpaces=30)
+    public function getCharsWithSpaces($word, $numberOfSpaces = 30)
     {
         $spacesToAdd = $numberOfSpaces - strlen($word);
-        return $word . str_repeat(' ', $spacesToAdd);
+
+        return $word.str_repeat(' ', $spacesToAdd);
     }
 }

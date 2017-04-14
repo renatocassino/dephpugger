@@ -16,12 +16,12 @@ class NextCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return join(' ', [
+        return implode(' ', [
             'This command will get the next line over the method and function calls.',
             "For example, if you have this code:\n\n",
             "=> 2. functionCall();\n    3. \$var = 1;\n\n",
             "The next command dont get inside the method `functionCall` and go to next line\n\n",
-            "   2. functionCall();\n => 3. \$var = 1;"
+            "   2. functionCall();\n => 3. \$var = 1;",
         ]);
     }
 

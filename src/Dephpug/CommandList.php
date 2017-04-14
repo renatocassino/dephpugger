@@ -16,13 +16,12 @@ class CommandList
     public function match($command)
     {
         $plugins = $this->reflection->getPlugins();
-        usort($plugins, function($a, $b) {
+        usort($plugins, function ($a, $b) {
             return $a->level > $b->level;
         });
 
-        foreach($plugins as $plugin)
-        {
-            if($plugin->match($command)) {
+        foreach ($plugins as $plugin) {
+            if ($plugin->match($command)) {
                 return $plugin;
             }
         }
@@ -31,19 +30,17 @@ class CommandList
     public function run($command)
     {
         $command = $this->match($command);
-        if($command) {
+        if ($command) {
             $command->exec();
         }
     }
 
-    public function runMethod($methodName, $params=[])
+    public function runMethod($methodName, $params = [])
     {
         $plugins = $this->reflection->getPlugins();
 
-        foreach($plugins as $plugin)
-        {
-            if(method_exists($this, $methodName))
-            {
+        foreach ($plugins as $plugin) {
+            if (method_exists($this, $methodName)) {
                 $plugin->$methodName(...$params);
             }
         }

@@ -2,8 +2,8 @@
 
 namespace Dephpug;
 
-require_once(__DIR__ . '/Interfaces/iMessageEvent.php');
-require_once(__DIR__ . '/Interfaces/iCore.php');
+require_once __DIR__.'/Interfaces/iMessageEvent.php';
+require_once __DIR__.'/Interfaces/iCore.php';
 
 use Dephpug\Interfaces\iMessageEvent;
 use Dephpug\Interfaces\iCore;

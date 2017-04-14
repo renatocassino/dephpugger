@@ -27,7 +27,7 @@ class DbgpServer
     private static $fdSocket;
 
     /**
-     * If has message to receive
+     * If has message to receive.
      */
     public $hasMessage = true;
 
@@ -126,6 +126,7 @@ class DbgpServer
         $messageParse = new MessageParse();
 
         $this->hasMessage = false;
+
         return $messageParse->formatMessage($message);
     }
 }

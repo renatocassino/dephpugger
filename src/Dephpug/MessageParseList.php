@@ -16,19 +16,19 @@ class MessageParseList
     public function match($xml)
     {
         $plugins = [];
-        foreach($this->reflection->getPlugins() as $plugin)
-        {
-            if($plugin->match($xml)) {
+        foreach ($this->reflection->getPlugins() as $plugin) {
+            if ($plugin->match($xml)) {
                 $plugins[] = $plugin;
             }
         }
+
         return $plugins;
     }
 
     public function run($xml)
     {
         $messageParses = $this->match($xml);
-        foreach($messageParses as $messageParse) {
+        foreach ($messageParses as $messageParse) {
             $messageParse->exec();
         }
     }

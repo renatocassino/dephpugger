@@ -9,9 +9,9 @@ class Dephpugger
 
     public function start()
     {
-        declare(ticks = 1);
-        pcntl_signal(SIGTERM, "signal_handler");
-        pcntl_signal(SIGINT, "signal_handler");
+        declare(ticks=1);
+        pcntl_signal(SIGTERM, 'signal_handler');
+        pcntl_signal(SIGINT, 'signal_handler');
 
         $config = Config::getInstance();
         $this->filePrinter = new FilePrinter();

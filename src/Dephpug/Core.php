@@ -11,15 +11,14 @@ class Core
         $this->readline = new Readline();
         $this->dbgpServer = new DbgpServer();
         $this->filePrinter = new FilePrinter();
-        $this->config = Config::getInstance();
+        $this->config = new Config();
+        $this->config->configure();
     }
 
     public function run()
     {
-        $config = \Dephpug\Config::getInstance();
-
-        $host = $config->debugger['host'];
-        $port = $config->debugger['port'];
+        $host = $this->config->debugger['host'];
+        $port = $this->config->debugger['port'];
 
         $this->dbgpServer->startClient($host, $port);
         $this->startRepl();
@@ -27,8 +26,8 @@ class Core
 
     public function startRepl()
     {
-        while(true) {
-            if($this->dbgpServer->hasMessage) {
+        while (true) {
+            if ($this->dbgpServer->hasMessage) {
                 $currentResponse = $this->dbgpServer->getResponse();
                 $this->parserList->run($currentResponse);
                 continue;

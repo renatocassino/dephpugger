@@ -20,8 +20,10 @@ class FilePrinterMessageEvent extends MessageParse
         if ($hasFileNo && $hasFilename) {
             $this->fileNumber = $fileNumber[1];
             $this->fileName = $fileName[1];
+
             return true;
         }
+
         return false;
     }
 

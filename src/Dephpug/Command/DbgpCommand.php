@@ -16,7 +16,7 @@ class DbgpCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return join(' ',[
+        return implode(' ', [
             ' Command to run native dbgp commands.',
             'The dephpugger convert commands to dbgp protocol format to make a developer\'s life easier (like `n` to `step_over -i 1`).',
             "You can send commands in dbgp format using the command `dbgp(<commandName>)`.\n\n",
@@ -38,7 +38,7 @@ class DbgpCommand extends \Dephpug\Command
 
     public function exec()
     {
-        if(count($this->match) > 1) {
+        if (count($this->match) > 1) {
             $this->core->dbgpServer->sendCommand($this->match[1]);
         }
     }

@@ -2,9 +2,6 @@
 
 namespace Dephpug\Command;
 
-use Dephpug\Exception\ExitProgram;
-use Dephpug\Output;
-
 class SetValueCommand extends \Dephpug\Command
 {
     public function getName()
@@ -19,7 +16,7 @@ class SetValueCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return join(' ', [
+        return implode(' ', [
             'You can set the value and type.',
             'Ex: $var = 1',
         ]);

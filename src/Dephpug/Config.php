@@ -7,7 +7,6 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class Config
 {
-    private static $_instance = null;
     private $defaultConfig = [
         'server' => [
             'port' => 8888,
@@ -26,30 +25,6 @@ class Config
     ];
 
     private $config;
-
-    protected function __construct()
-    {
-    }
-
-    public static function reset()
-    {
-        self::$_instance = null;
-    }
-
-    public static function getInstance()
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new static();
-            self::$_instance->configure();
-        }
-
-        return self::$_instance;
-    }
-
-    public function getConfig()
-    {
-        return $this->config;
-    }
 
     public function configure()
     {

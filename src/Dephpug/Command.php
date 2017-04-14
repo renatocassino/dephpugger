@@ -2,8 +2,8 @@
 
 namespace Dephpug;
 
-require_once(__DIR__ . '/Interfaces/iCommand.php');
-require_once(__DIR__ . '/Interfaces/iCore.php');
+require_once __DIR__.'/Interfaces/iCommand.php';
+require_once __DIR__.'/Interfaces/iCore.php';
 
 use Dephpug\Interfaces\iCommand;
 use Dephpug\Interfaces\iCore;
@@ -32,7 +32,8 @@ abstract class Command implements iCommand, iCore
         $content .= "Regex to match this command: <options=bold>{$this->getRegexp()}</>\n\n";
         $content .= "<comment>{$this->getShortDescription()}";
         $content .= "\n\n";
-        return $content . $this->getDescription() . "</comment>\n";
+
+        return $content.$this->getDescription()."</comment>\n";
     }
 
     public function getName()

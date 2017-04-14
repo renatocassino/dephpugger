@@ -16,9 +16,9 @@ class ContinueCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return join(PHP_EOL, [
+        return implode(PHP_EOL, [
             'This command make the debugger run again until find a next breakpoint or finish the script (request or cli script).',
-            'The command is `run -i 1` in dbgp protocol.'
+            'The command is `run -i 1` in dbgp protocol.',
         ]);
     }
 

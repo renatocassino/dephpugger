@@ -18,7 +18,7 @@ class ListPreviousCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return join(' ', [
+        return implode(' ', [
             'This command will get the current file and show the previous lines.',
             "For example, if you have the :\n\n",
             "=> 4. echo 'my ';\n    5. echo 'code!';\n\n",

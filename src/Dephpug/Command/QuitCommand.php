@@ -3,7 +3,6 @@
 namespace Dephpug\Command;
 
 use Dephpug\Exception\ExitProgram;
-use Dephpug\Output;
 use Dephpug\Readline;
 
 class QuitCommand extends \Dephpug\Command
@@ -37,10 +36,8 @@ class QuitCommand extends \Dephpug\Command
     {
         $readline = new Readline();
         $response = $readline->scan('Are you sure? (y/n): ');
-        if('y' === strtolower($response))
-        {
+        if ('y' === strtolower($response)) {
             throw new ExitProgram('Closing dephpugger');
         }
     }
-
 }
