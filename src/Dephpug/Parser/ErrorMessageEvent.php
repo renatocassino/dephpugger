@@ -1,6 +1,6 @@
 <?php
 
-namespace Dephpug\Parse;
+namespace Dephpug\Parser;
 
 use Dephpug\MessageEvent as MessageParse;
 use Dephpug\Output;

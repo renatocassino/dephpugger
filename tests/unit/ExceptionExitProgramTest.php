@@ -4,11 +4,6 @@ use Dephpug\Exception\ExitProgram;
 
 class ExceptionExitProgramTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected function _before()
     {
     }

@@ -5,20 +5,12 @@ use \Codeception\Util\Stub;
 
 class ConfigTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
     protected $defaultConfig;
 
     protected function _before()
     {
         $config = new Config();
         $this->defaultConfig = $config->getConfig();
-    }
-
-    protected function _after()
-    {
     }
 
     // tests
