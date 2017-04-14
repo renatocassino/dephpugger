@@ -2,6 +2,7 @@
 namespace Parser;
 
 use Dephpug\Parser\FilePrinterMessageEvent;
+use Dephpug\FilePrinter;
 
 class FilePrinterMessageEventTest extends \Codeception\Test\Unit
 {
@@ -44,5 +45,26 @@ EOL;
 
         $matched = $this->filePrinterMessageEvent->match($xml);
         $this->assertTrue(!$matched);
+    }
+
+    public function testExecution()
+    {
+        $core = new \stdClass();
+        $core->filePrinter = $this->getMockBuilder('\Dephpug\FilePrinter')
+                           ->setMethods(['setFilename', 'showFile'])
+                           ->getMock();
+
+        $this->filePrinterMessageEvent->core = $core;
+        $this->filePrinterMessageEvent->fileName = '/path/of/project/index.php';
+        $this->filePrinterMessageEvent->fileNumber = 30;
+
+        $core->filePrinter->expects($this->once())
+            ->method('showFile');
+
+        $core->filePrinter->expects($this->once())
+            ->method('setFilename')
+            ->with('/path/of/project/index.php');
+
+        $this->filePrinterMessageEvent->exec();
     }
 }
