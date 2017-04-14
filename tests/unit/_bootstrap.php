@@ -3,13 +3,13 @@
 require 'vendor/autoload.php';
 
 $paths = array_merge(
-    glob('src/Dephpug/*/*.php'),
     glob('src/Dephpug/*.php'),
+    glob('src/Dephpug/*/*.php'),
     glob('src/Dephpug/*/*/*.php')
 );
 
 foreach ($paths as $file) {
-    require $file;
+    require_once $file;
 }
 
 use Symfony\Component\Console\Output\ConsoleOutput;

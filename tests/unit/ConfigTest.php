@@ -13,7 +13,7 @@ class ConfigTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
-        $config = Config::getInstance();
+        $config = new Config();
         $this->defaultConfig = $config->getConfig();
     }
 
@@ -24,7 +24,6 @@ class ConfigTest extends \Codeception\Test\Unit
     // tests
     public function testReplaceOptionsWithNewValues()
     {
-        Config::reset();
         $config = Stub::make('\Dephpug\Config', ['getConfigFromFile' => ['server' => ['port' => 123]]]);
         $config->configure();
         $this->assertEquals(123, $config->server['port']);
@@ -32,7 +31,6 @@ class ConfigTest extends \Codeception\Test\Unit
 
     public function testKeepKeysNotReplaced()
     {
-        Config::reset();
         $config = Stub::make('\Dephpug\Config', ['getConfigFromFile' => ['server' => ['port' => 123]]]);
         $config->configure();
         $this->assertEquals('localhost', $config->server['host']);
@@ -40,7 +38,6 @@ class ConfigTest extends \Codeception\Test\Unit
 
     public function testReplaceOptionsWithDataFromYaml()
     {
-        Config::reset();
         $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__.'/../data/configValid.yml']);
         $config->configure();
         $this->assertEquals(4005, $config->debugger['port']);
@@ -48,7 +45,6 @@ class ConfigTest extends \Codeception\Test\Unit
 
     public function testExceptionIfYamlIsInvalid()
     {
-        Config::reset();
         $this->expectException(\Symfony\Component\Yaml\Exception\ParseException::class);
         $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__.'/../data/configInvalid.yml']);
         $config->getConfigFromFile();
@@ -56,13 +52,13 @@ class ConfigTest extends \Codeception\Test\Unit
 
     public function testMagicMethodGettingUnexistKey()
     {
-        $config = Config::getInstance();
+        $config = new Config();
         $this->assertNull($config->notExistKey);
     }
 
     public function testMagicMethodGettingExistKey()
     {
-        $config = Config::getInstance();
+        $config = new Config();
         $this->assertEquals($config->getConfig()['server'], $config->server);
     }
 }

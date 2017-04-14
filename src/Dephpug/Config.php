@@ -26,6 +26,11 @@ class Config
 
     private $config;
 
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
     public function configure()
     {
         $config = $this->getConfigFromFile();
