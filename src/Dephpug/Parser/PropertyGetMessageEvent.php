@@ -8,7 +8,7 @@ use Dephpug\Output;
 
 class PropertyGetMessageEvent extends MessageParse
 {
-    private $exporter;
+    public $exporter;
 
     public function __construct()
     {
