@@ -8,21 +8,6 @@ namespace Dephpug;
 class MessageParse
 {
     /**
-     * Check if text starts with a string.
-     *
-     * @param string $text    a text
-     * @param string $pattern a string to check
-     *
-     * @return bool
-     */
-    public function startsWith($text, $pattern)
-    {
-        $slen = strlen($pattern);
-
-        return $slen === 0 || strncmp($text, $pattern, $slen) === 0;
-    }
-
-    /**
      * Format to make message compatible with parse xml.
      *
      * When dephpugger receive the xml, there is any invalid chars
@@ -81,32 +66,5 @@ class MessageParse
         }
 
         return $result;
-    }
-
-    /**
-     * If message is a stream, print xml formated.
-     *
-     * @param string $response Xml message from DBGP
-     *
-     * @return string|null
-     */
-    public function printIfIsStream($response)
-    {
-        // This is hacky, but it works in all cases and doesn't require parsing xml.
-        $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
-        $isStream = $this->startsWith($response, $prefix);
-
-        // Echo back the response to the user if it isn't a stream.
-        if (!$isStream) {
-            try {
-                $responseParsed = $this->xmlBeautifier($response);
-
-                return "<comment>{$responseParsed}</comment>\n";
-            } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
-                return "\n\n{$response}\n\n";
-            }
-        }
-
-        return null;
     }
 }

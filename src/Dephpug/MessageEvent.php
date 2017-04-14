@@ -17,5 +17,6 @@ abstract class MessageEvent implements iMessageEvent, iCore
 
     public function match(string $xml)
     {
+        Output::print('<fg=red>You must implement the method `match`</>');
     }
 }
