@@ -1,4 +1,5 @@
 <?php
+
 namespace Parser;
 
 use Dephpug\Parser\InitMessageEvent;

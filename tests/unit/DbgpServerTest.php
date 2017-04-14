@@ -1,7 +1,5 @@
 <?php
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Formatter\OutputFormatter;
 
 class DbgpServerTest extends \Codeception\Test\Unit
 {
