@@ -34,7 +34,7 @@ class ListPreviousCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^l(?:ist)?$/i';
+        return '/^(lp|list_previous)?$/i';
     }
 
     public function exec()
