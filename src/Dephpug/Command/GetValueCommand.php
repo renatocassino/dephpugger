@@ -29,7 +29,7 @@ class GetValueCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^\$([\w_\[\]\"\\\'\-\{\}]+);?$/';
+        return '/^\$([\w_\[\]\"\\\'\{\}0-9]+);?$/';
     }
 
     public function exec()
