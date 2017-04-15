@@ -14,15 +14,19 @@ class VerboseModeMessageParse extends MessageParse
             $messageParser = new MessageParser();
             $xml = $messageParser->xmlBeautifier($xml);
             try {
-                Output::print("\n<comment>{$xml}</comment>\n");
+                if ('' !== $xml) {
+                    Output::print("\n<comment>{$xml}</comment>\n");
+                }
             } catch (\Exception $e) {
                 echo $xml;
             }
+
+            return true;
         }
+        return false;
     }
 
     public function exec()
     {
-        $this->core->dbgpServer->sendCommand('run -i 1');
     }
 }
