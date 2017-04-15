@@ -1,4 +1,5 @@
 <?php
+
 namespace Parser;
 
 use Dephpug\Parser\VerboseModeMessageParse;
@@ -27,5 +28,4 @@ class VerboseModeMessageEventTest extends \Codeception\Test\Unit
         $this->verboseMode->core = $core;
         $this->assertTrue(!$this->verboseMode->match(''));
     }
-
 }
