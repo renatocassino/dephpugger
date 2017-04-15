@@ -7,6 +7,13 @@ use Dephpug\Readline;
 
 class QuitCommand extends \Dephpug\Command
 {
+    public $readline;
+
+    public function __construct()
+    {
+        $this->readline = new Readline();
+    }
+
     public function getName()
     {
         return 'Quit';
@@ -34,8 +41,7 @@ class QuitCommand extends \Dephpug\Command
 
     public function exec()
     {
-        $readline = new Readline();
-        $response = $readline->scan('Are you sure? (y/n): ');
+        $response = $this->readline->scan('Are you sure? (y/n): ');
         if ('y' === strtolower($response)) {
             throw new ExitProgram('Closing dephpugger');
         }
