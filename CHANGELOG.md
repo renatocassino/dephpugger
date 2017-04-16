@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Command 'set' to change the config
 
 ## [Unreleased]
+
+## [1.0.0-alpha]
 ### Added
 - New architecture
 - Tests for commands
