@@ -29,7 +29,7 @@ class SetValueCommand extends \Dephpug\Command
 
     public function getRegexp()
     {
-        return '/^\$([\w_\[\]\"\\\'\-\>\{\}]+) *= *([\'\"\w\.]+)\;?$/';
+        return '/^\$([\w_\[\]\"\\\'\-\>\{\}]+) *= *["\']?([\'\"\w\. ]+)["\']?\;?$/';
     }
 
     public function exec()
