@@ -15,13 +15,31 @@ class Readline
         }
     }
 
+    public function scan($msg = '(dbgp) => ')
+    {
+        $line = '';
+        while ($line === '') {
+            $line = trim(readline($msg));
+            if ($line !== self::$lastLine) {
+                readline_add_history($line);
+                readline_write_history(self::$historyFile);
+                self::$lastLine = $line;
+            }
+        }
+
+        return $line;
+    }
+
     public static function readline()
     {
-        $line = readline('(dbgp) => ');
-        if ($line !== self::$lastLine) {
-            readline_add_history($line);
-            readline_write_history(self::$historyFile);
-            self::$lastLine = $line;
+        $line = '';
+        while ($line === '') {
+            $line = trim(readline('(dbgp) => '));
+            if ($line !== self::$lastLine) {
+                readline_add_history($line);
+                readline_write_history(self::$historyFile);
+                self::$lastLine = $line;
+            }
         }
 
         return $line;

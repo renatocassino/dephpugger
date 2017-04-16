@@ -7,6 +7,7 @@ class FilePrinter
     public $file; // Array
     public $filename;
     public $line;
+    public $lineToRange;
     public $offset = 6;
     public $config;
     private $reservedWords = [
@@ -28,6 +29,7 @@ class FilePrinter
         'unset',
         'function',
         'for',
+        'foreach',
         'if',
         'else',
         'do',
@@ -88,9 +90,9 @@ class FilePrinter
         return count($this->file);
     }
 
-    public function showFile($arrow = true)
+    public function showFile()
     {
-        $fileLines = $this->listLines($this->line);
+        $fileLines = $this->listLines($this->lineToRange);
         $fileToShow = '';
 
         $numberLines = array_keys($fileLines);
@@ -101,7 +103,7 @@ class FilePrinter
         $fileToShow .= "\n<fg=blue>[{$firstLine}:{$lastLine}] in file://{$this->filename}:{$this->line}</>\n";
 
         foreach ($fileLines as $currentLine => $content) {
-            $isThisLineString = ($currentLine == $this->line && $arrow) ? '<fg=magenta;options=bold>=> </>' : '   ';
+            $isThisLineString = ($currentLine == $this->line) ? '<fg=magenta;options=bold>=> </>' : '   ';
             $content = $this->colorCode($content);
             $fileToShow .= "{$isThisLineString}<fg=yellow>{$currentLine}:</> <fg=white>{$content}</>";
         }
@@ -119,6 +121,8 @@ class FilePrinter
             $content = str_replace($word, "<fg=red>{$word}</>", $content);
         }
 
+        $content = preg_replace('/(\?\>)/', '<fg=red;options=bold>$1</>', $content);
+        $content = preg_replace('/(<\?php)/', '<fg=red;options=bold>$1</>', $content);
         $content = preg_replace('/([\w_]+)\(/', '<fg=green;options=bold>$1</>(', $content);
         $content = preg_replace('/(\".+\")/', '<fg=green>$1</>', $content);
         $content = preg_replace('/(\'.+\')/', '<fg=green>$1</>', $content);

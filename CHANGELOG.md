@@ -5,14 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
-- Better use for Singleton $config
 - Add documentation in each class and methods
 - Command 'set' to change the config
-- Join verboseMode in one log
 
 ## [Unreleased]
+### Added
+- New architecture
+- Tests for commands
+- Tests for MessageEvent
+- One class for each command in debugger
+- One class for each xml received in DBGP
+- New flow execution
+- Core with REPL
+- Class with reflection mode to get all plugins (commands and parsers)
+- Readline with history
+
 ### Changed
 - Refactor client DBGp protocol
+- Remove singleton in $config
+- Output in a single class
 
 ## [0.5.1] - 2017-03-24
 ### Fixed

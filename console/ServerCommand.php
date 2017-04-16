@@ -24,7 +24,8 @@ class ServerCommand extends Command
 
     protected function execute(InputInterface $_, OutputInterface $output)
     {
-        $config = Config::getInstance();
+        $config = new Config();
+        $config->configure();
         $projectPath = getcwd();
         $phpPath = $config->server['phpPath'];
         $defaultPort = $config->server['port'];

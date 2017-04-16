@@ -27,6 +27,11 @@ class DbgpServer
     private static $fdSocket;
 
     /**
+     * If has message to receive.
+     */
+    public $hasMessage = true;
+
+    /**
      * Starts a client. Set socket server to start client and close the server.
      */
     public function startClient($host = 'localhost', $port = 9005)
@@ -68,12 +73,17 @@ class DbgpServer
     {
         self::$fdSocket = null;
         while (true) {
-            self::$fdSocket = @socket_accept(self::$socket);
+            self::$fdSocket = socket_accept(self::$socket);
             if (self::$fdSocket !== false) {
                 Output::print('Connected to <fg=yellow;options=bold>XDebug server</>!');
                 break;
             }
         }
+    }
+
+    public function hasMessage()
+    {
+        return $this->hasMessage;
     }
 
     /**
@@ -91,6 +101,7 @@ class DbgpServer
             $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
             throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
+        $this->hasMessage = true;
     }
 
     /**
@@ -100,6 +111,7 @@ class DbgpServer
     {
         $bytes = 0;
         $message = '';
+
         do {
             $buffer = '';
             $result = @socket_recv(self::$fdSocket, $buffer, 1024, 0);
@@ -112,6 +124,8 @@ class DbgpServer
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
 
         $messageParse = new MessageParse();
+
+        $this->hasMessage = false;
 
         return $messageParse->formatMessage($message);
     }

@@ -8,54 +8,6 @@ namespace Dephpug;
 class MessageParse
 {
     /**
-     * Method to get xml from DBGP and return
-     * range of lines in a file.
-     *
-     * @param string $message String xml with info of file
-     *
-     * @return array With first index as a filename and second as a line
-     */
-    public function getFileAndLine($message)
-    {
-        $hasFileNo = preg_match('/lineno="(\d+)"/', $message, $fileno);
-        $pattern = '/filename="file:\/\/([^\"]+)"/';
-        $hasFilename = preg_match($pattern, $message, $filename);
-
-        if ($hasFileNo && $hasFilename) {
-            return [$filename[1], $fileno[1]];
-        }
-
-        return null;
-    }
-
-    /**
-     * Check if text starts with a string.
-     *
-     * @param string $text    a text
-     * @param string $pattern a string to check
-     *
-     * @return bool
-     */
-    public function startsWith($text, $pattern)
-    {
-        $slen = strlen($pattern);
-
-        return $slen === 0 || strncmp($text, $pattern, $slen) === 0;
-    }
-
-    /**
-     * Check if status is for stop if file ended.
-     *
-     * @param string $response String with xml from DBGP
-     *
-     * @return bool
-     */
-    public function isStatusStop($response)
-    {
-        return (bool) preg_match('/status=\"stopp(?:ed|ing)\"/', $response);
-    }
-
-    /**
      * Format to make message compatible with parse xml.
      *
      * When dephpugger receive the xml, there is any invalid chars
@@ -114,54 +66,5 @@ class MessageParse
         }
 
         return $result;
-    }
-
-    /**
-     * Check if receive an error from DBGP.
-     *
-     * @param string $message String with xml from DBGP
-     * @param array  $errors  Pointer to return errors
-     *
-     * @return bool
-     */
-    public function isErrorMessage($message, &$errors = [])
-    {
-        $xml = simplexml_load_string($message);
-        // Getting error messages
-        if (isset($xml->error)) {
-            $errors['message'] = (string) $xml->error->message;
-            $errors['code'] = $xml->error['code'];
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * If message is a stream, print xml formated.
-     *
-     * @param string $response Xml message from DBGP
-     *
-     * @return string|null
-     */
-    public function printIfIsStream($response)
-    {
-        // This is hacky, but it works in all cases and doesn't require parsing xml.
-        $prefix = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<stream";
-        $isStream = $this->startsWith($response, $prefix);
-
-        // Echo back the response to the user if it isn't a stream.
-        if (!$isStream) {
-            try {
-                $responseParsed = $this->xmlBeautifier($response);
-
-                return "<comment>{$responseParsed}</comment>\n";
-            } catch (\Symfony\Component\Console\Exception\InvalidArgumentException $e) {
-                return "\n\n{$response}\n\n";
-            }
-        }
-
-        return null;
     }
 }

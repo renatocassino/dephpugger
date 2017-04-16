@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Dephpug\Dephpugger;
 use Dephpug\Exception\ExitProgram;
+use Dephpug\Config;
 
 class DebuggerCommand extends Command
 {
@@ -24,20 +25,18 @@ class DebuggerCommand extends Command
 
     protected function execute(InputInterface $_, OutputInterface $output)
     {
-        $output->writeln(splashScreen('Debugger'));
-        $config = \Dephpug\Config::getInstance();
-        \Dephpug\Readline::load($config->debugger['historyFile']);
-
-        while (true) {
+        $output->write(splashScreen());
+        while(true) {
             try {
-                $dephpugger = new Dephpugger();
-                $dephpugger->start();
-            } catch (ExitProgram $e) {
-                $output->writeln("<fg=red;options=bold>{$e}</>");
-                if ($e->getCode() == 2) {
-                    continue;
-                }
-                exit(1);
+                $dephpugCore = new \Dephpug\Core();
+                $dephpugCore->run();
+            } catch(\Dephpug\Exception\QuitException $e) {
+                $message = $e->getMessage();
+                $output->writeln("<comment> --- {$message} --- </comment>");
+            } catch(\Dephpug\Exception\ExitProgram $e) {
+                $message = $e->getMessage();
+                $output->writeln("<fg=red;options=bold> --- {$message} --- </>");
+                break;
             }
         }
     }
