@@ -5,15 +5,15 @@ define('DIRNAME', dirname(dirname(__DIR__)));
 define('AUTOLOAD_FILE', implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']));
 
 $autoloads = [
-    getcwd() . DIRECTORY_SEPARATOR, // /path/of/project
-    DIRNAME . DIRECTORY_SEPARATOR, // ../
-    DIRNAME . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, ['vendor', 'tacnoman', 'dephpugger']) . DIRECTORY_SEPARATOR, // ../vendor/tacnoman/dephpugger/
+    dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR,
+    
 ];
 
 // Checking if file is found
 $dirPath = false;
 foreach($autoloads as $path) {
-    $autoload = $path . AUTOLOAD_FILE;
+    $autoload = $path . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+    echo $autoload;
     if(file_exists($autoload)) {
         require_once $autoload;
         $dirPath = $path;
