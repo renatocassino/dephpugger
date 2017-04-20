@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1-alpha]
+### Fixed
+- Bug in autoload in global
+
 ## [1.0.0-alpha]
 ### Added
 - New architecture
