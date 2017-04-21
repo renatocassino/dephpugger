@@ -37,6 +37,6 @@ class StepIntoCommand extends \Dephpug\Command
 
     public function exec()
     {
-        $this->core->dbgpServer->sendCommand('step_into -i 1');
+        $this->core->dbgpClient->stepInto();
     }
 }

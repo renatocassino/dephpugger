@@ -1,4 +1,5 @@
 <?php
+
 namespace Command;
 
 use Dephpug\Command\DbgpCommand;
@@ -21,7 +22,7 @@ class DbgpCommandTest extends \Codeception\Test\Unit
     {
         $regexp = $this->dbgpCommand->getRegexp();
         $matched = preg_match($regexp, 'dbgp()');
-        $this->assertTrue(!$matched);        
+        $this->assertTrue(!$matched);
     }
 
     public function testMatchCommandAndCheckValue()

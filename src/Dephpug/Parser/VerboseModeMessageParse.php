@@ -23,6 +23,7 @@ class VerboseModeMessageParse extends MessageParse
 
             return true;
         }
+
         return false;
     }
 

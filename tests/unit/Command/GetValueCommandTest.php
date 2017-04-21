@@ -1,4 +1,5 @@
 <?php
+
 namespace Command;
 
 use Dephpug\Command\GetValueCommand;
@@ -62,13 +63,13 @@ class GetValueCommandTest extends \Codeception\Test\Unit
     public function testCommandSent()
     {
         $core = new \stdClass();
-        $core->dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                          ->setMethods(['sendCommand'])
+        $core->dbgpClient = $this->getMockBuilder('\Dephpug\DbgpClient')
+                          ->setMethods(['propertyGet'])
                           ->getMock();
 
-        $core->dbgpServer->expects($this->once())
-            ->method('sendCommand')
-            ->with('property_get -i 1 -n variableName');
+        $core->dbgpClient->expects($this->once())
+            ->method('propertyGet')
+            ->with('variableName');
 
         $this->getValueCommand->match = ['', 'variableName'];
 

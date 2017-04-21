@@ -37,6 +37,6 @@ class NextCommand extends \Dephpug\Command
 
     public function exec()
     {
-        $this->core->dbgpServer->sendCommand('step_over -i 1');
+        $this->core->dbgpClient->next();
     }
 }

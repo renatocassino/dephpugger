@@ -1,6 +1,9 @@
 <?php
 
-namespace Dephpug;
+namespace Dephpug\Dbgp;
+
+use Dephpug\Output;
+use Dephpug\MessageParse;
 
 /**
  * Class to create a socket to remote debugger in xDebug.
@@ -9,7 +12,7 @@ namespace Dephpug;
  * and create a client socket to receive a code and send to
  * DBGP protocol
  */
-class DbgpServer
+class Server
 {
     /**
      * Transaction id usage for Dbgp protocol.
@@ -25,11 +28,6 @@ class DbgpServer
      * Socket server to debug.
      */
     private static $fdSocket;
-
-    /**
-     * If has message to receive.
-     */
-    public $hasMessage = true;
 
     /**
      * Starts a client. Set socket server to start client and close the server.
@@ -81,11 +79,6 @@ class DbgpServer
         }
     }
 
-    public function hasMessage()
-    {
-        return $this->hasMessage;
-    }
-
     /**
      * Sends a command to the xdebug server.
      * Exits process on failure.
@@ -101,7 +94,6 @@ class DbgpServer
             $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
             throw new \Dephpug\Exception\ExitProgram($error, 1);
         }
-        $this->hasMessage = true;
     }
 
     /**
@@ -124,8 +116,6 @@ class DbgpServer
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
 
         $messageParse = new MessageParse();
-
-        $this->hasMessage = false;
 
         return $messageParse->formatMessage($message);
     }

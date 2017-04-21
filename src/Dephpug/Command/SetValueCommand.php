@@ -35,8 +35,7 @@ class SetValueCommand extends \Dephpug\Command
     public function exec()
     {
         $varname = $this->match[1];
-        $value = base64_encode($this->match[2]);
-        $command = "property_set -i 1 -n \${$varname} -- {$value}";
-        $this->core->dbgpServer->sendCommand($command);
+        $value = $this->match[2];
+        $this->core->dbgpClient->propertySet($varname, $value);
     }
 }

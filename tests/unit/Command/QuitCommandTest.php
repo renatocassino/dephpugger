@@ -1,4 +1,5 @@
 <?php
+
 namespace Command;
 
 use Dephpug\Command\QuitCommand;
@@ -51,5 +52,5 @@ class QuitCommandTest extends \Codeception\Test\Unit
             ->will($this->returnValue('y'));
 
         $this->quitCommand->exec();
-    }    
+    }
 }
