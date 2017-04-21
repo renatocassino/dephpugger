@@ -28,7 +28,8 @@ class CliCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = Config::getInstance();
+        $config = new Config();
+        $config->configure();
         $phpPath = $config->server['phpPath'];
         $debuggerPort = $config->debugger['port'];
         $phpFile = $input->getArgument('file');
