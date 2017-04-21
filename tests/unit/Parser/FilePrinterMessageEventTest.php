@@ -54,6 +54,8 @@ EOL;
         $core->filePrinter = $this->getMockBuilder('\Dephpug\FilePrinter')
                            ->setMethods(['setFilename', 'showFile'])
                            ->getMock();
+        $core->config = new \stdClass();
+        $core->config->debugger = ['lineOffset' => 1];
 
         $this->filePrinterMessageEvent->core = $core;
         $this->filePrinterMessageEvent->fileName = '/path/of/project/index.php';

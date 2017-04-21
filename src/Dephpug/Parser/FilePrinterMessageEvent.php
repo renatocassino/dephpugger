@@ -29,6 +29,7 @@ class FilePrinterMessageEvent extends MessageParse
 
     public function exec()
     {
+        $this->core->filePrinter->offset = $this->core->config->debugger['lineOffset'];
         $this->core->filePrinter->setFilename($this->fileName);
         $this->core->filePrinter->line = $this->fileNumber;
         $this->core->filePrinter->lineToRange = $this->fileNumber;
