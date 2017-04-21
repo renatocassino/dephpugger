@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Command 'set' to change the config
 
 ## [Unreleased]
+### Added
+- Class to client for Dbgp
+- Tests for dbgp Server and Client
+
+### Changed
+- Namespace for client and server Dbgp
 
 ## [1.0.1-alpha]
 ### Fixed
