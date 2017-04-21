@@ -20,7 +20,7 @@ class Client
     /**
      * Object to make connection with dbgp.
      */
-    private $dbgpServer;
+    public $dbgpServer;
 
     /**
      * If has message to receive.
@@ -61,7 +61,6 @@ class Client
         $this->hasMessage = true;
         $command = str_replace('{id}', $this->transactionId++, $command);
 
-        echo $command;
         $this->dbgpServer->sendCommand($command);
     }
 
