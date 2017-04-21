@@ -1,9 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-define('DIRNAME', dirname(dirname(__DIR__)));
-define('AUTOLOAD_FILE', implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']));
-
 $autoloads = [
     dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR,
     
@@ -25,8 +22,9 @@ foreach($autoloads as $path) {
 if(!$dirPath) {
     echo "Cannot find autoload.php in folders: \n";
     foreach($autoloads as $autoload) {
-        echo " - {$autoload}".AUTOLOAD_FILE."\n";
+        echo " - {$autoload}" . 'vendor' . DIRECTORY_SEPARATOR . "autoload.php\n";
     }
+
     echo 'You must run `composer install` first.';
     exit;
 }
@@ -87,36 +85,6 @@ function splashScreen($word='Server') {
                                    $word - Version: <fg=cyan>$version</>
 
 EOL;
-}
-
-declare(ticks = 1);
-
-//pcntl_signal(SIGTERM, "signal_handler");
-//pcntl_signal(SIGINT, "signal_handler");
-
-$_PIDS = [];
-
-function signal_handler($signal) {
-    global $_PIDS;
-
-    foreach($_PIDS as $pid) {
-        echo 'Killing pid: '. $pid;
-        exec('kill -9 '.$pid);
-    }
-
-    switch($signal) {
-    case SIGTERM:
-        print "Caught SIGTERM\n";
-        exit;
-    case SIGKILL:
-        print "Caught SIGKILL\n";
-        exit;
-    case SIGINT:
-        print "Caught SIGINT\n";
-        exit;
-    }
-
-    exit;
 }
 
 $application->run();
