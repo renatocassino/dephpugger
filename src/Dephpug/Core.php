@@ -2,6 +2,8 @@
 
 namespace Dephpug;
 
+use Dephpug\Dbgp\Client;
+
 class Core
 {
     public function __construct()
@@ -9,7 +11,7 @@ class Core
         $this->commandList = new CommandList($this);
         $this->parserList = new MessageParseList($this);
         $this->readline = new Readline();
-        $this->dbgpServer = new DbgpServer();
+        $this->dbgpClient = new Client();
         $this->filePrinter = new FilePrinter();
         $this->config = new Config();
         $this->config->configure();
@@ -20,15 +22,15 @@ class Core
         $host = $this->config->debugger['host'];
         $port = $this->config->debugger['port'];
 
-        $this->dbgpServer->startClient($host, $port);
+        $this->dbgpClient->startClient($host, $port);
         $this->startRepl();
     }
 
     public function startRepl()
     {
         while (true) {
-            if ($this->dbgpServer->hasMessage) {
-                $currentResponse = $this->dbgpServer->getResponse();
+            if ($this->dbgpClient->hasMessage()) {
+                $currentResponse = $this->dbgpClient->getResponse();
                 $this->parserList->run($currentResponse);
                 continue;
             }

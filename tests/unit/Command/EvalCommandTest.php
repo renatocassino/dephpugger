@@ -1,4 +1,5 @@
 <?php
+
 namespace Command;
 
 use Dephpug\Command\EvalCommand;
@@ -25,13 +26,13 @@ class EvalCommandTest extends \Codeception\Test\Unit
     public function testCommandSent()
     {
         $core = new \stdClass();
-        $core->dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                          ->setMethods(['sendCommand'])
+        $core->dbgpClient = $this->getMockBuilder('\Dephpug\DbgpClient')
+                          ->setMethods(['eval'])
                           ->getMock();
 
-        $core->dbgpServer->expects($this->once())
-            ->method('sendCommand')
-            ->with('eval -i 1 -- '.base64_encode('property_get -i 1'));
+        $core->dbgpClient->expects($this->once())
+            ->method('eval')
+            ->with('property_get -i 1');
 
         $this->evalCommand->match = ['', 'property_get -i 1'];
 

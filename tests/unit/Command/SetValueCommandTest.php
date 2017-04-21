@@ -1,4 +1,5 @@
 <?php
+
 namespace Command;
 
 use Dephpug\Command\SetValueCommand;
@@ -90,15 +91,15 @@ class SetValueCommandTest extends \Codeception\Test\Unit
     public function testExecution()
     {
         $core = new \stdClass();
-        $core->dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                          ->setMethods(['sendCommand'])
+        $core->dbgpClient = $this->getMockBuilder('\Dephpug\DbgpClient')
+                          ->setMethods(['propertySet'])
                           ->getMock();
 
         $this->setValueCommand->core = $core;
 
-        $this->setValueCommand->core->dbgpServer->expects($this->once())
-            ->method('sendCommand')
-            ->will($this->returnValue('property_set -i 1 -n $varname -- '.base64_encode('123')));
+        $this->setValueCommand->core->dbgpClient->expects($this->once())
+            ->method('propertySet')
+            ->will($this->returnValue('varname', 123));
 
         $this->setValueCommand->match = ['', 'varname', '123'];
         $this->setValueCommand->exec();

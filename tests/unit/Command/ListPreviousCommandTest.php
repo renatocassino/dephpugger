@@ -1,4 +1,5 @@
 <?php
+
 namespace Command;
 
 use Dephpug\Command\ListPreviousCommand;

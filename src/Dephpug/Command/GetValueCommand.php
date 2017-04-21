@@ -34,7 +34,6 @@ class GetValueCommand extends \Dephpug\Command
 
     public function exec()
     {
-        $varname = $this->match[1];
-        $this->core->dbgpServer->sendCommand('property_get -i 1 -n '.$varname);
+        $this->core->dbgpClient->propertyGet($this->match[1]);
     }
 }

@@ -1,6 +1,10 @@
 <?php
 
-namespace Dephpug;
+namespace Dephpug\Dbgp;
+
+use Dephpug\Output;
+use Dephpug\MessageParse;
+use Dephpug\Exception\ExitProgram;
 
 /**
  * Class to create a socket to remote debugger in xDebug.
@@ -9,13 +13,8 @@ namespace Dephpug;
  * and create a client socket to receive a code and send to
  * DBGP protocol
  */
-class DbgpServer
+class Server
 {
-    /**
-     * Transaction id usage for Dbgp protocol.
-     */
-    private static $transactionId = 1;
-
     /**
      * Socket to connect xDebug.
      */
@@ -25,11 +24,6 @@ class DbgpServer
      * Socket server to debug.
      */
     private static $fdSocket;
-
-    /**
-     * If has message to receive.
-     */
-    public $hasMessage = true;
 
     /**
      * Starts a client. Set socket server to start client and close the server.
@@ -56,17 +50,6 @@ class DbgpServer
     }
 
     /**
-     * Get transactionId to send to DBGP protocol.
-     *
-     * Each time this methos is called, append 1 to next
-     * call has a different transactionId
-     */
-    public static function getTransactionId()
-    {
-        return self::$transactionId++;
-    }
-
-    /**
      * Remote commands are async. Method to wait xDebug response.
      */
     public function eventConnectXdebugServer()
@@ -76,14 +59,9 @@ class DbgpServer
             self::$fdSocket = socket_accept(self::$socket);
             if (self::$fdSocket !== false) {
                 Output::print('Connected to <fg=yellow;options=bold>XDebug server</>!');
-                break;
+                return true;
             }
         }
-    }
-
-    public function hasMessage()
-    {
-        return $this->hasMessage;
     }
 
     /**
@@ -98,10 +76,10 @@ class DbgpServer
         if ($result === false) {
             $errorSocket = socket_last_error(self::$fdSocket);
 
-            $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
-            throw new \Dephpug\Exception\ExitProgram($error, 1);
+            $error = 'Client socket error: '.socket_strerror($errorSocket);
+            throw new ExitProgram($error, 1);
         }
-        $this->hasMessage = true;
+        return true;
     }
 
     /**
@@ -116,16 +94,13 @@ class DbgpServer
             $buffer = '';
             $result = @socket_recv(self::$fdSocket, $buffer, 1024, 0);
             if ($result === false) {
-                throw new Exception\ExitProgram('Client socket error', 1);
+                throw new ExitProgram('Client socket error', 1);
             }
 
             $bytes += $result;
             $message .= $buffer;
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
-
         $messageParse = new MessageParse();
-
-        $this->hasMessage = false;
 
         return $messageParse->formatMessage($message);
     }

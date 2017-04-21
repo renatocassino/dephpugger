@@ -3,7 +3,7 @@
 namespace Dephpug\Exporter\Type;
 
 use Dephpug\Exporter\iExporter;
-use Dephpug\DbgpServer;
+use Dephpug\Dbgp\Client;
 
 class ObjectExporter implements iExporter
 {
@@ -15,7 +15,6 @@ class ObjectExporter implements iExporter
     public function getExportedVar($xml)
     {
         $command = "var_export({$xml->property->attributes()['name']}, true);";
-        $command = base64_encode($command);
         $responseXDebug = $this->getResponseByCommand($command);
         $newXml = simplexml_load_string($responseXDebug);
         $content = base64_decode((string) $newXml->property);
@@ -25,10 +24,9 @@ class ObjectExporter implements iExporter
 
     public function getResponseByCommand($command)
     {
-        $dbgpServer = new DbgpServer();
-        $transactionId = $dbgpServer->getTransactionId();
-        $dbgpServer->sendCommand('eval -i {$transactionId} -- '.$command);
+        $dbgpClient = new Client();
+        $dbgpClient->eval($command);
 
-        return $dbgpServer->getResponse();
+        return $dbgpClient->getResponse();
     }
 }

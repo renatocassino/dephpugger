@@ -39,7 +39,7 @@ class DbgpCommand extends \Dephpug\Command
     public function exec()
     {
         if (count($this->match) > 1) {
-            $this->core->dbgpServer->sendCommand($this->match[1]);
+            $this->core->dbgpClient->run($this->match[1]);
         }
     }
 }

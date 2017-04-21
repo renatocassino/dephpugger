@@ -36,7 +36,6 @@ class EvalCommand extends \Dephpug\Command
 
     public function exec()
     {
-        $eval = base64_encode($this->match[1]);
-        $this->core->dbgpServer->sendCommand('eval -i 1 -- '.$eval);
+        $this->core->dbgpClient->eval($this->match[1]);
     }
 }

@@ -13,6 +13,6 @@ class InitMessageEvent extends MessageParse
 
     public function exec()
     {
-        $this->core->dbgpServer->sendCommand('run -i 1');
+        $this->core->dbgpClient->continue();
     }
 }
