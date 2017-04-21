@@ -15,11 +15,6 @@ use Dephpug\MessageParse;
 class Server
 {
     /**
-     * Transaction id usage for Dbgp protocol.
-     */
-    private static $transactionId = 1;
-
-    /**
      * Socket to connect xDebug.
      */
     private static $socket;
@@ -51,17 +46,6 @@ class Server
     public function closeClient()
     {
         socket_close(self::$fdSocket);
-    }
-
-    /**
-     * Get transactionId to send to DBGP protocol.
-     *
-     * Each time this methos is called, append 1 to next
-     * call has a different transactionId
-     */
-    public static function getTransactionId()
-    {
-        return self::$transactionId++;
     }
 
     /**
