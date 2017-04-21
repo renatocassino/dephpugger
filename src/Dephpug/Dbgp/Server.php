@@ -4,6 +4,7 @@ namespace Dephpug\Dbgp;
 
 use Dephpug\Output;
 use Dephpug\MessageParse;
+use Dephpug\Exception\ExitProgram;
 
 /**
  * Class to create a socket to remote debugger in xDebug.
@@ -58,7 +59,7 @@ class Server
             self::$fdSocket = socket_accept(self::$socket);
             if (self::$fdSocket !== false) {
                 Output::print('Connected to <fg=yellow;options=bold>XDebug server</>!');
-                break;
+                return true;
             }
         }
     }
@@ -75,9 +76,10 @@ class Server
         if ($result === false) {
             $errorSocket = socket_last_error(self::$fdSocket);
 
-            $error = $prefix.'Client socket error: '.socket_strerror($errorSocket);
-            throw new \Dephpug\Exception\ExitProgram($error, 1);
+            $error = 'Client socket error: '.socket_strerror($errorSocket);
+            throw new ExitProgram($error, 1);
         }
+        return true;
     }
 
     /**
@@ -92,13 +94,12 @@ class Server
             $buffer = '';
             $result = @socket_recv(self::$fdSocket, $buffer, 1024, 0);
             if ($result === false) {
-                throw new Exception\ExitProgram('Client socket error', 1);
+                throw new ExitProgram('Client socket error', 1);
             }
 
             $bytes += $result;
             $message .= $buffer;
         } while ($message !== '' && $message[$bytes - 1] !== "\0");
-
         $messageParse = new MessageParse();
 
         return $messageParse->formatMessage($message);

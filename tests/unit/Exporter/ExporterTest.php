@@ -4,11 +4,6 @@ namespace Exporter;
 
 class ExporterTest extends \Codeception\Test\Unit
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected $arrayXml;
     protected $boolXml;
     protected $floatXml;
