@@ -43,15 +43,35 @@ class Exporter
         $typeVar = (string) $this->xml->property['type'];
 
         switch ($typeVar) {
-            case 'int': return Type\IntegerExporter::class;
-            case 'float': return Type\FloatExporter::class;
-            case 'null': return Type\NullExporter::class;
-            case 'bool': return Type\BoolExporter::class;
-            case 'string': return Type\StringExporter::class;
-            case 'array': return Type\ArrayExporter::class;
-            case 'object': return Type\ObjectExporter::class;
-            case 'resource': return Type\ResourceExporter::class;
-            default: return Type\UnknownExporter::class;
+        case 'int':
+            $klass = Type\IntegerExporter::class;
+            break;
+        case 'float':
+            $klass = Type\FloatExporter::class;
+            break;
+        case 'null':
+            $klass = Type\NullExporter::class;
+            break;
+        case 'bool':
+            $klass = Type\BoolExporter::class;
+            break;
+        case 'string':
+            $klass = Type\StringExporter::class;
+            break;
+        case 'array':
+            $klass = Type\ArrayExporter::class;
+            break;
+        case 'object':
+            $klass = Type\ObjectExporter::class;
+            break;
+        case 'resource':
+            $klass = Type\ResourceExporter::class;
+            break;
+        default:
+            $klass = Type\UnknownExporter::class;
+            break;
         }
+
+        return $klass;
     }
 }

@@ -4,12 +4,30 @@ namespace Dephpug;
 
 use ReflectionClass;
 
-class PluginReflection
+/**
+ * Class to get a list of classes that match an interface
+ */
+abstract class PluginReflection
 {
+    /**
+     * Objects with interface setted in contructor
+     */
     private $plugins = [];
+
+    /**
+     * Interface to match classes
+     */
     public $interfaceReflection;
+
+    /**
+     * Object Core
+     */
     public $core;
 
+    /**
+     * @param Core $core with pointer
+     * @param string $interfaceReflection name of interface to match
+     */
     public function __construct(&$core, $interfaceReflection = 'Dephpug\Interfaces\iCommand')
     {
         $this->core = $core;
@@ -17,6 +35,10 @@ class PluginReflection
         $this->setPlugins();
     }
 
+    /**
+     * Get all plugins and set in an attribute
+     * @return void
+     */
     public function setPlugins()
     {
         foreach (get_declared_classes() as $klass) {
@@ -26,11 +48,19 @@ class PluginReflection
         }
     }
 
+    /**
+     * Get list of plugins
+     * @return array $plugins
+     */
     public function getPlugins()
     {
         return $this->plugins;
     }
 
+    /**
+     * Add plugin to list
+     * @param string $klass Name of class to instantiate
+     */
     public function addPlugin($klass)
     {
         $obj = new $klass();
@@ -41,6 +71,11 @@ class PluginReflection
         }
     }
 
+    /**
+     * Check if a class is a plugin matching the interface
+     * @param string $klass
+     * @return bool
+     */
     public function isPlugin($klass)
     {
         $reflectionClass = new ReflectionClass($klass);
