@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
 - Add documentation in each class and methods
+- Create .phar file
 
 ## [Unreleased]
 ### Added
