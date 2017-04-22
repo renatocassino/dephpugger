@@ -7,7 +7,7 @@ use ReflectionClass;
 /**
  * Class to get a list of classes that match an interface
  */
-abstract class PluginReflection
+class PluginReflection
 {
     /**
      * Objects with interface setted in contructor
