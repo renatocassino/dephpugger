@@ -10,7 +10,6 @@ $autoloads = [
 $dirPath = false;
 foreach($autoloads as $path) {
     $autoload = $path . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-    echo $autoload;
     if(file_exists($autoload)) {
         require_once $autoload;
         $dirPath = $path;
