@@ -9,19 +9,13 @@ use ReflectionClass;
  */
 class PluginReflection
 {
-    /**
-     * Objects with interface setted in contructor
-     */
+    /** Objects with interface setted in contructor */
     private $plugins = [];
 
-    /**
-     * Interface to match classes
-     */
+    /** Interface to match classes */
     public $interfaceReflection;
 
-    /**
-     * Object Core
-     */
+    /** Object Core */
     public $core;
 
     /**
@@ -50,7 +44,7 @@ class PluginReflection
 
     /**
      * Get list of plugins
-     * @return array $plugins
+     * @return array $plugins Indicates all plugins added in this obj
      */
     public function getPlugins()
     {
@@ -59,7 +53,7 @@ class PluginReflection
 
     /**
      * Add plugin to list
-     * @param string $klass Name of class to instantiate
+     * @param string $klass Indicates the name of class to instantiate
      */
     public function addPlugin($klass)
     {
@@ -74,7 +68,7 @@ class PluginReflection
     /**
      * Check if a class is a plugin matching the interface
      * @param string $klass
-     * @return bool
+     * @return bool Indicates if a class is a plugin
      */
     public function isPlugin($klass)
     {

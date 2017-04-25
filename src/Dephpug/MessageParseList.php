@@ -2,9 +2,15 @@
 
 namespace Dephpug;
 
+/**
+ * Class with reflection to get all messages parse in project
+ */
 class MessageParseList
 {
+    /** Reflection to get all message parses */
     public $reflection;
+
+    /** Pointer to core instance */
     public $core;
 
     public function __construct(&$core)
@@ -13,6 +19,11 @@ class MessageParseList
         $this->core = $core;
     }
 
+    /**
+     * Get all plugins that match with a xml
+     * @param string $xml
+     * @return array Indicates the list of plugins matched with xml
+     */
     public function match($xml)
     {
         $plugins = [];
@@ -25,6 +36,11 @@ class MessageParseList
         return $plugins;
     }
 
+    /**
+     * Run all methods in MessageParse for all plugins that match the xml
+     * @param string $xml
+     * @return void
+     */
     public function run($xml)
     {
         $messageParses = $this->match($xml);

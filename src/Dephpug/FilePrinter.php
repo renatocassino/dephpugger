@@ -2,14 +2,28 @@
 
 namespace Dephpug;
 
+/**
+ * Class that receive a filename and line to show part
+ * of file in debugger with limits and format
+ */
 class FilePrinter
 {
-    public $file; // Array
+    /** Array with lines in a file */
+    public $file;
+
+    /** Filename of $file (optional) */
     public $filename;
+
+    /** Current line of a file to indicate the arrow */
     public $line;
+
+    /** Line to show in print */
     public $lineToRange;
+
+    /** Number of lines to show above and bellow $lineToRange */
     public $offset = 6;
-    public $config;
+
+    /** Reserved words in php to color */
     private $reservedWords = [
         '__halt_compiler',
         'array',
@@ -36,6 +50,7 @@ class FilePrinter
         'while',
     ];
 
+    /** Consts reserved to color print */
     private $consts = [
         '__CLASS__',
         '__DIR__',
@@ -47,23 +62,42 @@ class FilePrinter
         '__TRAIT__',
     ];
 
+    /**
+     * Set filename and instantiate the attribute $file
+     * with lines as array
+     * @param string $filename
+     * @return void
+     */
     public function setFilename($filename)
     {
         $this->filename = $filename;
         $this->file = file($filename);
     }
 
+    /**
+     * Set direct file as array of lines
+     * @param array $file
+     * @return void
+     */
     public function setFile($file)
     {
         $this->file = $file;
     }
 
-    public function setOffset($offset)
+    /**
+     * Set attribute offset
+     * @param int $offset
+     */
+    public function setOffset(int $offset)
     {
         $this->offset = (int) $offset;
     }
 
     /**
+     * Get the pagination range considering $offset to get
+     * lines above and bellow
+     *
+     * @param int $line
      * @return array with indexes of pages, not lines
      */
     public function getRangePagination($line = 1)
@@ -74,6 +108,12 @@ class FilePrinter
         return [$firstLine, $lastLine];
     }
 
+    /**
+     * List lines around a setted line in file
+     *
+     * @param int $line
+     * @return string Indicates lines of a file
+     */
     public function listLines($line = 1)
     {
         list($start, $end) = $this->getRangePagination($line);
@@ -85,11 +125,19 @@ class FilePrinter
         return $lines;
     }
 
+    /**
+     * Number of lines in the file
+     * @return int Indicates the number of the lines in the file setted
+     */
     public function numberOfLines()
     {
         return count($this->file);
     }
 
+    /**
+     * Show file with full informations
+     * @return string
+     */
     public function showFile()
     {
         $fileLines = $this->listLines($this->lineToRange);
@@ -111,6 +159,13 @@ class FilePrinter
         return $fileToShow;
     }
 
+    /**
+     * Color code received to appear like an IDE changing reserved
+     * words in PHP to different colors
+     *
+     * @param string $content Indicates a php code
+     * @return string
+     */
     public function colorCode($content)
     {
         foreach ($this->reservedWords as $word) {

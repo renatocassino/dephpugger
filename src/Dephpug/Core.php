@@ -4,8 +4,14 @@ namespace Dephpug;
 
 use Dephpug\Dbgp\Client;
 
+/**
+ * Class to run the Dephpugger with all flow
+ */
 class Core
 {
+    /**
+     * Set all attributes
+     */
     public function __construct()
     {
         $this->commandList = new CommandList($this);
@@ -17,6 +23,10 @@ class Core
         $this->config->configure();
     }
 
+    /**
+     * Start the dephpugger debug
+     * @return void
+     */
     public function run()
     {
         $host = $this->config->debugger['host'];
@@ -26,6 +36,10 @@ class Core
         $this->startRepl();
     }
 
+    /**
+     * Start the Repl (Repeat Eval Print and Loop)
+     * @return void
+     */
     public function startRepl()
     {
         while (true) {

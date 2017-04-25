@@ -15,7 +15,6 @@ class MessageParse
      * to make compatible with `simplexml_load_string`
      *
      * @param string $message String with xml from DBGP
-     *
      * @return string Format xml
      */
     public function formatMessage($message)
@@ -38,8 +37,7 @@ class MessageParse
      * Method to get a xml and beautifier to print formated.
      *
      * @param string $xml String with xml format
-     *
-     * @return string
+     * @return string Indicates the same xml, but formatted
      */
     public function xmlBeautifier($xml)
     {
