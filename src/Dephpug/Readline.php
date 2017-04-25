@@ -7,14 +7,10 @@ namespace Dephpug;
  */
 class Readline
 {
-    /**
-     * File configured in config file to save the history
-     */
+    /** File configured in config file to save the history */
     private static $historyFile;
 
-    /**
-     * Save the last command used
-     */
+    /** Save the last command used */
     private static $lastLine;
 
     /**
