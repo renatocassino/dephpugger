@@ -97,7 +97,7 @@ class Config
      */
     public function setNewDebuggerValue($key, $value)
     {
-        if(isset($this->config['debugger'][$key])) {
+        if (isset($this->config['debugger'][$key])) {
             $this->config['debugger'][$key] = $value;
         }
     }
