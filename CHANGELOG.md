@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Create .phar file
 
 ## [Unreleased]
+
+## [1.0.2-rc1 - 2017-04-26]
 ### Added
 - Class to client for Dbgp
 - Tests for dbgp Server and Client
