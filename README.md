@@ -140,9 +140,9 @@ server:
 
 Theese values will replace the default configuration.
 
-# DEVELOPING YET!
+# Full documentation
 
-[Documentation in github pages](https://tacnoman.github.io/dephpugger)
+To see the full documentation [click here](https://tacnoman.github.io/dephpugger).
 
 # Run tests
 
