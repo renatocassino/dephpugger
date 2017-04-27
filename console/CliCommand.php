@@ -40,7 +40,7 @@ class CliCommand extends Command
         $output->writeln("Running file script: <options=bold>{$phpFile}</>");
         $output->writeln("Command: {$command}");
 
-        shell_exec($command);
+        passthru($command);
     }
 }
 
