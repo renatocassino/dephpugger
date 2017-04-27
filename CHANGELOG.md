@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Namespace for client and server Dbgp
+- Removing phpPath and add PHP_BINARY
+
+### Fixed
+- Command cli printing content
 
 ## [1.0.1-alpha]
 ### Fixed

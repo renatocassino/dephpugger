@@ -15,7 +15,6 @@ class Config
         'server' => [
             'port' => 8888,
             'host' => 'localhost',
-            'phpPath' => 'php',
             'path' => null,
             'file' => '',
         ],

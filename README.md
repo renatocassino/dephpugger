@@ -134,7 +134,6 @@ debugger:
   historyFile: ~/.dephpugger_history # default: .dephpugger_history
 server:
   host: myproject.dev # default: localhost
-  phpPath: /usr/local/bin/php # default: php
   port: 8080 # default: 8888
 ```
 

@@ -27,7 +27,7 @@ class ServerCommand extends Command
         $config = new Config();
         $config->configure();
         $projectPath = getcwd();
-        $phpPath = $config->server['phpPath'];
+        $phpPath = PHP_BINARY;
         $defaultPort = $config->server['port'];
         $defaultHost = $config->server['host'];
         $debuggerHost = $config->debugger['host'];

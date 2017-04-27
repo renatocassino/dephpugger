@@ -30,7 +30,7 @@ class CliCommand extends Command
     {
         $config = new Config();
         $config->configure();
-        $phpPath = $config->server['phpPath'];
+        $phpPath = PHP_BINARY;
         $debuggerPort = $config->debugger['port'];
         $phpFile = $input->getArgument('file');
 
