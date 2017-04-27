@@ -142,7 +142,7 @@ Theese values will replace the default configuration.
 
 # Full documentation
 
-To see the full documentation [click here](https://tacnoman.github.io/dephpugger).
+To see the full documentation [click here](http://dephpugger.com).
 
 # Run tests
 
