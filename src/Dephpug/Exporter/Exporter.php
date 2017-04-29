@@ -27,7 +27,7 @@ class Exporter
     {
         $content = $klass->getExportedVar($this->xml);
 
-        return " => ({$klass::getType()}) {$content}\n\n";
+        return " => {$content}\n\n";
     }
 
     public function isContentToPrint()

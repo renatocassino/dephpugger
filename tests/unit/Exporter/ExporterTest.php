@@ -82,7 +82,7 @@ EOL;
     {
         $exporter = new \Dephpug\Exporter\Exporter();
         $exporter->setXml($this->stringXml);
-        $this->assertEquals(" => (string) My String\n\n", $exporter->printByXml());
+        $this->assertEquals(" => My String\n\n", $exporter->printByXml());
     }
 
     public function testIfIsContentToPrint()

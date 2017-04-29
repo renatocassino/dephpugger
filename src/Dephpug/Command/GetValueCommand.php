@@ -32,29 +32,21 @@ class GetValueCommand extends \Dephpug\Command
         return '/^\$([\w_\[\]\"\\\'\{\}0-9]+);?$/';
     }
 
+    /**
+     * Getting the value of variable in command.
+     * The DBGP protocol has a method called property_get, but this method get only
+     * local variables in the current state (method, function or anything). To get
+     * a global variable, the best way is is use the function var_export.
+     * All methods called for a global variable return null in DBGP. To can use,
+     * the code need return the value to a global variable.
+     */
     public function exec()
     {
-        // Worst way to solve this problem
-        $this->core->dbgpClient->propertyGet($this->match[1]);
-        $response = $this->core->dbgpClient->getResponse();
-
-        if(!preg_match('/error code/', $response)) {
-            $this->core->dbgpClient->propertyGet($this->match[1]);
-            return;
-        }
-
+        $varname = '$'.$this->match[1];
         $key = uniqid();
-        $this->core->dbgpClient->eval('$GLOBALS["'.$key.'"]=$'.$this->match[1]);
+        $this->core->dbgpClient->eval('$GLOBALS["'.$key.'"]='.$varname);
         $this->core->dbgpClient->getResponse();
         $command = '$GLOBALS["'.$key.'__"]=var_export($GLOBALS["'.$key.'"], true)';
-
         $this->core->dbgpClient->eval($command);
     }
 }
-
-/*
- * Next hypoteses
- * context_names => Return xml with context_get types
- * context_get -d {num} for each return above
- * Search if this variable exists in the above list, if exist return, if not, send error message
- */
