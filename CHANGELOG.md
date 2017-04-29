@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0 - 2017-04-29]
+### Added
+- Getting global variables in property get
+- Tests
+
 ## [1.0.2-rc1 - 2017-04-26]
 ### Added
 - Class to client for Dbgp
