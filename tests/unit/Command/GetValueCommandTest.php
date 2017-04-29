@@ -59,21 +59,4 @@ class GetValueCommandTest extends \Codeception\Test\Unit
         $matched = preg_match($regexp, '$variable_name[0]');
         $this->assertTrue((bool) $matched);
     }
-
-    public function testCommandSent()
-    {
-        $core = new \stdClass();
-        $core->dbgpClient = $this->getMockBuilder('\Dephpug\DbgpClient')
-                          ->setMethods(['propertyGet'])
-                          ->getMock();
-
-        $core->dbgpClient->expects($this->once())
-            ->method('propertyGet')
-            ->with('variableName');
-
-        $this->getValueCommand->match = ['', 'variableName'];
-
-        $this->getValueCommand->core = $core;
-        $this->getValueCommand->exec();
-    }
 }
