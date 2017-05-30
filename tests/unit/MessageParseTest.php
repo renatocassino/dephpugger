@@ -2,24 +2,18 @@
 
 use Dephpug\MessageParse;
 
-class MessageParseTest extends \Codeception\Test\Unit
+class MessageParseTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
     protected $messageParse;
 
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->messageParse = new MessageParse();
     }
 
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testRemovingNumbersBeforeXML()
     {
         $message = '400<?xml ...';
