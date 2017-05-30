@@ -147,7 +147,7 @@ To see the full documentation [click here](http://dephpugger.com).
 # Run tests
 
 ```sh
-$ codecept run unit
+$ phpunit
 ```
 
 # Bugs?
