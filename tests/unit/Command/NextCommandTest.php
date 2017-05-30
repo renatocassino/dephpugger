@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\NextCommand;
 
-class NextCommandTest extends \Codeception\Test\Unit
+class NextCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->nextCommand = new NextCommand();

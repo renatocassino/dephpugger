@@ -3,7 +3,7 @@
 use Dephpug\Output;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class OutputTest extends \Codeception\Test\Unit
+class OutputTest extends \PHPUnit\Framework\TestCase
 {
     // tests
     public function testIfGettingASymfonyOutput()

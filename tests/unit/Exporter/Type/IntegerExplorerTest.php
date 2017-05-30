@@ -4,22 +4,8 @@ namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\IntegerExporter;
 
-class IntegerExplorerTest extends \Codeception\Test\Unit
+class IntegerExplorerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testPrintValueWithAnInteger()
     {
         $message = <<<'EOL'

@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\StepIntoCommand;
 
-class StepIntoCommandTest extends \Codeception\Test\Unit
+class StepIntoCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->stepIntoCommand = new StepIntoCommand();

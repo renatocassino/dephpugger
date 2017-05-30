@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\ContinueCommand;
 
-class ContinueCommandTest extends \Codeception\Test\Unit
+class ContinueCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->continueCommand = new ContinueCommand();

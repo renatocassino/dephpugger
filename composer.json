@@ -8,12 +8,11 @@
     "symfony/yaml": "^3.2"
   },
   "require-dev": {
-    "codeception/codeception": "^2.2",
     "squizlabs/php_codesniffer": "2.*"
   },
   "autoload": {
     "psr-0" : {
-      "TacBug\\": "src"
+      "Dephpug\\": "src/Dephpug"
     }
   },
   "bin": ["bin/dephpugger"],

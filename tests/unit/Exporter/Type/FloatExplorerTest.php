@@ -4,22 +4,8 @@ namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\FloatExporter;
 
-class FloatExplorerTest extends \Codeception\Test\Unit
+class FloatExplorerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testPrintValueWithAFloat()
     {
         $message = <<<'EOL'

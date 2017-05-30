@@ -4,8 +4,11 @@ namespace Parser;
 
 use Dephpug\Parser\VerboseModeMessageParse;
 
-class VerboseModeMessageEventTest extends \Codeception\Test\Unit
+class VerboseModeMessageEventTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->verboseMode = new VerboseModeMessageParse();

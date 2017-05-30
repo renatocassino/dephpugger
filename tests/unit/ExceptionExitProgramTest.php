@@ -2,17 +2,8 @@
 
 use Dephpug\Exception\ExitProgram;
 
-class ExceptionExitProgramTest extends \Codeception\Test\Unit
+class ExceptionExitProgramTest extends \PHPUnit\Framework\TestCase
 {
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testExceptionMessage()
     {
         try {

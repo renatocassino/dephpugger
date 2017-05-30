@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\DbgpCommand;
 
-class DbgpCommandTest extends \Codeception\Test\Unit
+class DbgpCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->dbgpCommand = new DbgpCommand();

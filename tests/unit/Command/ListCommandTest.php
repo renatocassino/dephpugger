@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\ListCommand;
 
-class ListCommandTest extends \Codeception\Test\Unit
+class ListCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->listCommand = new ListCommand();

@@ -4,22 +4,8 @@ namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\ResourceExporter;
 
-class ResourceExporterTest extends \Codeception\Test\Unit
+class ResourceExporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testPrintValueWithResource()
     {
         $message = <<<'EOL'

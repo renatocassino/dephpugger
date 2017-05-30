@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.6/phpunit.xsd"
+         bootstrap="./tests/_bootstrap.php">
+
+  <testsuites>
+    <testsuite name="Test Dephpugger">
+      <directory>./tests/unit/</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">./tests/unit/*Test.php</directory>
+    </whitelist>
+  </filter>
+</phpunit>

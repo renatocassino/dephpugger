@@ -4,23 +4,8 @@ namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\NullExporter;
 
-class NullExporterTest extends \Codeception\Test\Unit
+class NullExporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
-    // tests
     public function testPrintValueWithAnInteger()
     {
         $message = <<<'EOL'

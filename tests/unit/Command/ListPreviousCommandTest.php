@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\ListPreviousCommand;
 
-class ListPreviousCommandTest extends \Codeception\Test\Unit
+class ListPreviousCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->listPreviousCommand = new ListPreviousCommand();

@@ -5,8 +5,11 @@ namespace Parser;
 use Dephpug\Parser\FilePrinterMessageEvent;
 use Dephpug\FilePrinter;
 
-class FilePrinterMessageEventTest extends \Codeception\Test\Unit
+class FilePrinterMessageEventTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->filePrinterMessageEvent = new FilePrinterMessageEvent();
