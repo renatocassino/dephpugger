@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO]
@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Create .phar file
 
 ## [Unreleased]
+
+## [1.1.1 - 2017-05-30]
+### Changed
+- Change codeception to phpunit
 
 ## [1.1 - 2017-04-29]
 ### Added
