@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\GetValueCommand;
 
-class GetValueCommandTest extends \Codeception\Test\Unit
+class GetValueCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->getValueCommand = new GetValueCommand();

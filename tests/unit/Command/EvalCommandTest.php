@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\EvalCommand;
 
-class EvalCommandTest extends \Codeception\Test\Unit
+class EvalCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->evalCommand = new EvalCommand();

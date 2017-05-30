@@ -1,36 +1,55 @@
 <?php
 
-use Dephpug\Config;
-use \Codeception\Util\Stub;
-
-class ConfigTest extends \Codeception\Test\Unit
+class ConfigTest extends \PHPUnit\Framework\TestCase
 {
     protected $defaultConfig;
 
+    /**
+     * @before
+     */
     protected function _before()
     {
-        $config = new Config();
+        $config = new \Dephpug\Config();
         $this->defaultConfig = $config->getConfig();
     }
 
     // tests
     public function testReplaceOptionsWithNewValues()
     {
-        $config = Stub::make('\Dephpug\Config', ['getConfigFromFile' => ['server' => ['port' => 123]]]);
+        $config = $this->getMockBuilder(\Dephpug\Config::class)
+                ->setMethods(['getConfigFromFile'])
+                ->getMock();
+
+        $config->method('getConfigFromFile')
+            ->willReturn(['server' => ['port' => 123]]);
+
         $config->configure();
+        $configuration = $config->getConfig();
         $this->assertEquals(123, $config->server['port']);
     }
 
     public function testKeepKeysNotReplaced()
     {
-        $config = Stub::make('\Dephpug\Config', ['getConfigFromFile' => ['server' => ['port' => 123]]]);
+        $config = $this->getMockBuilder(\Dephpug\Config::class)
+                ->setMethods(['getConfigFromFile'])
+                ->getMock();
+
+        $config->method('getConfigFromFile')
+            ->willReturn(['server' => ['port' => 123]]);
+
         $config->configure();
         $this->assertEquals('localhost', $config->server['host']);
     }
 
     public function testReplaceOptionsWithDataFromYaml()
     {
-        $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__.'/../data/configValid.yml']);
+        $config = $this->getMockBuilder(\Dephpug\Config::class)
+                ->setMethods(['getPathFile'])
+                ->getMock();
+
+        $config->method('getPathFile')
+            ->willReturn(__DIR__.'/../data/configValid.yml');
+
         $config->configure();
         $this->assertEquals(4005, $config->debugger['port']);
     }
@@ -38,19 +57,24 @@ class ConfigTest extends \Codeception\Test\Unit
     public function testExceptionIfYamlIsInvalid()
     {
         $this->expectException(\Symfony\Component\Yaml\Exception\ParseException::class);
-        $config = Stub::make('\Dephpug\Config', ['getPathFile' => __DIR__.'/../data/configInvalid.yml']);
+        $config = $this->getMockBuilder(\Dephpug\Config::class)
+                ->setMethods(['getPathFile'])
+                ->getMock();
+
+        $config->method('getPathFile')
+            ->willReturn(__DIR__.'/../data/configInvalid.yml');
         $config->getConfigFromFile();
     }
 
     public function testMagicMethodGettingUnexistKey()
     {
-        $config = new Config();
+        $config = new \Dephpug\Config();
         $this->assertNull($config->notExistKey);
     }
 
     public function testMagicMethodGettingExistKey()
     {
-        $config = new Config();
+        $config = new \Dephpug\Config();
         $this->assertEquals($config->getConfig()['server'], $config->server);
     }
 }

@@ -4,8 +4,11 @@ namespace Parser;
 
 use Dephpug\Parser\PropertyGetMessageEvent;
 
-class PropertyGetMessageTest extends \Codeception\Test\Unit
+class PropertyGetMessageTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->propertyGetMessage = new PropertyGetMessageEvent();

@@ -4,8 +4,11 @@ namespace Parser;
 
 use Dephpug\Parser\ErrorMessageEvent;
 
-class ErrorMessageEventTest extends \Codeception\Test\Unit
+class ErrorMessageEventTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->errorMessageEvent = new ErrorMessageEvent();

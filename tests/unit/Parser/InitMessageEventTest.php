@@ -4,8 +4,11 @@ namespace Parser;
 
 use Dephpug\Parser\InitMessageEvent;
 
-class InitMessageEventTest extends \Codeception\Test\Unit
+class InitMessageEventTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->initMessageEvent = new InitMessageEvent();

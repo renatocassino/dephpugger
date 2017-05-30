@@ -2,23 +2,11 @@
 
 namespace Exporter\Type;
 
-class UnknowExporterTest extends \Codeception\Test\Unit
+class UnknowExporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testMe()
     {
+        // Write tests
+        $this->assertTrue(true);
     }
 }

@@ -2,16 +2,14 @@
 
 use Dephpug\FilePrinter;
 
-class FilePrinterTest extends \Codeception\Test\Unit
+class FilePrinterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
     protected $smallFilePrinter;
     protected $bigFilePrinter;
 
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->smallFilePrinter = new FilePrinter();

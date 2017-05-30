@@ -4,8 +4,11 @@ namespace Parser;
 
 use Dephpug\Parser\CloseMessageEvent;
 
-class CloseMessageEventTest extends \Codeception\Test\Unit
+class CloseMessageEventTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     public function _before()
     {
         $this->closeMessageEvent = new CloseMessageEvent();

@@ -4,22 +4,8 @@ namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\BoolExporter;
 
-class BoolExporterTest extends \Codeception\Test\Unit
+class BoolExporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testGettingBoolVariableWhenTrue()
     {
         $message = <<<'EOL'

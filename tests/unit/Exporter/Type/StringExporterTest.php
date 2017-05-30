@@ -4,22 +4,8 @@ namespace Exporter\Type;
 
 use Dephpug\Exporter\Type\StringExporter;
 
-class StringExporterTest extends \Codeception\Test\Unit
+class StringExporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testPrintValueWithAString()
     {
         $message = <<<'EOL'

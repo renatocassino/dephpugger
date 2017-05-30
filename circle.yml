@@ -6,4 +6,4 @@ dependencies:
     - composer install
 test:
   override:
-    - vendor/bin/codecept run unit
+    - phpunit

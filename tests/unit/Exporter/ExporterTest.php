@@ -2,7 +2,7 @@
 
 namespace Exporter;
 
-class ExporterTest extends \Codeception\Test\Unit
+class ExporterTest extends \PHPUnit\Framework\TestCase
 {
     protected $arrayXml;
     protected $boolXml;
@@ -16,6 +16,9 @@ class ExporterTest extends \Codeception\Test\Unit
     protected $xmlToNotPrint;
     protected $xmlToPrintWithEval;
 
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->arrayXml = <<<'EOL'

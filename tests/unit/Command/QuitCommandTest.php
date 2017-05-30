@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\QuitCommand;
 
-class QuitCommandTest extends \Codeception\Test\Unit
+class QuitCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->quitCommand = new QuitCommand();

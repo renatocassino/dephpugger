@@ -6,8 +6,11 @@ require_once __DIR__ . '/../Mocks/dbgpServerSocket.php';
 
 use Dephpug\Dbgp\GlobalAttribute;
 
-class DbgpServerTest extends \Codeception\Test\Unit
+class DbgpServerTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->dbgpServer = new Server();

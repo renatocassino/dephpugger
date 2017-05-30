@@ -4,8 +4,11 @@ namespace Command;
 
 use Dephpug\Command\SetValueCommand;
 
-class SetValueCommandTest extends \Codeception\Test\Unit
+class SetValueCommandTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->setValueCommand = new SetValueCommand();

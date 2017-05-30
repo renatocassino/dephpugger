@@ -2,23 +2,9 @@
 
 namespace Exporter\Type;
 
-class ObjectExporterTest extends \Codeception\Test\Unit
+class ObjectExporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
-    public function _testPrintValueWithAClass()
+    public function testPrintValueWithAClass()
     {
         $message = <<<'EOL'
 <?xml version="1.0" encoding="iso-8859-1"?><response><property name="$klass" type="object" classname="stdClass"><property name="i" facet="public" type="int"><![CDATA[1]]></property></property></response>

@@ -6,4 +6,4 @@ install:
     - composer self-update
     - composer install
 
-script: php vendor/codeception/codeception/codecept run unit
+script: phpunit

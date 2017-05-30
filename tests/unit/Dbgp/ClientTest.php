@@ -2,8 +2,11 @@
 
 use Dephpug\Dbgp\Client;
 
-class DbgpClientTest extends \Codeception\Test\Unit
+class DbgpClientTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
     protected function _before()
     {
         $this->dbgpClient = new Client();

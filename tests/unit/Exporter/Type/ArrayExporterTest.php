@@ -2,22 +2,8 @@
 
 namespace Exporter\Type;
 
-class ArrayExporterTest extends \Codeception\Test\Unit
+class ArrayExporterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
-    // tests
     public function testMixArray()
     {
         // Example of response
