@@ -144,6 +144,10 @@ Theese values will replace the default configuration.
 
 To see the full documentation [click here](http://dephpugger.com).
 
+# How to use with phpunit, behat, codeception and others
+
+The documentation to use, [click here](http://dephpugger.com/Usage/Running_with_phpunit.html).
+
 # Run tests
 
 ```sh
