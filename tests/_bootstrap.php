@@ -19,5 +19,5 @@ $output = new ConsoleOutput();
 $output->setFormatter(new OutputFormatter(true));
 
 $output->writeln(
-    'The <comment>tests</comment> is <bg=magenta;fg=cyan;option=blink>running!</>'
+    'The <comment>tests</comment> are <fg=cyan;>running!</>'
 );
