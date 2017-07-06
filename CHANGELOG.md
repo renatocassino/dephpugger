@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Create .phar file
 
 ## [Unreleased]
+### Changed
+- Remove monolog
 
 ## [1.1.1 - 2017-05-30]
 ### Changed

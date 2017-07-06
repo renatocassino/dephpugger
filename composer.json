@@ -2,7 +2,6 @@
   "name": "tacnoman/dephpugger",
   "description": "Debug for php in terminal.",
   "require": {
-    "monolog/monolog": "1.22",
     "cboden/ratchet": "0.3.6",
     "symfony/console": "^3.2",
     "symfony/yaml": "^3.2"
