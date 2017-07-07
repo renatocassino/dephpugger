@@ -2,8 +2,7 @@
 <?php
 
 $autoloads = [
-    dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR,
-    
+    dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR,    
 ];
 
 // Checking if file is found

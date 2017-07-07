@@ -6,6 +6,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Bundle\WebServerBundle\WebServer;
+use Symfony\Bundle\WebServerBundle\WebServerConfig;
 
 use Dephpug\Output;
 
@@ -37,7 +38,6 @@ class Server extends Runner
         $command[] = $this->getCommandParams();
         $command[] = "{$pathWithParam} {$config->server['file']}";
 
-        return $command;
         return implode(' ', $command);
     }
 
@@ -68,11 +68,13 @@ class Server extends Runner
         $this->output->writeln("Access in <comment>{$this->getServerHost()}</comment>\n");
 
         echo 'PROCESS';
-        echo __DIR__ . '/process.pid';
+        $webserverConfig = new WebServerConfig($config->server['path'], 'development', $address, $command);
+        $webserver = new WebServer();
+        $webserver->start($webserverConfig, __DIR__ . '/pidfile.pid');
 
-        $builder = new ProcessBuilder($command);
-        $builder->setWorkingDirectory(__DIR__ . '/process.pid');
-        $builder->setTimeout(null);
+        //$builder = new ProcessBuilder($command);
+        //$builder->setWorkingDirectory(__DIR__ . '/process.pid');
+        //$builder->setTimeout(null);
 
         // shell_exec($command);
     }

@@ -1,0 +1,14 @@
+<?php
+
+namespace Dephpug\Runner;
+
+class WebServerConfig extends Symfony\Bundle\WebServerBundle\WebServerConfig
+{
+    public function __construct($config, $router)
+    {
+        $documentRoot = $config->server['path'];
+        $env = 'development';
+        $address = $config->server['host'] . ':' . $config->server['port'];
+        parent::__construct($documentRoot, $env, $address, $router);
+    }
+}

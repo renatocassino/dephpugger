@@ -5,7 +5,8 @@
     "cboden/ratchet": "0.3.6",
     "symfony/console": "^3.2",
     "symfony/yaml": "^3.2",
-    "symfony/process": "^3.3"
+    "symfony/process": "^3.3",
+    "symfony/web-server-bundle": "^3.3"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*"
