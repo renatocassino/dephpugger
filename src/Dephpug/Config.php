@@ -15,7 +15,7 @@ class Config
         'server' => [
             'port' => 8888,
             'host' => 'localhost',
-            'path' => null,
+            'path' => '',
             'file' => '',
         ],
         'debugger' => [
@@ -25,6 +25,9 @@ class Config
             'verboseMode' => false,
             'historyFile' => '.dephpugger_history',
         ],
+        'options' => [
+            'phpBin' => PHP_BINARY
+        ]
     ];
 
     /** Array with configurations */
