@@ -8,14 +8,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Dephpug\Config;
 use Dephpug\Dephpugger;
 use Dephpug\Runner\Server;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ServerCommand extends Command
+class ServerStartCommand extends Command
 {
     protected function configure()
     {
         $this
             // the name of the command (the part after "bin/console")
-            ->setName('server')
+            ->setName('server:start')
             // the short description shown while running "php bin/console list"
             ->setDescription('Create a server in using your config connecting with to dephpugger debug')
             // the full command description shown when running the command with
@@ -25,13 +27,16 @@ class ServerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output);
         $config = new Config();
         $config->configure();
 
         $server = new Server();
         $server->setConfig($config);
-        $server->run();
+        $server->start();
+
+        $io->success('Server started');
     }
 }
 
-$application->add(new ServerCommand());
+$application->add(new ServerStartCommand());

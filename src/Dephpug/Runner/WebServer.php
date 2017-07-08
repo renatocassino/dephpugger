@@ -127,8 +127,6 @@ class WebServer
         $command = implode(' ', $this->command);
         $command = explode(' ', $command);
 
-        echo 'Running '. implode(' ', $command);
-
         $builder = new ProcessBuilder($command);
         $builder->setWorkingDirectory(getcwd());
         $builder->setTimeout(null);

@@ -14,8 +14,6 @@ abstract class Runner
         $this->output = Output::getOutput();
     }
 
-    
-
     public function setConfig($config)
     {
         $this->config = $config;
