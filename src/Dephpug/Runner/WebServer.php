@@ -133,7 +133,10 @@ class WebServer
         $builder->setWorkingDirectory(getcwd());
         $builder->setTimeout(null);
 
-        return $builder->getProcess();
+        $process = $builder->getProcess();
+        $command = $process->getCommandLine();
+        $process->setCommandLine(str_replace("'", '', $command));
+        return $process;
     }
 
     private function getDefaultPidFile()

@@ -5,6 +5,8 @@ namespace Dephpug\Runner;
 use Dephpug\Output;
 /**
  * Class to start server
+ *
+ * This class use the Symfony 
  */
 class Server extends Runner
 {
@@ -70,5 +72,12 @@ class Server extends Runner
         $command = $this->getCommand();
         $webServer = new WebServer($command);
         $webServer->start($this->config);
+    }
+
+    public function stop()
+    {
+        $command = $this->getCommand();
+        $webServer = new WebServer($command);
+        $webServer->stop();
     }
 }
