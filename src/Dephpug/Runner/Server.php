@@ -3,7 +3,9 @@
 namespace Dephpug\Runner;
 
 use Dephpug\Output;
-
+/**
+ * Class to start server
+ */
 class Server extends Runner
 {
     public function getServerHost()
@@ -61,5 +63,12 @@ class Server extends Runner
         $this->output->writeln("Access in <comment>{$this->getServerHost()}</comment>\n");
 
         shell_exec($command);
+    }
+
+    public function start()
+    {
+        $command = $this->getCommand();
+        $webServer = new WebServer($command);
+        $webServer->start($this->config);
     }
 }

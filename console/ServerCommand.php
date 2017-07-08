@@ -30,7 +30,7 @@ class ServerCommand extends Command
 
         $server = new Server();
         $server->setConfig($config);
-        $server->run();
+        $server->start();
     }
 }
 
