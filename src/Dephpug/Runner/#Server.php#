@@ -3,7 +3,9 @@
 namespace Dephpug\Runner;
 
 use Dephpug\Output;
-
+/**
+ * Class to start server
+ */
 class Server extends Runner
 {
     public function getServerHost()
