@@ -129,13 +129,13 @@ debugger:
   host: mysocket.dev # default: localhost
   port: 9002 # default: 9005
   lineOffset: 10 # default: 6
-  path: ./public/ # default: null
-  file: index.php # default: null
   verboseMode: false # default: false
   historyFile: ~/.dephpugger_history # default: .dephpugger_history
 server:
   host: myproject.dev # default: localhost
   port: 8080 # default: 8888
+  path: ./public/ # default: null
+  file: index.php # default: null
 ```
 
 Theese values will replace the default configuration.
