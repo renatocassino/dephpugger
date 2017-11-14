@@ -33,16 +33,16 @@ class ServerCommand extends Command
         $debuggerHost = $config->debugger['host'];
         $debuggerPort = $config->debugger['port'];
         $path = $config->server['path'] == null ? '' : $config->server['path'];
-        $file = $config->server['file'] !== '' ? $path.$config->server['file'] : '';
+        $file = $config->server['file'] == null ? '' : $config->server['file'];
 
         $pathWithParam = $path != '' ? "-t $path" : '';
 
         $command = "{$phpPath} -S {$defaultHost}:{$defaultPort} ";
-        $command .= "-t {$projectPath} ";
+        $command .= $pathWithParam !== '' ? $pathWithParam : "-t {$projectPath} ";
         $command .= '-dxdebug.remote_enable=1 -dxdebug.remote_mode=req ';
         $command .= "-dxdebug.remote_port={$debuggerPort} ";
         $command .= "-dxdebug.remote_host={$debuggerHost} -dxdebug.remote_connect_back=0 ";
-        $command .= "{$pathWithParam} {$file}";
+        $command .= $path !== '' && $file !== '' ? $path.$file : '';
 
         $output->write(splashScreen());
         $output->writeln("Running command: <fg=red>{$command}</>\n");
