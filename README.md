@@ -15,6 +15,9 @@ Dephpugger (read depugger) is an open source lib to make a debug in php direct i
 ![dephpugger](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/dephpugger.gif)
 `Image 1.1 - Screenrecord for debug cli scripts`
 
+## Another example
+[![demo](https://asciinema.org/a/115976.png)](https://asciinema.org/a/115976?autoplay=1)
+
 # Install
 
 To install you must run this code (using the composer).
