@@ -10,8 +10,9 @@
     "squizlabs/php_codesniffer": "2.*"
   },
   "autoload": {
-    "psr-0" : {
-      "Dephpug\\": "src/Dephpug"
+    "psr-4" : {
+      "Dephpug\\": "src/Dephpug",
+      "Dephpug\\Console\\": "console/"
     },
     "files": [
       "src/Dephpug/SplashScreen.php"
