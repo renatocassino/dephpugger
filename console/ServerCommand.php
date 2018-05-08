@@ -8,6 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Dephpug\Config;
 use Dephpug\Dephpugger;
 
+use function Dephpug\SplashScreen;
+
 class ServerCommand extends Command
 {
     protected function configure()

@@ -12,7 +12,10 @@
   "autoload": {
     "psr-0" : {
       "Dephpug\\": "src/Dephpug"
-    }
+    },
+    "files": [
+      "src/Dephpug/SplashScreen.php"
+    ]
   },
   "bin": ["bin/dephpugger"],
   "license": "MIT",

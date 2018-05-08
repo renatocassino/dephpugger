@@ -3,7 +3,6 @@
 
 $autoloads = [
     dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR,
-    
 ];
 
 // Checking if file is found
@@ -59,31 +58,4 @@ includePaths($paths);
 
 // Create application
 $application = new Symfony\Component\Console\Application();
-
-// Paths to console
-$paths = [
-    implode(DIRECTORY_SEPARATOR, ['console', '*.php']),
-    implode(DIRECTORY_SEPARATOR, ['console', 'concerns', '*.php'])
-];
-includePaths($paths, $application);
-
-// Function to splash screen
-function splashScreen($word='Server') {
-    $version = 'v' . Dephpug\Dephpugger::$VERSION;
-    return <<<EOL
-<info>
-  _____             _                                       
- |  __ \           | |                                      
- | |  | | ___ _ __ | |__  _ __  _   _  __ _  __ _  ___ _ __ 
- | |  | |/ _ \ '_ \| '_ \| '_ \| | | |/ _` |/ _` |/ _ \ '__|
- | |__| |  __/ |_) | | | | |_) | |_| | (_| | (_| |  __/ |   
- |_____/ \___| .__/|_| |_| .__/ \__,_|\__, |\__, |\___|_|   
-             | |         | |           __/ | __/ |          
-             |_|         |_|          |___/ |___/           </info>
-
-                                   $word - Version: <fg=cyan>$version</>
-
-EOL;
-}
-
 $application->run();

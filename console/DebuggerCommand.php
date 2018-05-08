@@ -9,6 +9,8 @@ use Dephpug\Dephpugger;
 use Dephpug\Exception\ExitProgram;
 use Dephpug\Config;
 
+use function Dephpug\SplashScreen;
+
 class DebuggerCommand extends Command
 {
     protected function configure()
