@@ -53,5 +53,3 @@ class ServerCommand extends Command
         shell_exec($command);
     }
 }
-
-$application->add(new ServerCommand());

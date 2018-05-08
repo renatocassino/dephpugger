@@ -43,5 +43,3 @@ class DebuggerCommand extends Command
         }
     }
 }
-
-$application->add(new DebuggerCommand());

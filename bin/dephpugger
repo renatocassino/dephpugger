@@ -1,61 +1,32 @@
 #!/usr/bin/env php
 <?php
 
-$autoloads = [
-    dirname(dirname(dirname(dirname(__DIR__)))) . DIRECTORY_SEPARATOR,
+$availableAutoloadPaths = [
+    __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php',
+    __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
+    __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
 ];
 
-// Checking if file is found
-$dirPath = false;
-foreach($autoloads as $path) {
-    $autoload = $path . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-    if(file_exists($autoload)) {
-        require_once $autoload;
-        $dirPath = $path;
+foreach ($availableAutoloadPaths as  $availableAutoloadPath) {
+    if (file_exists($availableAutoloadPath)) {
+        $autoloadPath = $availableAutoloadPath;
         break;
     }
 }
 
-// If not found, get message error
-if(!$dirPath) {
-    echo "Cannot find autoload.php in folders: \n";
-    foreach($autoloads as $autoload) {
-        echo " - {$autoload}" . 'vendor' . DIRECTORY_SEPARATOR . "autoload.php\n";
-    }
+if (!isset($autoloadPath)) {
+    fwrite(
+        STDERR,
+        'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
+        '    composer install' . PHP_EOL . PHP_EOL .
+        'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
+    );
 
-    echo 'You must run `composer install` first.';
-    exit;
+    die(1);
 }
 
-// Folder vendor/ in project found
-define('VENDORDIR', $dirPath.'vendor'.DIRECTORY_SEPARATOR.'tacnoman'.DIRECTORY_SEPARATOR.'dephpugger'.DIRECTORY_SEPARATOR);
-
-/**
- * Function to include paths
- */
-function includePaths($arrayOfPaths, &$application=null)
-{
-    $paths = [];
-    foreach($arrayOfPaths as $path) {
-        $pathFile = VENDORDIR.$path;
-        $files = glob($pathFile);
-        $paths = array_merge($paths, $files);
-    }
-
-    foreach($paths as $path)
-    {
-        require_once $path;
-    }
-}
-
-// Paths to load all classes in src/Dephpug (like psr-0)
-$paths = [
-    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '***.php']),
-    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '*.php']),
-    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '**', '*.php']),
-];
-includePaths($paths);
+require $autoloadPath;
 
 // Create application
-$application = new Symfony\Component\Console\Application();
+$application = new Dephpug\Dephpugger();
 $application->run();

@@ -40,5 +40,3 @@ class RequirementsCommand extends Command
         $output->writeln($phpInfo->printVar('xdebug.default_enable', 'XDebug default_enable'));
     }
 }
-
-$application->add(new RequirementsCommand());
