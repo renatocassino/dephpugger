@@ -39,9 +39,9 @@ class ServerCommand extends Command
 
         $command = "{$phpPath} -S {$defaultHost}:{$defaultPort} ";
         $command .= $pathWithParam !== '' ? $pathWithParam : "-t {$projectPath} ";
-        $command .= '-dxdebug.remote_enable=1 -dxdebug.remote_mode=req ';
-        $command .= "-dxdebug.remote_port={$debuggerPort} ";
-        $command .= "-dxdebug.remote_host={$debuggerHost} -dxdebug.remote_connect_back=0 ";
+        $command .= ' -dxdebug.remote_enable=1 -dxdebug.remote_mode=req ';
+        $command .= " -dxdebug.remote_port={$debuggerPort} ";
+        $command .= " -dxdebug.remote_host={$debuggerHost} -dxdebug.remote_connect_back=0 ";
         $command .= $path !== '' && $file !== '' ? $path.$file : '';
 
         $output->write(splashScreen());
