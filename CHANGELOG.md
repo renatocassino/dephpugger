@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Create .phar file
 
 ## [Unreleased]
+## [1.2.0 - 2018-05-16]
+### Fixed
+- Bug with read .dephpugger.yml
+- Read autoload file bug in some cases
+
+### Changed
+- Read autoload file mode
+
 ## [1.1.2 - 2017-11-14]
 ### Changed
 - Fix command execution
