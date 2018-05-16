@@ -4,11 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [TODO]
-- Add documentation in each class and methods
-- Create .phar file
-
 ## [Unreleased]
+
 ## [1.2.0 - 2018-05-16]
 ### Fixed
 - Bug with read .dephpugger.yml
