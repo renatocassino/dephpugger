@@ -8,9 +8,9 @@ $availableAutoloadPaths = [
     __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
 ];
 
-foreach ($availableAutoloadPaths as  $availableAutoloadPath) {
-    if (file_exists($availableAutoloadPath)) {
-        $autoloadPath = $availableAutoloadPath;
+foreach ($availableAutoloadPaths as $currentAvailableAutoloadPath) {
+    if (file_exists($currentAvailableAutoloadPath)) {
+        $autoloadPath = $currentAvailableAutoloadPath;
         break;
     }
 }
