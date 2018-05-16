@@ -40,5 +40,3 @@ class InfoCommand extends Command
         }
     }
 }
-
-$application->add(new InfoCommand());

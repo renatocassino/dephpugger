@@ -43,5 +43,3 @@ class CliCommand extends Command
         passthru($command);
     }
 }
-
-$application->add(new CliCommand());
