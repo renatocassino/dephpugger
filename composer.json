@@ -13,10 +13,7 @@
     "psr-4" : {
       "Dephpug\\": "src/Dephpug",
       "Dephpug\\Console\\": "console/"
-    },
-    "files": [
-      "src/Dephpug/SplashScreen.php"
-    ]
+    }
   },
   "bin": ["bin/dephpugger"],
   "license": "MIT",
