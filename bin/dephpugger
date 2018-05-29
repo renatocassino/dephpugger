@@ -39,7 +39,6 @@ foreach($paths as $path) {
     $files = glob($pathFile);
 
     foreach($files as $file) {
-        echo $file . PHP_EOL;
         require_once $file;
     }
 }
