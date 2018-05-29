@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.1 - 2018-05-29]
+### Fixed
+- Bug in autoloader files to run project
+
 ## [1.2.0 - 2018-05-16]
 ### Fixed
 - Bug with read .dephpugger.yml
