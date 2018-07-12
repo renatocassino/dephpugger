@@ -1,21 +1,19 @@
 #!/usr/bin/env php
 <?php
 
-$availableAutoloadPaths = [
-    __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php',
-    __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php',
-    __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
-    __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',
-];
+$availableAutoloadPaths = explode(DIRECTORY_SEPARATOR, __DIR__);
+$autoloadFile = false;
 
-foreach ($availableAutoloadPaths as $currentAvailableAutoloadPath) {
-    if (file_exists($currentAvailableAutoloadPath)) {
-        $autoloadPath = $currentAvailableAutoloadPath;
+while(array_pop($availableAutoloadPaths)) {
+    $possibleRootPath = implode(DIRECTORY_SEPARATOR, $availableAutoloadPaths);
+    $autoloadFile = $possibleRootPath . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+    if(file_exists($autoloadFile)) {
         break;
     }
 }
 
-if (!isset($autoloadPath)) {
+if (!$autoloadFile) {
     fwrite(
         STDERR,
         'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
@@ -26,7 +24,24 @@ if (!isset($autoloadPath)) {
     die(1);
 }
 
-require $autoloadPath;
+require $autoloadFile;
+
+define('VENDORDIR', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
+
+$paths = [
+    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**.php']),
+    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '*.php']),
+    implode(DIRECTORY_SEPARATOR, ['src', 'Dephpug', '**', '**', '*.php']),
+];
+
+foreach($paths as $path) {
+    $pathFile = VENDORDIR . $path;
+    $files = glob($pathFile);
+
+    foreach($files as $file) {
+        require_once $file;
+    }
+}
 
 // Create application
 $application = new Dephpug\Dephpugger();
