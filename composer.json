@@ -17,7 +17,28 @@
     "psr-4" : {
       "Dephpug\\": "src/Dephpug",
       "Dephpug\\Console\\": "console/"
-    }
+    },
+    "files": [
+      "src/Dephpug/SplashScreen.php",
+      "src/Dephpug/Command/ContinueCommand.php",
+      "src/Dephpug/Command/DbgpCommand.php",
+      "src/Dephpug/Command/EvalCommand.php",
+      "src/Dephpug/Command/GetValueCommand.php",
+      "src/Dephpug/Command/HelpCommand.php",
+      "src/Dephpug/Command/ListCommand.php",
+      "src/Dephpug/Command/ListPreviousCommand.php",
+      "src/Dephpug/Command/NextCommand.php",
+      "src/Dephpug/Command/QuitCommand.php",
+      "src/Dephpug/Command/SetCommand.php",
+      "src/Dephpug/Command/SetValueCommand.php",
+      "src/Dephpug/Command/StepIntoCommand.php",
+      "src/Dephpug/Parser/CloseMessageEvent.php",
+      "src/Dephpug/Parser/ErrorMessageEvent.php",
+      "src/Dephpug/Parser/FilePrinterMessageEvent.php",
+      "src/Dephpug/Parser/InitMessageEvent.php",
+      "src/Dephpug/Parser/PropertyGetMessageEvent.php",
+      "src/Dephpug/Parser/VerboseModeMessageParse.php"
+    ]
   },
   "bin": ["bin/dephpugger"],
   "license": "MIT",
