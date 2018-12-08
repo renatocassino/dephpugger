@@ -6,6 +6,9 @@
 
 Dephpugger (read depugger) is an open source lib to make a debug in php direct in terminal, without necessary configure an IDE. The dephpugger run in Php Built in Server using another command. You can use for:
 
+## Help me
+I'm not working with PHP nowadays. I want new developers to keep this project updated. Help me! :D
+
 ## Web applications
 ### Lumen in example
 ![dephpugger web](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/dephpugger-web.gif)
@@ -41,7 +44,12 @@ And add in your ~/.bash_profile.
 export PATH=$PATH:$HOME/.composer/vendor/bin
 ```
 
-Now run `source ~/.bash_profile` and you can run the commands using only `$ dephpugger`.
+Now, run `source ~/.bash_profile` and you can run the commands using only `$ dephpugger`.
+
+### In Windows
+
+Sorry for this :/
+I don't have Windos SO to run the Dephpugger, but I'm waiting your Pull Request to solve this ;D
 
 # Dependencies
 
