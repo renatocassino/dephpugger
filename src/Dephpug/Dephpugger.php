@@ -10,7 +10,7 @@ use Symfony\Component\Console\Application;
 class Dephpugger
 {
     /** The version of the Dephpugger */
-    public static $VERSION = '1.2.2';
+    public static $VERSION = '1.2.3';
 
     protected $commands = [
         \Dephpug\Console\CliCommand::class,
