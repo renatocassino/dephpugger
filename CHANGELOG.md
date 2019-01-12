@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.3 - 2019-01-12]
+### Fixed
+- Another solution to auloader (recursive)
+
 ## [1.2.2 - 2018-05-29]
 ### Fixed
 - Bug in autoloader files to run project
