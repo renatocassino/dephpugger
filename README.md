@@ -51,6 +51,14 @@ Now, run `source ~/.bash_profile` and you can run the commands using only `$ dep
 Sorry for this :/
 I don't have Windos SO to run the Dephpugger, but I'm waiting your Pull Request to solve this ;D
 
+But you can use Docker
+
+### Docker
+
+```
+$ docker run --rm -p 8888:8888 tacnoman/dephpugger:latest server
+```
+
 # Dependencies
 
 - PHP 7.0 or more (not tested in older versions)
