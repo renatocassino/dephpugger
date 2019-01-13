@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [1.3.0 - 2019-01-13]
+### Added
+- Docker full support
 
 ## [1.2.3 - 2019-01-12]
 ### Fixed
