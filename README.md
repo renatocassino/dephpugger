@@ -185,6 +185,7 @@ The documentation to use, [click here](http://dephpugger.com/Usage/Running_with_
 
 ```sh
 $ composer test
+$ composer lint
 ```
 
 # Bugs?
