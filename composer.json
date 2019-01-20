@@ -1,9 +1,9 @@
 {
   "name": "tacnoman/dephpugger",
   "description": "Debug for php in terminal.",
-	"scripts": {
+  "scripts": {
     "test":"php vendor/bin/phpunit"
-	},
+  },
   "require": {
     "cboden/ratchet": "0.3.6",
     "symfony/console": "^3.2",
