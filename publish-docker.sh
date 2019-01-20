@@ -1,8 +1,12 @@
 VERSION=$(grep VERSION src/Dephpug/Dephpugger.php | sed -e "s/.*\'\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/g")
+BASE_IMAGE="tacnoman/dephpugger"
+echo "Building version $BASE_IMAGE:$VERSION"
 
-docker build -t tacnoman/dephpugger:$VERSION .
-docker build -t tacnoman/dephpugger:latest
+docker build -t $BASE_IMAGE:$VERSION .
+docker build -t $BASE_IMAGE:latest .
 
-docker push tacnoman/dephpugger:$VERSION
-docker push tacnoman/dephpugger:latest
+echo "Publish image..."
+docker push $BASE_IMAGE:$VERSION
+docker push $BASE_IMAGE:latest
 
+echo "Done ;D"

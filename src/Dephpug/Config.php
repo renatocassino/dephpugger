@@ -16,13 +16,13 @@ class Config
     private $defaultConfig = [
         'server' => [
             'port' => 8888,
-            'host' => 'localhost',
+            'host' => '0.0.0.0',
             'path' => null,
             'file' => '',
         ],
         'debugger' => [
             'port' => 9005,
-            'host' => 'localhost',
+            'host' => '0.0.0.0',
             'lineOffset' => 6,
             'verboseMode' => false,
             'historyFile' => '.dephpugger_history',
