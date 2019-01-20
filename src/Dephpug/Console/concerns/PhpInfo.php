@@ -55,6 +55,11 @@ class PhpInfo
         return extension_loaded('xdebug');
     }
 
+    public function socketsInstalled()
+    {
+        return extension_loaded('php_sockets');
+    }
+
     public function xdebugIsActive()
     {
         if ($this->xdebugInstalled()) {

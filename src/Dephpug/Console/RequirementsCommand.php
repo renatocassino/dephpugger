@@ -32,6 +32,7 @@ class RequirementsCommand extends Command
 
         $output->writeln($printer->requiredMessage($phpInfo->checkPHPVersion(), 'Your PHP version is 7.0 or more'));
         $output->writeln($printer->requiredMessage($phpInfo->xdebugInstalled(), 'XDebug is installed.'));
+        $output->writeln($printer->requiredMessage($phpInfo->socketsInstalled(), 'Sockets extension is installed.'));
         $output->writeln($printer->requiredMessage($phpInfo->xdebugIsActive(), 'XDebug is active.'));
 
         $output->writeln("\n<options=bold> -- Infos about PHP environment -- </>\n");

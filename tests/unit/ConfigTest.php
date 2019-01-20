@@ -38,7 +38,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
             ->willReturn(['server' => ['port' => 123]]);
 
         $config->configure();
-        $this->assertEquals('localhost', $config->server['host']);
+        $this->assertEquals('0.0.0.0', $config->server['host']);
     }
 
     public function testReplaceOptionsWithDataFromYaml()
