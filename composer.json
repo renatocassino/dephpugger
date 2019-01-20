@@ -18,7 +18,7 @@
   "autoload": {
     "psr-4" : {
       "Dephpug\\": "src/Dephpug",
-      "Dephpug\\Console\\": "console/"
+      "Dephpug\\Console\\": "src/Dephpug/Console/"
     },
     "files": [
       "src/Dephpug/SplashScreen.php",

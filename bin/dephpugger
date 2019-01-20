@@ -2,20 +2,20 @@
 <?php
 
 function findInnerPart($search, $parts=[]) {
-        do {
-                $part = array_pop($parts);
-        } while(($part != $search) && (count($parts) > 1));
-        return implode(DIRECTORY_SEPARATOR, $parts);
+    do {
+        $part = array_pop($parts);
+    } while(($part != $search) && (count($parts) > 1));
+    return implode(DIRECTORY_SEPARATOR, $parts);
 }
 
 function autoload_path($dir) {
-        $pathParts = explode(DIRECTORY_SEPARATOR, $dir);
-        if(in_array('vendor', $pathParts, true)) {
-                return findInnerPart('vendor', $pathParts);
-        } else if(in_array('bin', $pathParts, true)) {
-                return findInnerPart('bin', $pathParts);
-        }
-        throw new Exception("Can't find any base-paths. Please keep file within repository");
+    $pathParts = explode(DIRECTORY_SEPARATOR, $dir);
+    if(in_array('vendor', $pathParts, true)) {
+        return findInnerPart('vendor', $pathParts);
+    } else if(in_array('bin', $pathParts, true)) {
+        return findInnerPart('bin', $pathParts);
+    }
+    throw new Exception("Can't find any base-paths. Please keep file within repository");
 }
 
 $basePath = autoload_path(__DIR__);
