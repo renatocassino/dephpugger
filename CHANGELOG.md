@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.5.0 - 2019-01-20]
+## Added
+- Requirements checking if sockets are installed
+- Tutorial to run Dephpugger with Docker
+
+## Fixed
+- Support to Dephpugger
+
 ## [1.4.0 - 2019-01-20]
 ## Added
 - Command to fix lint using PSR-2
