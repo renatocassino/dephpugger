@@ -53,6 +53,20 @@ I don't have Windos SO to run the Dephpugger, but I'm waiting your Pull Request 
 
 But you can use Docker
 
+### Using phar file
+
+```bash
+$ wget https://raw.githubusercontent.com/tacnoman/dephpugger/master/dephpugger.phar -o dephpugger
+$ chmod +x ./dephpugger
+$ mv ./dephpugger /usr/local/bin/dephpugger
+```
+
+Or installing via curl
+
+```
+$ curl https://raw.githubusercontent.com/tacnoman/dephpugger/master/installer.sh | bash
+```
+
 ### Docker
 
 ```
