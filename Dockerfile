@@ -15,9 +15,8 @@ RUN curl -sSL -o /tmp/composer-setup.php https://getcomposer.org/installer \
   && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --snapshot && rm -rf /tmp/composer-setup.php
 
 ENV PATH=$PATH:$COMPOSER_HOME/vendor/bin
-RUN curl https://raw.githubusercontent.com/tacnoman/dephpugger/master/installer.sh | bash
-
-RUN composer global dump-autoload
+COPY ./dephpugger.phar /usr/local/bin/dephpugger
+RUN chmod +x /usr/local/bin/dephpugger
 
 EXPOSE 8888
 
