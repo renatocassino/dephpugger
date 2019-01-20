@@ -112,8 +112,8 @@ EOL;
     public function testGetArrayClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -126,8 +126,8 @@ EOL;
     public function testGetBoolClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -140,8 +140,8 @@ EOL;
     public function testGetFloatClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -154,8 +154,8 @@ EOL;
     public function testGetIntegerClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -168,8 +168,8 @@ EOL;
     public function testGetNullClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -182,8 +182,8 @@ EOL;
     public function testGetObjectClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -196,8 +196,8 @@ EOL;
     public function testGetResourceClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -210,8 +210,8 @@ EOL;
     public function testGetStringClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')
@@ -224,8 +224,8 @@ EOL;
     public function testGetUnknowClass()
     {
         $stub = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-              ->setMethods(['printByClass'])
-              ->getMock();
+            ->setMethods(['printByClass'])
+            ->getMock();
 
         $stub->expects($this->once())
             ->method('printByClass')

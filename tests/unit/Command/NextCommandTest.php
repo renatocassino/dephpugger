@@ -32,8 +32,8 @@ class NextCommandTest extends \PHPUnit\Framework\TestCase
     {
         $core = new \stdClass();
         $core->dbgpClient = $this->getMockBuilder('\Dephpug\DbgpClient')
-                          ->setMethods(['next'])
-                          ->getMock();
+            ->setMethods(['next'])
+            ->getMock();
 
         $core->dbgpClient->expects($this->once())
             ->method('next');

@@ -55,8 +55,8 @@ EOL;
     {
         $core = new \stdClass();
         $core->filePrinter = $this->getMockBuilder('\Dephpug\FilePrinter')
-                           ->setMethods(['setFilename', 'showFile'])
-                           ->getMock();
+            ->setMethods(['setFilename', 'showFile'])
+            ->getMock();
         $core->config = new \stdClass();
         $core->config->debugger = ['lineOffset' => 1];
 

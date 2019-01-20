@@ -16,7 +16,8 @@ abstract class MessageEvent implements iMessageEvent, iCore
 {
     /**
      * Set core as a pointer
-     * @param obj $core
+     *
+     * @param  obj $core
      * @return void
      */
     public function setCore(&$core)
@@ -26,7 +27,8 @@ abstract class MessageEvent implements iMessageEvent, iCore
 
     /**
      * Method match to implement and check if match with conditions
-     * @param string $xml
+     *
+     * @param  string $xml
      * @return void
      */
     public function match(string $xml)

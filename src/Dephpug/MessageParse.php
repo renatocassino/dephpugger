@@ -14,7 +14,7 @@ class MessageParse
      * and start with code (three ints). This method remove this
      * to make compatible with `simplexml_load_string`
      *
-     * @param string $message String with xml from DBGP
+     * @param  string $message String with xml from DBGP
      * @return string Format xml
      */
     public function formatMessage($message)
@@ -36,7 +36,7 @@ class MessageParse
     /**
      * Method to get a xml and beautifier to print formated.
      *
-     * @param string $xml String with xml format
+     * @param  string $xml String with xml format
      * @return string Indicates the same xml, but formatted
      */
     public function xmlBeautifier($xml)

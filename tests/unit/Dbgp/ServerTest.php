@@ -24,8 +24,8 @@ class DbgpServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Dephpug\Exception\ExitProgram
-     * @expectedExceptionCode 1
+     * @expectedException        \Dephpug\Exception\ExitProgram
+     * @expectedExceptionCode    1
      * @expectedExceptionMessage Client socket error
      */
     public function testSocketErrorWhenSendCommand()
@@ -42,8 +42,8 @@ class DbgpServerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Dephpug\Exception\ExitProgram
-     * @expectedExceptionCode 1
+     * @expectedException        \Dephpug\Exception\ExitProgram
+     * @expectedExceptionCode    1
      * @expectedExceptionMessage Client socket error
      */
     public function testSocketErrorIfSocketReturnFalse()

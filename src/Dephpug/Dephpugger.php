@@ -9,7 +9,9 @@ use Symfony\Component\Console\Application;
  */
 class Dephpugger
 {
-    /** The version of the Dephpugger */
+    /**
+     * The version of the Dephpugger
+     */
     public static $VERSION = '1.3.0';
 
     protected $commands = [

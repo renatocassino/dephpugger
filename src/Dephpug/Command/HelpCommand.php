@@ -18,10 +18,13 @@ class HelpCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return implode(' ', [
+        return implode(
+            ' ',
+            [
             'This command is used to get help for a dephpugger usage or a define command.',
             'You need to use the command `help <commandName>` to see all informations about a command.',
-        ]);
+            ]
+        );
     }
 
     public function getAlias()

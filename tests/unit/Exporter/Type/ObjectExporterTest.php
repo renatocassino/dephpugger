@@ -19,8 +19,8 @@ EOL;
 
         $xml = simplexml_load_string($message);
         $objectExporter = $this->getMockBuilder('\Dephpug\Exporter\Type\ObjectExporter')
-                        ->setMethods(['getResponseByCommand'])
-                        ->getMock();
+            ->setMethods(['getResponseByCommand'])
+            ->getMock();
 
         $objectExporter->method('getResponseByCommand')
             ->willReturn($response);

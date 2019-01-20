@@ -25,8 +25,8 @@ EOL;
 
         $xml = simplexml_load_string($message);
         $arrayExporter = $this->getMockBuilder('\Dephpug\Exporter\Type\ArrayExporter')
-                       ->setMethods(['getResponseByCommand'])
-                       ->getMock();
+            ->setMethods(['getResponseByCommand'])
+            ->getMock();
 
         $arrayExporter->method('getResponseByCommand')
             ->willReturn($response);

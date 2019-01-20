@@ -10,7 +10,9 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class Config
 {
-    /** Default config that will be replaced by *.dephpugger.yml* file */
+    /**
+     * Default config that will be replaced by *.dephpugger.yml* file
+     */
     private $defaultConfig = [
         'server' => [
             'port' => 8888,
@@ -27,11 +29,14 @@ class Config
         ],
     ];
 
-    /** Array with configurations */
+    /**
+     * Array with configurations
+     */
     private $config;
 
     /**
      * Get the attribute config
+     *
      * @return array $config
      */
     public function getConfig()
@@ -58,6 +63,7 @@ class Config
 
     /**
      * Get configuration from file *.dephpugger.yml*[
+     *
      * @return array $config
      */
     public function getConfigFromFile()
@@ -77,6 +83,7 @@ class Config
 
     /**
      * Magit Method to get config as an attribute
+     *
      * @return array|null
      */
     public function __get($key)
@@ -90,8 +97,9 @@ class Config
 
     /**
      * Change the attribute in configuration debugger
-     * @param string $key Indicates the debugger's attribute
-     * @param string $value Indicates the new value
+     *
+     * @param  string $key   Indicates the debugger's attribute
+     * @param  string $value Indicates the new value
      * @return void
      */
     public function setNewDebuggerValue($key, $value)

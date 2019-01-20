@@ -16,15 +16,20 @@ use Dephpug\Output;
  */
 class FilePrinterMessageEvent extends MessageParse
 {
-    /** Line number of the file */
+    /**
+     * Line number of the file
+     */
     public $fileNumber;
 
-    /** Name of the file to print */
+    /**
+     * Name of the file to print
+     */
     public $fileName;
 
     /**
      * Trying to match if have filename and number
-     * @param string $xml
+     *
+     * @param  string $xml
      * @return void
      */
     public function match(string $xml)
@@ -45,7 +50,8 @@ class FilePrinterMessageEvent extends MessageParse
 
     /**
      * Using the class *\Dephpug\FilePrinter* to show the file
-     * @uses \Dephpug\FilePrinter
+     *
+     * @uses   \Dephpug\FilePrinter
      * @return void
      */
     public function exec()

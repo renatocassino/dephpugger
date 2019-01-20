@@ -18,8 +18,8 @@ class PropertyGetMessageTest extends \PHPUnit\Framework\TestCase
     {
         // Call match exporter->setXml
         $this->propertyGetMessage->exporter = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-                                            ->setMethods(['setXml', 'isContentToPrint'])
-                                            ->getMock();
+            ->setMethods(['setXml', 'isContentToPrint'])
+            ->getMock();
 
         $this->propertyGetMessage->exporter->expects($this->once())
             ->method('setXml')
@@ -32,8 +32,8 @@ class PropertyGetMessageTest extends \PHPUnit\Framework\TestCase
     {
         // Call match exporter->setXml
         $this->propertyGetMessage->exporter = $this->getMockBuilder('\Dephpug\Exporter\Exporter')
-                                            ->setMethods(['printByXml'])
-                                            ->getMock();
+            ->setMethods(['printByXml'])
+            ->getMock();
 
         $this->propertyGetMessage->exporter->expects($this->once())
             ->method('printByXml');

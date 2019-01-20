@@ -17,8 +17,8 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     public function testReplaceOptionsWithNewValues()
     {
         $config = $this->getMockBuilder(\Dephpug\Config::class)
-                ->setMethods(['getConfigFromFile'])
-                ->getMock();
+            ->setMethods(['getConfigFromFile'])
+            ->getMock();
 
         $config->method('getConfigFromFile')
             ->willReturn(['server' => ['port' => 123]]);
@@ -31,8 +31,8 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     public function testKeepKeysNotReplaced()
     {
         $config = $this->getMockBuilder(\Dephpug\Config::class)
-                ->setMethods(['getConfigFromFile'])
-                ->getMock();
+            ->setMethods(['getConfigFromFile'])
+            ->getMock();
 
         $config->method('getConfigFromFile')
             ->willReturn(['server' => ['port' => 123]]);
@@ -44,8 +44,8 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     public function testReplaceOptionsWithDataFromYaml()
     {
         $config = $this->getMockBuilder(\Dephpug\Config::class)
-                ->setMethods(['getPathFile'])
-                ->getMock();
+            ->setMethods(['getPathFile'])
+            ->getMock();
 
         $config->method('getPathFile')
             ->willReturn(__DIR__.'/../data/configValid.yml');
@@ -58,8 +58,8 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\Symfony\Component\Yaml\Exception\ParseException::class);
         $config = $this->getMockBuilder(\Dephpug\Config::class)
-                ->setMethods(['getPathFile'])
-                ->getMock();
+            ->setMethods(['getPathFile'])
+            ->getMock();
 
         $config->method('getPathFile')
             ->willReturn(__DIR__.'/../data/configInvalid.yml');

@@ -27,9 +27,8 @@ class ExitProgram extends \Exception
     public function getStatusMessage()
     {
         $statusMessageError = '';
-        if (
-            isset($this->statusMessage[$this->code]) &&
-            $this->statusMessage[$this->code] != null
+        if (isset($this->statusMessage[$this->code])
+            && $this->statusMessage[$this->code] != null
         ) {
             $statusMessageError = "{$this->statusMessage[$this->code]}";
         }

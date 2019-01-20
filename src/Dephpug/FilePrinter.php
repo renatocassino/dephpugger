@@ -8,22 +8,34 @@ namespace Dephpug;
  */
 class FilePrinter
 {
-    /** Array with lines in a file */
+    /**
+     * Array with lines in a file
+     */
     public $file;
 
-    /** Filename of $file (optional) */
+    /**
+     * Filename of $file (optional)
+     */
     public $filename;
 
-    /** Current line of a file to indicate the arrow */
+    /**
+     * Current line of a file to indicate the arrow
+     */
     public $line;
 
-    /** Line to show in print */
+    /**
+     * Line to show in print
+     */
     public $lineToRange;
 
-    /** Number of lines to show above and bellow $lineToRange */
+    /**
+     * Number of lines to show above and bellow $lineToRange
+     */
     public $offset = 6;
 
-    /** Reserved words in php to color */
+    /**
+     * Reserved words in php to color
+     */
     private $reservedWords = [
         '__halt_compiler',
         'array',
@@ -50,7 +62,9 @@ class FilePrinter
         'while',
     ];
 
-    /** Consts reserved to color print */
+    /**
+     * Consts reserved to color print
+     */
     private $consts = [
         '__CLASS__',
         '__DIR__',
@@ -65,7 +79,8 @@ class FilePrinter
     /**
      * Set filename and instantiate the attribute $file
      * with lines as array
-     * @param string $filename
+     *
+     * @param  string $filename
      * @return void
      */
     public function setFilename($filename)
@@ -76,7 +91,8 @@ class FilePrinter
 
     /**
      * Set direct file as array of lines
-     * @param array $file
+     *
+     * @param  array $file
      * @return void
      */
     public function setFile($file)
@@ -86,6 +102,7 @@ class FilePrinter
 
     /**
      * Set attribute offset
+     *
      * @param int $offset
      */
     public function setOffset(int $offset)
@@ -97,7 +114,7 @@ class FilePrinter
      * Get the pagination range considering $offset to get
      * lines above and bellow
      *
-     * @param int $line
+     * @param  int $line
      * @return array with indexes of pages, not lines
      */
     public function getRangePagination($line = 1)
@@ -111,7 +128,7 @@ class FilePrinter
     /**
      * List lines around a setted line in file
      *
-     * @param int $line
+     * @param  int $line
      * @return string Indicates lines of a file
      */
     public function listLines($line = 1)
@@ -127,6 +144,7 @@ class FilePrinter
 
     /**
      * Number of lines in the file
+     *
      * @return int Indicates the number of the lines in the file setted
      */
     public function numberOfLines()
@@ -136,6 +154,7 @@ class FilePrinter
 
     /**
      * Show file with full informations
+     *
      * @return string
      */
     public function showFile()
@@ -163,7 +182,7 @@ class FilePrinter
      * Color code received to appear like an IDE changing reserved
      * words in PHP to different colors
      *
-     * @param string $content Indicates a php code
+     * @param  string $content Indicates a php code
      * @return string
      */
     public function colorCode($content)

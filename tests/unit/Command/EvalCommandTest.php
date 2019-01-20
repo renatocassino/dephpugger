@@ -30,8 +30,8 @@ class EvalCommandTest extends \PHPUnit\Framework\TestCase
     {
         $core = new \stdClass();
         $core->dbgpClient = $this->getMockBuilder('\Dephpug\DbgpClient')
-                          ->setMethods(['eval'])
-                          ->getMock();
+            ->setMethods(['eval'])
+            ->getMock();
 
         $core->dbgpClient->expects($this->once())
             ->method('eval')

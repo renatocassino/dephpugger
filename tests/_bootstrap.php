@@ -9,7 +9,7 @@ $paths = array_merge(
 );
 
 foreach ($paths as $file) {
-    require_once $file;
+    include_once $file;
 }
 
 use Symfony\Component\Console\Output\ConsoleOutput;

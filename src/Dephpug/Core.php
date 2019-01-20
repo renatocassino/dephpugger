@@ -25,6 +25,7 @@ class Core
 
     /**
      * Start the dephpugger debug
+     *
      * @return void
      */
     public function run()
@@ -38,6 +39,7 @@ class Core
 
     /**
      * Start the Repl (Repeat Eval Print and Loop)
+     *
      * @return void
      */
     public function startRepl()

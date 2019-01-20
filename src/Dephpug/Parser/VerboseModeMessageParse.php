@@ -7,14 +7,15 @@ use Dephpug\MessageParse as MessageParser;
 use Dephpug\Output;
 
 /**
- * Print all XML returned from DBGP protocol if the 
+ * Print all XML returned from DBGP protocol if the
  * config *verboseMode* is actived.
  */
 class VerboseModeMessageParse extends MessageParse
 {
     /**
      * Ignore the xml and check if the config verboseMode is active
-     * @param string $xml
+     *
+     * @param  string $xml
      * @return bool
      */
     public function match(string $xml)

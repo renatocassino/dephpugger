@@ -33,9 +33,9 @@ class CloseMessageEventTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException     Dephpug\Exception\QuitException
+     * @expectedException        Dephpug\Exception\QuitException
      * @expectedExceptionMessage Closing request
-     * @expectedExceptionCode 0
+     * @expectedExceptionCode    0
      */
     public function testExceptionMessage()
     {

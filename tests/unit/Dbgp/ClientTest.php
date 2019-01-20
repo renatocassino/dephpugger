@@ -21,8 +21,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testStepIntoExecution()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand')
@@ -36,8 +36,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testStepNextExecution()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand')
@@ -51,8 +51,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testStepContinueExecution()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand')
@@ -66,8 +66,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testEvalExecution()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $command = 'str_repeat("a", 10)';
         
@@ -83,8 +83,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testPropertyGetExecution()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand')
@@ -98,8 +98,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testPropertySetExecution()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand')
@@ -113,8 +113,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testIfHasMessage()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand');
@@ -128,8 +128,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testGettingCorrectTransactionId()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand'])
-                    ->getMock();
+            ->setMethods(['sendCommand'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand')
@@ -150,8 +150,8 @@ class DbgpClientTest extends \PHPUnit\Framework\TestCase
     public function testGettingMessageWhenSendToDbgp()
     {
         $dbgpServer = $this->getMockBuilder('\Dephpug\DbgpServer')
-                    ->setMethods(['sendCommand', 'getResponse'])
-                    ->getMock();
+            ->setMethods(['sendCommand', 'getResponse'])
+            ->getMock();
 
         $dbgpServer->expects($this->once())
             ->method('sendCommand')

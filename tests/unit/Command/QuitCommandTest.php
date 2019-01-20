@@ -31,8 +31,8 @@ class QuitCommandTest extends \PHPUnit\Framework\TestCase
     public function testExecutionWithAnswerFalse()
     {
         $this->quitCommand->readline = $this->getMockBuilder('\Dephpug\Readline')
-                                     ->setMethods(['scan'])
-                                     ->getMock();
+            ->setMethods(['scan'])
+            ->getMock();
         $this->quitCommand->readline->expects($this->once())
             ->method('scan')
             ->will($this->returnValue('n'));
@@ -41,15 +41,15 @@ class QuitCommandTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException     \Dephpug\Exception\ExitProgram
+     * @expectedException        \Dephpug\Exception\ExitProgram
      * @expectedExceptionMessage Closing dephpugger
-     * @expectedExceptionCode 0
+     * @expectedExceptionCode    0
      */
     public function testExecutionWithAnswerTrue()
     {
         $this->quitCommand->readline = $this->getMockBuilder('\Dephpug\Readline')
-                                     ->setMethods(['scan'])
-                                     ->getMock();
+            ->setMethods(['scan'])
+            ->getMock();
         $this->quitCommand->readline->expects($this->once())
             ->method('scan')
             ->will($this->returnValue('y'));

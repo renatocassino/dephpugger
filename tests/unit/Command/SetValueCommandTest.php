@@ -95,8 +95,8 @@ class SetValueCommandTest extends \PHPUnit\Framework\TestCase
     {
         $core = new \stdClass();
         $core->dbgpClient = $this->getMockBuilder('\Dephpug\DbgpClient')
-                          ->setMethods(['propertySet'])
-                          ->getMock();
+            ->setMethods(['propertySet'])
+            ->getMock();
 
         $this->setValueCommand->core = $core;
 

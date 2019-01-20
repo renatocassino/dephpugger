@@ -16,10 +16,13 @@ class GetValueCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return implode(' ', [
+        return implode(
+            ' ',
+            [
             'You can get the value and type. The value\'s format is in method var_export.',
             'See more in http://php.net/manual/en/function.var-export.php',
-        ]);
+            ]
+        );
     }
 
     public function getAlias()

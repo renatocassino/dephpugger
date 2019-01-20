@@ -11,11 +11,13 @@ class GlobalAttribute
     public static $socketAccept;
 }
 
-function startClient($host = 'localhost', $port = 9005) {
+function startClient($host = 'localhost', $port = 9005)
+{
     return GlobalAttribute::$startClientValue;
 }
 
-function socket_recv($socket, &$buffer, $bytes, $n) {
+function socket_recv($socket, &$buffer, $bytes, $n)
+{
     $buffer = GlobalAttribute::$buffer;
     return GlobalAttribute::$socketRecv;
 }

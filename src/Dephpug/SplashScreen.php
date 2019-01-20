@@ -3,7 +3,8 @@
 namespace Dephpug;
 
 // Function to splash screen
-function splashScreen($word='Server') {
+function splashScreen($word = 'Server')
+{
     $version = 'v' . \Dephpug\Dephpugger::$VERSION;
     return <<<EOL
 <info>

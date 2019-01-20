@@ -16,10 +16,13 @@ class SetValueCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return implode(' ', [
+        return implode(
+            ' ',
+            [
             'You can set the value and type.',
             'Ex: $var = 1',
-        ]);
+            ]
+        );
     }
 
     public function getAlias()

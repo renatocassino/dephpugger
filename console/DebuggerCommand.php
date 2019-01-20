@@ -28,14 +28,14 @@ class DebuggerCommand extends Command
     protected function execute(InputInterface $_, OutputInterface $output)
     {
         $output->write(splashScreen());
-        while(true) {
+        while (true) {
             try {
                 $dephpugCore = new \Dephpug\Core();
                 $dephpugCore->run();
-            } catch(\Dephpug\Exception\QuitException $e) {
+            } catch (\Dephpug\Exception\QuitException $e) {
                 $message = $e->getMessage();
                 $output->writeln("<comment> --- {$message} --- </comment>");
-            } catch(\Dephpug\Exception\ExitProgram $e) {
+            } catch (\Dephpug\Exception\ExitProgram $e) {
                 $message = $e->getMessage();
                 $output->writeln("<fg=red;options=bold> --- {$message} --- </>");
                 break;

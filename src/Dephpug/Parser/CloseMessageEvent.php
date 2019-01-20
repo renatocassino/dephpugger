@@ -10,13 +10,13 @@ use Dephpug\MessageEvent as MessageParse;
  *
  * @example <?xml version="1.0" encoding="iso-8859-1"?>
  * <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="http://xdebug.org/dbgp/xdebug" command="run" transaction_id="1" status="stopping" reason="ok"></response>
- *
  */
 class CloseMessageEvent extends MessageParse
 {
     /**
      * Trying match getting the string *stopping* or *stopped*
-     * @param string $xml
+     *
+     * @param  string $xml
      * @return bool
      */
     public function match(string $xml)
@@ -26,6 +26,7 @@ class CloseMessageEvent extends MessageParse
 
     /**
      * Quitting the current execution
+     *
      * @throws \Dephpug\Exception\QuitException
      * @return void
      */

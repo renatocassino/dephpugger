@@ -18,13 +18,16 @@ class ListCommand extends \Dephpug\Command
 
     public function getDescription()
     {
-        return implode(' ', [
+        return implode(
+            ' ',
+            [
             'This command will get the current file and show the next lines.',
             "For example, if you have the :\n\n",
             "=> 2. echo 'This ';\n    3. echo 'is ';\n\n",
             "Will show the next lines in file.\n\n",
             "   4. echo 'my ';\n    5. echo 'code!';",
-        ]);
+            ]
+        );
     }
 
     public function getAlias()
