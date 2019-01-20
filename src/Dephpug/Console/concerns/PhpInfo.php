@@ -57,7 +57,7 @@ class PhpInfo
 
     public function socketsInstalled()
     {
-        return extension_loaded('php_sockets');
+        return extension_loaded('sockets');
     }
 
     public function xdebugIsActive()
