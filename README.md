@@ -19,7 +19,8 @@ I'm not working with PHP nowadays. I want new developers to keep this project up
 `Image 1.1 - Screenrecord for debug cli scripts`
 
 ## Another example
-[![demo](https://asciinema.org/a/115976.png)](https://asciinema.org/a/115976?autoplay=1)
+![dephpugger](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/demo.gif)
+[Asciinema](https://asciinema.org/a/115976?autoplay=1)
 
 # Install
 
