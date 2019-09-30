@@ -191,3 +191,9 @@ Send me an email or open an issue:
 Renato Cassino - Tacnoman - \<renatocassino@gmail.com\>
 
 [See our changelog](https://github.com/tacnoman/dephpugger/blob/master/CHANGELOG.md)
+
+# Articles and Videos
+
+1. [How debug Drupal applications using Dephpugger](https://medium.com/@mosesliao/debug-drupal-using-dephpugger-a0839f878b56)
+2. [Dephpugger in Sinapore event](https://www.youtube.com/watch?v=jmMgZ3GqbcQ)
+3. [How debug applications with Dephpugger](https://hackernoon.com/how-debug-php-applications-with-dephpugger-98cc234d917c)
