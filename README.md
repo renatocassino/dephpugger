@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/tacnoman/dephpugger.svg?branch=master)](https://travis-ci.org/tacnoman/dephpugger) [![Code Climate](https://codeclimate.com/github/tacnoman/dephpug/badges/gpa.svg)](https://codeclimate.com/github/tacnoman/dephpug) [![HitCount](http://hits.dwyl.io/tacnoman/dephpugger.svg)](http://hits.dwyl.io/tacnoman/dephpugger)
+[![Build Status](https://travis-ci.org/tacnoman/dephpugger.svg?branch=master)](https://travis-ci.org/tacnoman/dephpugger) [![Code Climate](https://codeclimate.com/github/tacnoman/dephpug/badges/gpa.svg)](https://codeclimate.com/github/tacnoman/dephpug) [![HitCount](http://hits.dwyl.io/tacnoman/dephpugger.svg)](http://hits.dwyl.io/tacnoman/dephpugger) [![Coverage](https://codecov.io/gh/tacnoman/dephpugger/branch/master/graph/badge.svg)](https://codecov.io/gh/tacnoman/dephpugger)
 
 <img src="https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/logo.png" alt="logo" title="Dephpugger logo" height="500">
 
