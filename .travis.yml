@@ -7,5 +7,12 @@ install:
     - composer self-update
     - composer install
 
-script: composer test
+script: composer test -- --coverage-clover=coverage.xml
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+
+cache:
+  directories:
+  - $HOME/.composer/cache
 

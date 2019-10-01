@@ -6,13 +6,13 @@
 
   <testsuites>
     <testsuite name="Test Dephpugger">
-      <directory>./tests/unit/</directory>
+      <directory suffix=".php">./tests/unit/</directory>
     </testsuite>
   </testsuites>
 
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">./tests/unit/*Test.php</directory>
-    </whitelist>
-  </filter>
+   <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
 </phpunit>
