@@ -64,6 +64,27 @@ Or installing via curl
 $ curl https://raw.githubusercontent.com/tacnoman/dephpugger/master/installer.sh | bash
 ```
 
+### Install XDebug
+
+To install XDebug in Linux you must run:
+
+```bash
+$ sudo apt-get install php-7.2-cli php-dev php-pear
+$ sudo pecl install xdebug
+```
+
+Find the last line, similar to: `You should add "zend_extension=/usr/lib/php/20170718/xdebug.so" to php.ini` and
+copy to your `php.ini` file. To get the `php.ini` file, you can run:
+
+```bash
+$ php --info | grep php.ini
+
+Configuration File (php.ini) Path => /etc/php/7.2/cli
+Loaded Configuration File => /etc/php/7.2/cli/php.ini
+```
+
+Copy the `zend_extension=/usr/lib/php/20170718/xdebug.so` to last line in `/etc/php/7.2/cli/php.ini`.
+
 ### Docker
 
 ```
