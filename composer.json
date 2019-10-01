@@ -3,6 +3,7 @@
   "description": "Debug for php in terminal.",
   "scripts": {
     "test":"php vendor/bin/phpunit",
+    "generate:phar": "php create-phar.php",
     "lint:fix": "php vendor/bin/phpcbf --standard=PSR2 --ignore=vendor .",
     "publish-docker": "./publish-docker.sh"
   },
