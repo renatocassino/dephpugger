@@ -23,13 +23,12 @@ class DbgpServerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($success);
     }
 
-    /**
-     * @expectedException        \Dephpug\Exception\ExitProgram
-     * @expectedExceptionCode    1
-     * @expectedExceptionMessage Client socket error
-     */
     public function testSocketErrorWhenSendCommand()
     {
+        $this->expectException(\Dephpug\Exception\ExitProgram::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage('Client socket error');
+
         GlobalAttribute::$socketWrite = false;
         $this->dbgpServer->sendCommand('Fake command');
     }
@@ -41,13 +40,12 @@ class DbgpServerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($success);
     }
 
-    /**
-     * @expectedException        \Dephpug\Exception\ExitProgram
-     * @expectedExceptionCode    1
-     * @expectedExceptionMessage Client socket error
-     */
     public function testSocketErrorIfSocketReturnFalse()
     {
+        $this->expectException(\Dephpug\Exception\ExitProgram::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage('Client socket error');
+
         GlobalAttribute::$socketRecv = false;
         $this->dbgpServer->getResponse();
     }

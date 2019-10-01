@@ -8,13 +8,13 @@
     "publish-docker": "./publish-docker.sh"
   },
   "require": {
-    "cboden/ratchet": "0.3.6",
-    "symfony/console": "^3.2",
-    "symfony/yaml": "^3.2"
+    "cboden/ratchet": "0.4.1",
+    "symfony/console": "^4.3.4",
+    "symfony/yaml": "^4.3.4"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "*",
-    "phpunit/phpunit": "^7.1"
+    "squizlabs/php_codesniffer": "^3.5.0",
+    "phpunit/phpunit": "^8.3.5"
   },
   "autoload": {
     "psr-4" : {

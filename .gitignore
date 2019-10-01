@@ -7,3 +7,4 @@ bin_old
 socket-proxy
 dephpugger.log
 tests/_output/*
+.phpunit.result.cache

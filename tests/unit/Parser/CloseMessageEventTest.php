@@ -32,13 +32,11 @@ class CloseMessageEventTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($assert);
     }
 
-    /**
-     * @expectedException        Dephpug\Exception\QuitException
-     * @expectedExceptionMessage Closing request
-     * @expectedExceptionCode    0
-     */
     public function testExceptionMessage()
     {
+        $this->expectException(\Dephpug\Exception\QuitException::class);
+        $this->expectExceptionMessage('Closing request');
+        $this->expectExceptionCode(0);
         $this->closeMessageEvent->exec();
     }
 }
