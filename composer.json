@@ -8,7 +8,7 @@
     "publish-docker": "./publish-docker.sh"
   },
   "require": {
-    "cboden/ratchet": "0.3.6",
+    "cboden/ratchet": "0.4.1",
     "symfony/console": "^4.3.4",
     "symfony/yaml": "^4.3.4"
   },
