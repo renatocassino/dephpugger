@@ -63,6 +63,14 @@ class FilePrinter
     ];
 
     /**
+     * Boolean words
+     */
+    private $booleanWords = [
+        'true',
+        'false',
+    ];
+
+    /**
      * Consts reserved to color print
      */
     private $consts = [
@@ -188,7 +196,11 @@ class FilePrinter
     public function colorCode($content)
     {
         foreach ($this->reservedWords as $word) {
-            $content = str_replace($word, "<fg=blue>{$word}</>", $content);
+            $content = preg_replace("/\b$word\b/i", "<fg=blue>{$word}</>", $content);
+        }
+
+        foreach ($this->booleanWords as $word) {
+            $content = preg_replace("/\b$word\b/i", "<fg=yellow;options=bold>{$word}</>", $content);
         }
 
         foreach ($this->consts as $word) {

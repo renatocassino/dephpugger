@@ -98,12 +98,34 @@ EOL;
         $this->assertEquals('; <fg=cyan>$variable</> = 33', $colored);
     }
 
+    public function testColorCodeWithReservedWords()
+    {
+        $content = 'array_reverse([3,2,1]);';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('<fg=green;options=bold>array_reverse</>([3,2,1]);', $colored);
+    }
+
     public function testColorCodeFunction()
     {
         $content = 'xdebug_break();';
         $colored = $this->bigFilePrinter->colorCode($content);
         $this->assertEquals('<fg=green;options=bold>xdebug_break</>();', $colored);
     }
+
+    public function testColorCodeBooleanTrue()
+    {
+        $content = 'return true;';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('<fg=blue>return</> <fg=yellow;options=bold>true</>;', $colored);
+    }
+
+    public function testColorCodeBooleanFalse()
+    {
+        $content = 'return false;';
+        $colored = $this->bigFilePrinter->colorCode($content);
+        $this->assertEquals('<fg=blue>return</> <fg=yellow;options=bold>false</>;', $colored);
+    }
+
 
     public function testColorCodeReservedWords()
     {
