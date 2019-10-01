@@ -6,6 +6,17 @@ class Exporter
 {
     private $xml;
 
+    private $types = [
+        'int' => Type\IntegerExporter::class,
+        'float' => Type\FloatExporter::class,
+        'null' => Type\NullExporter::class,
+        'bool' => Type\BoolExporter::class,
+        'string' => Type\StringExporter::class,
+        'array' => Type\ArrayExporter::class,
+        'object' => Type\ObjectExporter::class,
+        'resource' =>Type\ResourceExporter::class,
+    ];
+
     public function setXml($xml)
     {
         $this->xml = @simplexml_load_string($xml);
@@ -42,25 +53,10 @@ class Exporter
         // Getting value
         $typeVar = (string) $this->xml->property['type'];
 
-        switch ($typeVar) {
-            case 'int':
-                return Type\IntegerExporter::class;
-            case 'float':
-                return Type\FloatExporter::class;
-            case 'null':
-                return Type\NullExporter::class;
-            case 'bool':
-                return Type\BoolExporter::class;
-            case 'string':
-                return Type\StringExporter::class;
-            case 'array':
-                return Type\ArrayExporter::class;
-            case 'object':
-                return Type\ObjectExporter::class;
-            case 'resource':
-                return Type\ResourceExporter::class;
-            default:
-                return Type\UnknownExporter::class;
+        if (isset($this->types[$typeVar])) {
+            return $this->types[$typeVar];
         }
+
+        return  Type\UnknownExporter::class;
     }
 }
