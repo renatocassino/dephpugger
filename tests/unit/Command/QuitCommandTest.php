@@ -40,13 +40,11 @@ class QuitCommandTest extends \PHPUnit\Framework\TestCase
         $this->quitCommand->exec();
     }
 
-    /**
-     * @expectedException        \Dephpug\Exception\ExitProgram
-     * @expectedExceptionMessage Closing dephpugger
-     * @expectedExceptionCode    0
-     */
     public function testExecutionWithAnswerTrue()
     {
+        $this->expectException(\Dephpug\Exception\ExitProgram::class);
+        $this->expectExceptionMessage('Closing dephpugger');
+        $this->expectExceptionCode(0);
         $this->quitCommand->readline = $this->getMockBuilder('\Dephpug\Readline')
             ->setMethods(['scan'])
             ->getMock();
