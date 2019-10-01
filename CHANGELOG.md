@@ -6,16 +6,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.5.1 - 2019-09-30]
+### Added
+- Add command to generate phar file
+
+### Changed
+- Update symfony/yaml
+- Update symfony/console
+- Update cboden/ratchet
+- Update php_codesniffer
+
 ## [1.5.0 - 2019-01-20]
-## Added
+### Added
 - Requirements checking if sockets are installed
 - Tutorial to run Dephpugger with Docker
 
-## Fixed
+### Fixed
 - Support to Dephpugger
 
 ## [1.4.0 - 2019-01-20]
-## Added
+### Added
 - Command to fix lint using PSR-2
 - Phar file generator
 

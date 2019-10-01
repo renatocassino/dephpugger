@@ -12,7 +12,7 @@ class Dephpugger
     /**
      * The version of the Dephpugger
      */
-    public static $VERSION = '1.5.0';
+    public static $VERSION = '1.5.1';
 
     protected $commands = [
         \Dephpug\Console\CliCommand::class,
