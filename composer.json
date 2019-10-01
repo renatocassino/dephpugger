@@ -9,7 +9,7 @@
   },
   "require": {
     "cboden/ratchet": "0.3.6",
-    "symfony/console": "^3.2",
+    "symfony/console": "^4.3.4",
     "symfony/yaml": "^4.3.4"
   },
   "require-dev": {
