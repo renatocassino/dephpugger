@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.5.2 - 2019-10-01]
+### Fixed
+- Fix color code with reserved words
+
 ## [1.5.1 - 2019-09-30]
 ### Added
 - Add command to generate phar file
