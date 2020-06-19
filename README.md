@@ -54,7 +54,7 @@ But you can use Docker
 ### Using phar file
 
 ```bash
-$ wget https://raw.githubusercontent.com/tacnoman/dephpugger/master/dephpugger.phar -o dephpugger
+$ wget https://raw.githubusercontent.com/tacnoman/dephpugger/master/dephpugger.phar -O dephpugger
 $ chmod +x ./dephpugger
 $ mv ./dephpugger /usr/local/bin/dephpugger
 ```
