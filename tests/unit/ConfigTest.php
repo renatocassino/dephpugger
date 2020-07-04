@@ -1,6 +1,9 @@
 <?php
 
-class ConfigTest extends \PHPUnit\Framework\TestCase
+use Dephpug\Config;
+use PHPUnit\Framework\TestCase;
+
+class ConfigTest extends TestCase
 {
     protected $defaultConfig;
 
@@ -9,14 +12,14 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
      */
     protected function _before()
     {
-        $config = new \Dephpug\Config();
+        $config = new Config();
         $this->defaultConfig = $config->getConfig();
     }
 
     // tests
     public function testReplaceOptionsWithNewValues()
     {
-        $config = $this->getMockBuilder(\Dephpug\Config::class)
+        $config = $this->getMockBuilder(Config::class)
             ->setMethods(['getConfigFromFile'])
             ->getMock();
 
@@ -30,7 +33,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
     public function testKeepKeysNotReplaced()
     {
-        $config = $this->getMockBuilder(\Dephpug\Config::class)
+        $config = $this->getMockBuilder(Config::class)
             ->setMethods(['getConfigFromFile'])
             ->getMock();
 
@@ -43,7 +46,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
     public function testReplaceOptionsWithDataFromYaml()
     {
-        $config = $this->getMockBuilder(\Dephpug\Config::class)
+        $config = $this->getMockBuilder(Config::class)
             ->setMethods(['getPathFile'])
             ->getMock();
 
@@ -57,7 +60,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     public function testExceptionIfYamlIsInvalid()
     {
         $this->expectException(\Symfony\Component\Yaml\Exception\ParseException::class);
-        $config = $this->getMockBuilder(\Dephpug\Config::class)
+        $config = $this->getMockBuilder(Config::class)
             ->setMethods(['getPathFile'])
             ->getMock();
 
@@ -68,13 +71,14 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
     public function testMagicMethodGettingUnexistKey()
     {
-        $config = new \Dephpug\Config();
+        $config = new Config();
         $this->assertNull($config->notExistKey);
     }
 
     public function testMagicMethodGettingExistKey()
     {
-        $config = new \Dephpug\Config();
-        $this->assertEquals($config->getConfig()['server'], $config->server);
+        $config = new Config();
+        $config->configure();
+        $this->assertEquals($config->getConfig()['server']['port'], $config->server['port']);
     }
 }
