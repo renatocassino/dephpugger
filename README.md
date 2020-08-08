@@ -5,7 +5,7 @@
 
 # What is Dephpugger?
 
-Dephpugger (read depugger) is an open source lib to make a debug in php direct in terminal, without necessary configure an IDE. The dephpugger run in Php Built in Server using another command. You can use for:
+Dephpugger (read depugger) is an open source library that allows a developer to debug in php direct in terminal, without necessary configure an IDE. The dephpugger run in Php Built in Server using another command. You can use for:
 
 ## Web applications
 ### Lumen in example
@@ -190,7 +190,7 @@ server:
   file: index.php # default: null
 ```
 
-Theese values will replace the default configuration.
+These values will replace the default configuration.
 
 # Full documentation
 
@@ -198,7 +198,7 @@ To see the full documentation [click here](http://dephpugger.com).
 
 # How to use with phpunit, behat, codeception and others
 
-The documentation to use, [click here](http://dephpugger.com/Usage/Running_with_phpunit.html).
+The documentation to use, [click here](https://dephpugger.com/docs/usage/running_with_phpunit).
 
 # Run tests
 
@@ -218,5 +218,4 @@ Renato Cassino - Tacnoman - \<renatocassino@gmail.com\>
 
 1. [How debug Drupal applications using Dephpugger](https://medium.com/@mosesliao/debug-drupal-using-dephpugger-a0839f878b56)
 2. [Dephpugger in Sinapore event](https://www.youtube.com/watch?v=jmMgZ3GqbcQ)
-3. [How debug applications with Dephpugger](https://hackernoon.com/how-debug-php-applications-with-dephpugger-98cc234d917c)
 4. [Debugging with Dephpugger](https://laptrinhx.com/how-debug-php-applications-with-dephpugger-3582641373/)
