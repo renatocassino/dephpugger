@@ -17,7 +17,7 @@ class MessageParseTest extends \PHPUnit\Framework\TestCase
     public function testRemovingNumbersBeforeXML()
     {
         $message = '400<?xml ...';
-        $formatedMessage = $this->messageParse->formatMessage($message);
-        $this->assertEquals('<?xml ...', $formatedMessage);
+        $formattedMessage = $this->messageParse->formatMessage($message);
+        $this->assertEquals('<?xml ...', $formattedMessage);
     }
 }
