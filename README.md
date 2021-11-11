@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/tacnoman/dephpugger.svg?branch=master)](https://travis-ci.org/tacnoman/dephpugger) [![Code Climate](https://codeclimate.com/github/tacnoman/dephpug/badges/gpa.svg)](https://codeclimate.com/github/tacnoman/dephpug) [![HitCount](http://hits.dwyl.io/tacnoman/dephpugger.svg)](http://hits.dwyl.io/tacnoman/dephpugger) [![Coverage](https://codecov.io/gh/tacnoman/dephpugger/branch/master/graph/badge.svg)](https://codecov.io/gh/tacnoman/dephpugger) [![GitHub license](https://img.shields.io/github/license/tacnoman/dephpugger.svg)](https://github.com/tacnoman/dephpugger/blob/master/LICENSE) [![GitHub tag](https://img.shields.io/github/tag/tacnoman/dephpugger.svg)](https://GitHub.com/tacnoman/dephpugger/tags/) [![Packagist](https://img.shields.io/packagist/dt/tacnoman/dephpugger)](https://packagist.org/packages/tacnoman/dephpugger)
+[![Build Status](https://travis-ci.org/renatocassino/dephpugger.svg?branch=master)](https://travis-ci.org/renatocassino/dephpugger) [![Code Climate](https://codeclimate.com/github/renatocassino/dephpug/badges/gpa.svg)](https://codeclimate.com/github/renatocassino/dephpug) [![HitCount](http://hits.dwyl.io/renatocassino/dephpugger.svg)](http://hits.dwyl.io/renatocassino/dephpugger) [![Coverage](https://codecov.io/gh/renatocassino/dephpugger/branch/master/graph/badge.svg)](https://codecov.io/gh/renatocassino/dephpugger) [![GitHub license](https://img.shields.io/github/license/renatocassino/dephpugger.svg)](https://github.com/renatocassino/dephpugger/blob/master/LICENSE) [![GitHub tag](https://img.shields.io/github/tag/renatocassino/dephpugger.svg)](https://GitHub.com/renatocassino/dephpugger/tags/) [![Packagist](https://img.shields.io/packagist/dt/renatocassino/dephpugger)](https://packagist.org/packages/renatocassino/dephpugger)
 
 
-<img src="https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/logo.png" alt="logo" title="Dephpugger logo" height="500">
+<img src="https://raw.githubusercontent.com/renatocassino/dephpugger/master/images/logo.png" alt="logo" title="Dephpugger logo" height="500">
 
 # What is Dephpugger?
 
@@ -9,15 +9,15 @@ Dephpugger (read depugger) is an open source lib to make a debug in php direct i
 
 ## Web applications
 ### Lumen in example
-![dephpugger web](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/dephpugger-web.gif)
+![dephpugger web](https://raw.githubusercontent.com/renatocassino/dephpugger/master/images/dephpugger-web.gif)
 `Image 1.0 - Screenrecord for debug web`
 
 ## Cli Scripts
-![dephpugger](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/dephpugger.gif)
+![dephpugger](https://raw.githubusercontent.com/renatocassino/dephpugger/master/images/dephpugger.gif)
 `Image 1.1 - Screenrecord for debug cli scripts`
 
 ## Another example
-![dephpugger](https://raw.githubusercontent.com/tacnoman/dephpugger/master/images/demo.gif)
+![dephpugger](https://raw.githubusercontent.com/renatocassino/dephpugger/master/images/demo.gif)
 
 # Install
 
@@ -61,7 +61,7 @@ But you can use Docker
 ### Using phar file
 
 ```bash
-$ wget https://raw.githubusercontent.com/tacnoman/dephpugger/master/dephpugger.phar -O dephpugger
+$ wget https://raw.githubusercontent.com/renatocassino/dephpugger/master/dephpugger.phar -O dephpugger
 $ chmod +x ./dephpugger
 $ mv ./dephpugger /usr/local/bin/dephpugger
 ```
@@ -69,7 +69,7 @@ $ mv ./dephpugger /usr/local/bin/dephpugger
 Or installing via curl
 
 ```
-$ curl https://raw.githubusercontent.com/tacnoman/dephpugger/master/installer.sh | bash
+$ curl https://raw.githubusercontent.com/renatocassino/dephpugger/master/installer.sh | bash
 ```
 
 ### Install XDebug
@@ -219,7 +219,7 @@ Send me an email or open an issue:
 
 Renato Cassino - Tacnoman - \<renatocassino@gmail.com\>
 
-[See our changelog](https://github.com/tacnoman/dephpugger/blob/master/CHANGELOG.md)
+[See our changelog](https://github.com/renatocassino/dephpugger/blob/master/CHANGELOG.md)
 
 # Articles and Videos
 
