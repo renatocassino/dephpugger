@@ -226,3 +226,5 @@ Renato Cassino - Tacnoman - \<renatocassino@gmail.com\>
 1. [How debug Drupal applications using Dephpugger](https://medium.com/@mosesliao/debug-drupal-using-dephpugger-a0839f878b56)
 2. [Dephpugger in Sinapore event](https://www.youtube.com/watch?v=jmMgZ3GqbcQ)
 4. [Debugging with Dephpugger](https://laptrinhx.com/how-debug-php-applications-with-dephpugger-3582641373/)
+3. [How debug applications with Dephpugger](https://hackernoon.com/how-debug-php-applications-with-dephpugger-98cc234d917c)
+
