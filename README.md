@@ -39,10 +39,17 @@ $ composer global require tacnoman/dephpugger
 And add in your ~/.bash_profile.
 
 ```
-export PATH=$PATH:$HOME/.config/composer/vendor/bin
+export PATH=$PATH:$HOME/.composer/vendor/bin
 ```
 
 Now, run `source ~/.bash_profile` and you can run the commands using only `$ dephpugger`.
+Is possible to use the composer command to run the dephpugger. You can use:
+
+```bash
+$ composer exec dephpugger <command>
+```
+
+This last command will run in local or global installation.
 
 ### In Windows
 
